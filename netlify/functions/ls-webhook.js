@@ -127,7 +127,13 @@ exports.handler = async (event) => {
   }
 
   // ── 6. Send access email via Resend ──────────────────────
-  const accessLink = `${guideUrl}?token=${token}`;
+  const accessLink    = `${guideUrl}?token=${token}`;
+  const isCompleteSuite = guideUrl.includes('complete-suite');
+  const baseUrl       = new URL(guideUrl).origin;
+
+  const emailBody = isCompleteSuite
+    ? buildCompleteSuiteEmail(firstName, token, baseUrl)
+    : buildSingleGuideEmail(firstName, accessLink);
 
   const emailRes = await fetch('https://api.resend.com/emails', {
     method: 'POST',
@@ -138,36 +144,10 @@ exports.handler = async (event) => {
     body: JSON.stringify({
       from:    process.env.FROM_EMAIL,
       to:      email,
-      subject: 'Your course guide — access link inside',
-      html: `
-        <!DOCTYPE html>
-        <html>
-        <body style="font-family: Georgia, serif; background: #faf8f5; margin: 0; padding: 40px 20px;">
-          <div style="max-width: 560px; margin: 0 auto; background: white; border: 1px solid #e0dbd3; border-radius: 8px; padding: 40px 36px;">
-            <h2 style="font-size: 22px; color: #1c1917; margin-top: 0;">Hi ${firstName}, you're in.</h2>
-            <p style="color: #3d3832; line-height: 1.75; font-size: 15px;">
-              Thanks for your purchase. Your complete course guide is ready — click the link below to access it any time.
-            </p>
-            <div style="text-align: center; margin: 32px 0;">
-              <a href="${accessLink}"
-                 style="background: #b8430a; color: white; text-decoration: none; padding: 14px 28px; border-radius: 5px; font-family: sans-serif; font-weight: 600; font-size: 15px; display: inline-block;">
-                Open Your Course Guide →
-              </a>
-            </div>
-            <p style="color: #6b6560; font-size: 13px; line-height: 1.7;">
-              <strong>Save this email.</strong> This link is your personal access — bookmark it or save it somewhere handy. It doesn't expire.
-            </p>
-            <p style="color: #6b6560; font-size: 13px; line-height: 1.7;">
-              If you have any issues accessing the guide, reply to this email and we'll sort it out.
-            </p>
-            <hr style="border: none; border-top: 1px solid #e0dbd3; margin: 28px 0;" />
-            <p style="color: #9c9690; font-size: 12px; margin: 0;">
-              Your access link: <a href="${accessLink}" style="color: #b8430a; word-break: break-all;">${accessLink}</a>
-            </p>
-          </div>
-        </body>
-        </html>
-      `,
+      subject: isCompleteSuite
+        ? 'Your complete suite — all access links inside'
+        : 'Your course guide — access link inside',
+      html: emailBody,
     }),
   });
 
@@ -181,6 +161,74 @@ exports.handler = async (event) => {
 
   return { statusCode: 200, body: 'OK' };
 };
+
+// ── Email builders ────────────────────────────────────────────
+function buildSingleGuideEmail(firstName, accessLink) {
+  return `<!DOCTYPE html>
+<html>
+<body style="font-family: Georgia, serif; background: #faf8f5; margin: 0; padding: 40px 20px;">
+  <div style="max-width: 560px; margin: 0 auto; background: white; border: 1px solid #e0dbd3; border-radius: 8px; padding: 40px 36px;">
+    <h2 style="font-size: 22px; color: #1c1917; margin-top: 0;">Hi ${firstName}, you're in.</h2>
+    <p style="color: #3d3832; line-height: 1.75; font-size: 15px;">
+      Thanks for your purchase. Your course guide is ready — click the link below to access it any time.
+    </p>
+    <div style="text-align: center; margin: 32px 0;">
+      <a href="${accessLink}" style="background: #b8430a; color: white; text-decoration: none; padding: 14px 28px; border-radius: 5px; font-family: sans-serif; font-weight: 600; font-size: 15px; display: inline-block;">
+        Open Your Course Guide →
+      </a>
+    </div>
+    <p style="color: #6b6560; font-size: 13px; line-height: 1.7;">
+      <strong>Save this email.</strong> This link is your personal access — bookmark it or save it somewhere handy. It doesn't expire.
+    </p>
+    <hr style="border: none; border-top: 1px solid #e0dbd3; margin: 28px 0;" />
+    <p style="color: #9c9690; font-size: 12px; margin: 0;">
+      Your access link: <a href="${accessLink}" style="color: #b8430a; word-break: break-all;">${accessLink}</a>
+    </p>
+  </div>
+</body>
+</html>`;
+}
+
+function buildCompleteSuiteEmail(firstName, token, baseUrl) {
+  const guides = [
+    { label: 'Core Guide — Build Your Business Website', path: '/guide' },
+    { label: 'Add-on 01 — Calendar Sync Automation',    path: '/guide-2' },
+    { label: 'Add-on 02 — Invoice & Payments',          path: '/guide-3' },
+    { label: 'Add-on 03 — Staff Portal',                path: '/guide-4' },
+    { label: 'Add-on 04 — Client Portal',               path: '/guide-5' },
+  ];
+
+  const linkRows = guides.map(g => `
+    <tr>
+      <td style="padding: 10px 0; border-bottom: 1px solid #f0ede8;">
+        <a href="${baseUrl}${g.path}?token=${token}"
+           style="color: #b8430a; font-size: 14px; text-decoration: none; font-family: sans-serif;">
+          ${g.label} →
+        </a>
+      </td>
+    </tr>`).join('');
+
+  return `<!DOCTYPE html>
+<html>
+<body style="font-family: Georgia, serif; background: #faf8f5; margin: 0; padding: 40px 20px;">
+  <div style="max-width: 560px; margin: 0 auto; background: white; border: 1px solid #e0dbd3; border-radius: 8px; padding: 40px 36px;">
+    <h2 style="font-size: 22px; color: #1c1917; margin-top: 0;">Hi ${firstName}, you have full access.</h2>
+    <p style="color: #3d3832; line-height: 1.75; font-size: 15px;">
+      Thanks for purchasing the complete suite. Each guide has its own link below — bookmark them all or save this email.
+    </p>
+    <table style="width: 100%; border-collapse: collapse; margin: 24px 0;">
+      ${linkRows}
+    </table>
+    <p style="color: #6b6560; font-size: 13px; line-height: 1.7;">
+      <strong>These links are your personal access.</strong> They don't expire, but don't share them — each link is tied to your purchase.
+    </p>
+    <p style="color: #6b6560; font-size: 13px; line-height: 1.7;">
+      If you have any issues, reply to this email and we'll sort it out.
+    </p>
+  </div>
+</body>
+</html>`;
+}
 
 // ── Supabase helper ───────────────────────────────────────────
 // Wraps fetch with the required Supabase auth headers.
