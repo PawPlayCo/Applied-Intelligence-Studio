@@ -1657,24 +1657,29 @@ function showGateState(state) {
   document.getElementById(`gate-${state}`).style.display = 'block';
 }
 
-function grantAccess() {
+function grantAccess(unlockedPaths) {
   document.getElementById('gate-overlay').classList.add('hidden');
   document.getElementById('gate-content').classList.add('visible');
 
   const params = new URLSearchParams(window.location.search);
-  const token  = params.get('token');
+  const token  = params.get('token') || sessionStorage.getItem('guide_token');
   const suite  = params.get('suite') === '1';
 
-  if (token) sessionStorage.setItem('guide_token', token);
-  if (suite) sessionStorage.setItem('guide_suite', '1');
+  if (token)         sessionStorage.setItem('guide_token',    token);
+  if (unlockedPaths) sessionStorage.setItem('guide_unlocked', JSON.stringify(unlockedPaths));
 
-  const isSuite = suite || sessionStorage.getItem('guide_suite') === '1';
-  if (isSuite && token) {
-    document.querySelectorAll('a[data-guide-path]').forEach(el => {
-      el.href = el.dataset.guidePath + '?token=' + token + '&suite=1';
+  const paths   = unlockedPaths || JSON.parse(sessionStorage.getItem('guide_unlocked') || '[]');
+  const isSuite = suite || paths.includes('/complete-suite');
+
+  if (!token) return;
+
+  document.querySelectorAll('a[data-guide-path]').forEach(el => {
+    const gp = el.dataset.guidePath;
+    if (isSuite || paths.includes(gp)) {
+      el.href = gp + '?token=' + token + (isSuite ? '&suite=1' : '');
       el.removeAttribute('target');
-    });
-  }
+    }
+  });
 }
 
 // ── Main validation flow ──────────────────────────────────────
@@ -1701,7 +1706,7 @@ async function validateAccess() {
     const data = await res.json();
 
     if (data.valid) {
-      grantAccess();
+      grantAccess(data.unlockedPaths);
     } else {
       // Show different UI for "never had access" vs "had access but something's wrong"
       if (!urlToken && !cachedToken) {

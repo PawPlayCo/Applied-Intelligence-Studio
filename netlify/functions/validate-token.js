@@ -125,10 +125,44 @@ exports.handler = async (event) => {
     }
   ).catch(() => {}); // silently ignore if this fails
 
+  // ── 5. Fetch all guides this email has purchased ──────────
+  // Returns every guide_path the email has a valid (non-revoked) token for.
+  // The frontend uses this to decide which links to unlock.
+  const allRes = await fetch(
+    `${process.env.SUPABASE_URL}/rest/v1/access_tokens?email=eq.${encodeURIComponent(email)}&revoked=eq.false&select=guide_path`,
+    {
+      headers: {
+        'apikey':        process.env.SUPABASE_SERVICE_KEY,
+        'Authorization': `Bearer ${process.env.SUPABASE_SERVICE_KEY}`,
+      },
+    }
+  );
+
+  let unlockedPaths = guide_path ? [guide_path] : [];
+  if (allRes.ok) {
+    const allRows = await allRes.json();
+    unlockedPaths = [...new Set(allRows.map(r => r.guide_path).filter(Boolean))];
+  }
+
+  // ── 6. Update last accessed timestamp (fire-and-forget) ───
+  fetch(
+    `${process.env.SUPABASE_URL}/rest/v1/access_tokens?token=eq.${encodeURIComponent(token)}`,
+    {
+      method: 'PATCH',
+      headers: {
+        'apikey':        process.env.SUPABASE_SERVICE_KEY,
+        'Authorization': `Bearer ${process.env.SUPABASE_SERVICE_KEY}`,
+        'Content-Type':  'application/json',
+        'Prefer':        'return=minimal',
+      },
+      body: JSON.stringify({ accessed_at: new Date().toISOString() }),
+    }
+  ).catch(() => {});
+
   // ── All checks passed ─────────────────────────────────────
   return {
     statusCode: 200,
     headers: cors,
-    body: JSON.stringify({ valid: true, email, guidePath: guide_path }),
+    body: JSON.stringify({ valid: true, email, guidePath: guide_path, unlockedPaths }),
   };
 };
