@@ -35,7 +35,7 @@ exports.handler = async (event) => {
 
   // Look up the most recent non-revoked token for this email
   const res = await fetch(
-    `${process.env.SUPABASE_URL}/rest/v1/access_tokens?email=eq.${encodeURIComponent(email.toLowerCase())}&revoked=eq.false&order=created_at.desc&limit=1&select=token`,
+    `${process.env.SUPABASE_URL}/rest/v1/access_tokens?email=eq.${encodeURIComponent(email.toLowerCase())}&revoked=eq.false&order=created_at.desc&limit=1&select=token,guide_path`,
     {
       headers: {
         'apikey':        process.env.SUPABASE_SERVICE_KEY,
@@ -57,8 +57,11 @@ exports.handler = async (event) => {
     return { statusCode: 200, headers: cors, body: JSON.stringify({ ok: true }) };
   }
 
-  const { token } = rows[0];
-  const accessLink = `${process.env.GUIDE_URL}?token=${token}`;
+  const { token, guide_path } = rows[0];
+  const baseUrl    = new URL(process.env.GUIDE_URL).origin;
+  const accessLink = guide_path
+    ? `${baseUrl}${guide_path}?token=${token}`
+    : `${process.env.GUIDE_URL}?token=${token}`;
   const firstName  = email.split('@')[0]; // best we can do without the name
 
   // Send the email
