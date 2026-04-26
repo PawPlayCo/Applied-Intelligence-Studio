@@ -947,6 +947,20 @@ pre code {
       <a href="https://applied-intelligence-studio.lemonsqueezy.com/checkout/buy/5cd21dd4-5416-4b96-9f04-2e2c29ed97c0" class="gate-btn">Purchase access</a>
     </div>
 
+    <!-- STATE: just purchased — waiting for email -->
+    <div id="gate-thanks" class="gate-card" style="display:none;">
+      <div class="gate-icon">✅</div>
+      <div class="gate-title">You're in — check your email</div>
+      <p class="gate-body">
+        Your purchase went through. Your access link is on its way to your inbox — it usually arrives within a minute.<br><br>
+        <strong>Can't find it?</strong> Check your spam or junk folder, then use the form below to resend it.
+      </p>
+      <div id="gate-msg-thanks" class="gate-msg"></div>
+      <input type="email" id="gate-email-thanks" class="gate-input" placeholder="your@email.com" />
+      <button class="gate-btn gate-resend" onclick="resendLink('thanks')">Resend my access link</button>
+      <p class="gate-fine">Questions? <a href="mailto:hello@yourdomain.com">Get in touch</a></p>
+    </div>
+
   </div>
 </div>
 
@@ -3041,6 +3055,7 @@ function showGateState(state) {
   document.getElementById('gate-checking').style.display = 'none';
   document.getElementById('gate-purchase').style.display = 'none';
   document.getElementById('gate-invalid').style.display  = 'none';
+  document.getElementById('gate-thanks').style.display   = 'none';
   document.getElementById(`gate-${state}`).style.display = 'block';
 }
 
@@ -3056,12 +3071,14 @@ function grantAccess() {
 // ── Main validation flow ──────────────────────────────────────
 async function validateAccess() {
   // Check sessionStorage first (avoids re-validating within a session)
-  const cachedToken = sessionStorage.getItem('guide_token');
-  const urlToken    = new URLSearchParams(window.location.search).get('token');
-  const token       = urlToken || cachedToken;
+  const urlParams    = new URLSearchParams(window.location.search);
+  const cachedToken  = sessionStorage.getItem('guide_token');
+  const urlToken     = urlParams.get('token');
+  const token        = urlToken || cachedToken;
+  const justPurchased = urlParams.get('thanks') === '1';
 
   if (!token) {
-    showGateState('purchase');
+    showGateState(justPurchased ? 'thanks' : 'purchase');
     return;
   }
 
@@ -3098,8 +3115,8 @@ async function validateAccess() {
 
 // ── Resend link ───────────────────────────────────────────────
 async function resendLink(context = 'purchase') {
-  const inputId = context === 'invalid' ? 'gate-email-invalid' : 'gate-email-input';
-  const msgId   = context === 'invalid' ? 'gate-msg-invalid'   : 'gate-msg-resend';
+  const inputId = context === 'invalid' ? 'gate-email-invalid' : context === 'thanks' ? 'gate-email-thanks' : 'gate-email-input';
+  const msgId   = context === 'invalid' ? 'gate-msg-invalid'   : context === 'thanks' ? 'gate-msg-thanks'   : 'gate-msg-resend';
   const email   = document.getElementById(inputId).value.trim();
   const msg     = document.getElementById(msgId);
 
@@ -3134,9 +3151,11 @@ async function resendLink(context = 'purchase') {
 }
 
 // Allow pressing Enter in email fields
-['gate-email-input', 'gate-email-invalid'].forEach(id => {
+['gate-email-input', 'gate-email-invalid', 'gate-email-thanks'].forEach(id => {
   const el = document.getElementById(id);
-  if (el) el.addEventListener('keydown', e => { if (e.key === 'Enter') resendLink(id.includes('invalid') ? 'invalid' : 'purchase'); });
+  if (el) el.addEventListener('keydown', e => {
+    if (e.key === 'Enter') resendLink(id.includes('invalid') ? 'invalid' : id.includes('thanks') ? 'thanks' : 'purchase');
+  });
 });
 
 // ── Run on load ───────────────────────────────────────────────
