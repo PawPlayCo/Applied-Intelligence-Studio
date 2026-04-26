@@ -65,6 +65,15 @@ exports.handler = async (event) => {
   const attributes = payload.data?.attributes || {};
   const email      = attributes.user_email;
   const firstName  = attributes.user_name?.split(' ')[0] || 'there';
+  const variantId  = String(attributes.first_order_item?.variant_id || '');
+
+  // Route to the correct guide based on which product was purchased.
+  // Add a VARIANT_[id]_URL env var in Netlify for each product variant.
+  // Falls back to GUIDE_URL if no specific mapping exists.
+  const guideUrl = (variantId && process.env[`VARIANT_${variantId}_URL`])
+    || process.env.GUIDE_URL;
+
+  console.log(`Order ${orderId} — variant ${variantId} — routing to ${guideUrl}`);
 
   if (!email || !orderId) {
     console.error('Missing email or order ID in payload:', JSON.stringify(payload));
@@ -118,7 +127,7 @@ exports.handler = async (event) => {
   }
 
   // ── 6. Send access email via Resend ──────────────────────
-  const accessLink = `${process.env.GUIDE_URL}?token=${token}`;
+  const accessLink = `${guideUrl}?token=${token}`;
 
   const emailRes = await fetch('https://api.resend.com/emails', {
     method: 'POST',

@@ -6,3 +6,28 @@
   from = "/guide"
   to = "/guide-gated.html"
   status = 302
+
+[[redirects]]
+  from = "/guide-2"
+  to = "/guide-2-calendar-sync-gated.html"
+  status = 302
+
+[[redirects]]
+  from = "/guide-3"
+  to = "/guide-3-invoice-payments-gated.html"
+  status = 302
+
+[[redirects]]
+  from = "/guide-4"
+  to = "/guide-4-staff-portal-gated.html"
+  status = 302
+
+[[redirects]]
+  from = "/guide-5"
+  to = "/guide-5-client-portal-gated.html"
+  status = 302
+
+[[redirects]]
+  from = "/complete-suite"
+  to = "/complete-suite-gated.html"
+  status = 302
