@@ -137,7 +137,7 @@ nav {
 /* ── HERO ───────────────────────────────────────────────────── */
 .hero {
   border-bottom: 1px solid var(--rule);
-  padding: 80px 48px 72px;
+  padding: 56px 48px 56px;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -155,7 +155,7 @@ nav {
   display: grid;
   grid-template-columns: 1fr 400px;
   gap: 64px;
-  align-items: end;
+  align-items: center;
 }
 
 .hero h1 {
@@ -599,7 +599,7 @@ nav {
 
 .social-cards {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 12px;
 }
 
@@ -981,26 +981,53 @@ footer {
         <span class="section-num">03</span>
         <h2 class="section-title">Writing</h2>
       </div>
-      <a href="#blog" class="section-link">All posts</a>
+      <a href="/blog" class="section-link">All posts</a>
     </div>
   </div>
   <div class="section-wrap" style="padding-top:0;">
-    <div class="blog-grid">
+    <div class="blog-grid" id="home-blog-grid">
       <div class="blog-card placeholder">
         <div class="placeholder-icon">✦</div>
-        <div class="placeholder-text">First post coming soon</div>
-      </div>
-      <div class="blog-card placeholder">
-        <div class="placeholder-icon">✦</div>
-        <div class="placeholder-text">More writing on the way</div>
-      </div>
-      <div class="blog-card placeholder">
-        <div class="placeholder-icon">✦</div>
-        <div class="placeholder-text">Follow along on socials</div>
+        <div class="placeholder-text">Loading…</div>
       </div>
     </div>
   </div>
 </section>
+
+<script>
+(async () => {
+  const grid = document.getElementById('home-blog-grid');
+  try {
+    const res   = await fetch('/.netlify/functions/get-posts');
+    const posts = await res.json();
+
+    if (!posts.length) {
+      grid.innerHTML = `
+        <div class="blog-card placeholder"><div class="placeholder-icon">✦</div><div class="placeholder-text">First post coming soon</div></div>
+        <div class="blog-card placeholder"><div class="placeholder-icon">✦</div><div class="placeholder-text">More writing on the way</div></div>
+        <div class="blog-card placeholder"><div class="placeholder-icon">✦</div><div class="placeholder-text">Follow along on socials</div></div>`;
+      return;
+    }
+
+    grid.innerHTML = posts.slice(0, 3).map(p => {
+      const date = p.published_at
+        ? new Date(p.published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+        : '';
+      return `
+        <a class="blog-card" href="/blog/${p.slug}" style="text-decoration:none;color:inherit;">
+          <div class="blog-meta">${date}</div>
+          <h3>${p.title.replace(/</g,'&lt;')}</h3>
+          ${p.excerpt ? `<p>${p.excerpt.replace(/</g,'&lt;')}</p>` : ''}
+        </a>`;
+    }).join('');
+  } catch {
+    grid.innerHTML = `
+      <div class="blog-card placeholder"><div class="placeholder-icon">✦</div><div class="placeholder-text">First post coming soon</div></div>
+      <div class="blog-card placeholder"><div class="placeholder-icon">✦</div><div class="placeholder-text">More writing on the way</div></div>
+      <div class="blog-card placeholder"><div class="placeholder-icon">✦</div><div class="placeholder-text">Follow along on socials</div></div>`;
+  }
+})();
+</script>
 
 <!-- SOCIAL BAND -->
 <section class="social-band">
