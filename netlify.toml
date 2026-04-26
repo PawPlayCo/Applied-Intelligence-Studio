@@ -1,0 +1,8 @@
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "nft"
+
+[[redirects]]
+  from = "/guide"
+  to = "/guide-gated.html"
+  status = 302
