@@ -1,0 +1,3147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Complete Suite - All 5 Guides - Applied Intelligence Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+
+/* ── DESIGN TOKENS ──────────────────────────────────────────── */
+:root {
+  /* Page */
+  --bg:          #f7f7f5;
+  --bg2:         #efefec;
+  --bg3:         #e5e5e1;
+  --border:      #d8d8d3;
+  --border2:     #c8c8c2;
+
+  /* Text */
+  --text:        #18181b;
+  --text2:       #3f3f46;
+  --text3:       #71717a;
+  --text4:       #a1a1aa;
+
+  /* Accent - deep navy */
+  --accent:      #1e3a5f;
+  --accent-mid:  #2d5a8e;
+  --accent-soft: #e8eef6;
+
+  /* Inline code highlight */
+  --code-fg:     #1e3a5f;
+  --code-bg:     #eef2f8;
+  --code-border: #c8d4e8;
+
+  /* Callout colors */
+  --tip-bg:      #f0f7f2;
+  --tip-border:  #2d7a4f;
+  --tip-text:    #1a5c38;
+
+  --warn-bg:     #fdf8ee;
+  --warn-border: #c8960a;
+  --warn-text:   #6b4f08;
+
+  --danger-bg:   #fdf2f2;
+  --danger-border: #b83232;
+  --danger-text: #7a1f1f;
+
+  --note-bg:     #f0f4ff;
+  --note-border: #3a5cbf;
+  --note-text:   #1f3a8c;
+
+  /* AI note */
+  --ai-bg:       #f4f3ff;
+  --ai-border:   #7c6fdf;
+  --ai-text:     #3d3480;
+
+  /* Syntax */
+  --syn-cmt:     #7a8a78;
+  --syn-kw:      #7c5c1e;
+  --syn-str:     #2d6e3e;
+  --syn-fn:      #1e4a8a;
+  --syn-num:     #8a3a1e;
+}
+
+/* ── RESET ──────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.75;
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── COVER ──────────────────────────────────────────────────── */
+.cover {
+  background: #111827;
+  color: #f9fafb;
+  padding: 80px 64px 72px;
+}
+
+.cover-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #6b7280;
+  margin-bottom: 22px;
+  font-weight: 400;
+}
+
+.cover h1 {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 48px;
+  line-height: 1.13;
+  margin-bottom: 22px;
+  max-width: 700px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.cover h1 em {
+  color: #93c5fd;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.cover-lead {
+  font-size: 16px;
+  color: #9ca3af;
+  max-width: 620px;
+  line-height: 1.75;
+  margin-bottom: 40px;
+  font-weight: 300;
+}
+
+.cover-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 28px;
+  border-top: 1px solid #1f2937;
+}
+
+.meta-tag {
+  background: #1f2937;
+  border: 1px solid #374151;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: #9ca3af;
+  letter-spacing: 0.02em;
+}
+
+/* ── PAGE LAYOUT ────────────────────────────────────────────── */
+.page {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ── SIDEBAR ────────────────────────────────────────────────── */
+.sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  padding: 36px 20px 36px 32px;
+  border-right: 1px solid var(--border);
+  background: var(--bg);
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+  flex-shrink: 0;
+}
+
+.sidebar-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text4);
+  font-weight: 500;
+  margin-bottom: 10px;
+  padding-left: 10px;
+}
+
+.sidebar nav a {
+  display: block;
+  padding: 6px 10px;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text3);
+  text-decoration: none;
+  border-radius: 5px;
+  line-height: 1.45;
+  transition: background 0.1s, color 0.1s;
+}
+
+.sidebar nav a:hover {
+  background: var(--bg2);
+  color: var(--text);
+}
+
+.sidebar nav a .num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  color: var(--text4);
+  margin-right: 7px;
+}
+
+.sidebar-section {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+
+/* ── MAIN ───────────────────────────────────────────────────── */
+.main {
+  padding: 52px 60px 96px;
+  min-width: 0;
+  max-width: 780px;
+}
+
+/* ── AI INTRO NOTE ──────────────────────────────────────────── */
+.ai-intro {
+  background: var(--ai-bg);
+  border-left: 3px solid var(--ai-border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  margin-bottom: 52px;
+  color: var(--ai-text);
+  font-size: 13.5px;
+  line-height: 1.72;
+}
+
+.ai-intro strong { color: var(--ai-text); font-weight: 600; }
+
+/* ── MODULE ─────────────────────────────────────────────────── */
+.module {
+  margin-bottom: 72px;
+  padding-bottom: 72px;
+  border-bottom: 1px solid var(--border);
+}
+
+.module:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.module-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text4);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.module-tag .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+.module-tag .dot.green  { background: #2d7a4f; }
+.module-tag .dot.blue   { background: #1e4a8a; }
+.module-tag .dot.purple { background: #6b4fa0; }
+
+.module h2 {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 32px;
+  line-height: 1.22;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+.module-lead {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 15px;
+  color: var(--text3);
+  line-height: 1.75;
+  margin-bottom: 36px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--border);
+  font-style: italic;
+}
+
+/* ── SECTION ────────────────────────────────────────────────── */
+.section {
+  margin-bottom: 40px;
+}
+
+.section-title {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border2);
+  letter-spacing: -0.005em;
+}
+
+.section p {
+  font-size: 14.5px;
+  color: var(--text2);
+  line-height: 1.8;
+  margin-bottom: 14px;
+}
+
+.section p:last-child { margin-bottom: 0; }
+
+/* ── STEPS ──────────────────────────────────────────────────── */
+.steps { margin: 16px 0; }
+
+.step {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 12px;
+  align-items: flex-start;
+}
+
+.step-num {
+  counter-increment: step;
+  background: var(--accent);
+  color: #fff;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  min-width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.step-body {
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.75;
+}
+
+.step-body strong { color: var(--text); font-weight: 600; }
+
+.steps { counter-reset: step; }
+
+/* ── CODE ───────────────────────────────────────────────────── */
+pre, .code-block {
+  background: #1a1f2e;
+  color: #d4daf0;
+  border-radius: 6px;
+  padding: 18px 20px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12.5px;
+  line-height: 1.72;
+  overflow-x: auto;
+  margin: 16px 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+code {
+  background: var(--code-bg);
+  border: 1px solid var(--code-border);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--code-fg);
+}
+
+pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
+}
+
+.cmt { color: #6a7a90; }
+.kw  { color: #c9956c; }
+.str { color: #7ec09a; }
+.fn  { color: #82aacc; }
+.num { color: #d49a7a; }
+
+/* ── CALLOUTS ───────────────────────────────────────────────── */
+.callout {
+  border-radius: 5px;
+  padding: 13px 16px;
+  margin: 14px 0;
+  font-size: 13.5px;
+  line-height: 1.72;
+  display: block;
+}
+
+.callout strong { font-weight: 600; }
+
+.callout.tip    { background: var(--tip-bg);    border-left: 3px solid var(--tip-border);    color: var(--tip-text); }
+.callout.warn   { background: var(--warn-bg);   border-left: 3px solid var(--warn-border);   color: var(--warn-text); }
+.callout.danger { background: var(--danger-bg); border-left: 3px solid var(--danger-border); color: var(--danger-text); }
+.callout.note   { background: var(--note-bg);   border-left: 3px solid var(--note-border);   color: var(--note-text); }
+
+/* ── AI NOTE ────────────────────────────────────────────────── */
+.ai-note {
+  background: var(--ai-bg);
+  border-left: 3px solid var(--ai-border);
+  border-radius: 5px;
+  padding: 13px 16px;
+  margin: 14px 0;
+  color: var(--ai-text);
+  font-size: 13.5px;
+  line-height: 1.72;
+  display: block;
+}
+
+.ai-note strong { color: var(--ai-text); font-weight: 600; }
+
+/* ── TROUBLESHOOT ───────────────────────────────────────────── */
+.troubleshoot {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  margin: 18px 0;
+  overflow: hidden;
+}
+
+.troubleshoot-header {
+  background: var(--bg3);
+  border-bottom: 1px solid var(--border);
+  padding: 9px 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text3);
+}
+
+.troubleshoot-body { padding: 14px 16px; }
+
+.trouble-item {
+  margin-bottom: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.trouble-item:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.trouble-q {
+  font-weight: 600;
+  font-size: 13.5px;
+  color: var(--text);
+  margin-bottom: 5px;
+  padding-left: 14px;
+  position: relative;
+}
+
+.trouble-q::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 7px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-mid);
+}
+
+.trouble-a {
+  font-size: 13.5px;
+  color: var(--text3);
+  line-height: 1.72;
+  padding-left: 14px;
+}
+
+/* ── CONCEPT GRID ───────────────────────────────────────────── */
+.concept-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 16px 0;
+}
+
+.concept-box {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 14px 16px;
+}
+
+.concept-box .label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text4);
+  margin-bottom: 5px;
+}
+
+.concept-box .val {
+  font-size: 13.5px;
+  color: var(--text2);
+  line-height: 1.65;
+}
+
+/* ── TABLE ──────────────────────────────────────────────────── */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+  margin: 16px 0;
+}
+
+.data-table th {
+  text-align: left;
+  padding: 9px 14px;
+  background: var(--bg3);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text3);
+  border-bottom: 1px solid var(--border2);
+}
+
+.data-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text2);
+  vertical-align: top;
+  line-height: 1.65;
+}
+
+.data-table tr:last-child td { border-bottom: none; }
+
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  font-weight: 500;
+}
+.badge.free { background: var(--tip-bg); color: var(--tip-text); border: 1px solid var(--tip-border); }
+.badge.paid { background: var(--warn-bg); color: var(--warn-text); border: 1px solid var(--warn-border); }
+
+/* ── CROSS-SELL ─────────────────────────────────────────────── */
+.cross-sell {
+  background: #111827;
+  border-radius: 8px;
+  padding: 36px 40px;
+  margin: 64px 0 0;
+}
+
+.cross-sell .cross-sell-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #4b5563;
+  margin-bottom: 16px;
+  font-weight: 500;
+  display: block;
+}
+
+.cross-sell h3 {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: #f9fafb;
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+
+.cross-sell > p {
+  font-size: 13.5px;
+  color: #6b7280;
+  line-height: 1.7;
+  margin-bottom: 22px;
+}
+
+.addon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 10px;
+}
+
+.addon-card {
+  background: #1f2937;
+  border: 1px solid #374151;
+  border-radius: 6px;
+  padding: 16px 18px;
+}
+
+.addon-card .addon-title {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #e5e7eb;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.addon-card .addon-desc {
+  font-size: 12px;
+  color: #6b7280;
+  line-height: 1.6;
+  display: block;
+}
+
+.addon-card .addon-tag {
+  display: inline-block;
+  margin-top: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  color: #60a5fa;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ── FOOTER ─────────────────────────────────────────────────── */
+.footer {
+  background: #111827;
+  color: #374151;
+  text-align: center;
+  padding: 32px 40px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  margin-top: 0;
+}
+
+/* ── PREREQ NOTE ────────────────────────────────────────────── */
+.prereq {
+  background: var(--note-bg);
+  border-left: 3px solid var(--note-border);
+  border-radius: 5px;
+  padding: 13px 16px;
+  margin-bottom: 48px;
+  color: var(--note-text);
+  font-size: 13.5px;
+  line-height: 1.72;
+}
+
+.prereq strong { font-weight: 600; }
+
+/* ── RESPONSIVE ─────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .page {
+    grid-template-columns: 1fr;
+  }
+  .sidebar {
+    display: none;
+  }
+  .main {
+    padding: 32px 28px 72px;
+    max-width: 100%;
+  }
+  .cover {
+    padding: 52px 28px 48px;
+  }
+  .cover h1 {
+    font-size: 32px;
+  }
+  .cover-lead {
+    font-size: 15px;
+  }
+  .module h2 {
+    font-size: 26px;
+  }
+  .concept-grid {
+    grid-template-columns: 1fr;
+  }
+  .addon-grid {
+    grid-template-columns: 1fr;
+  }
+  .cross-sell {
+    padding: 28px 24px;
+  }
+}
+
+@media (max-width: 540px) {
+  .cover {
+    padding: 36px 18px 36px;
+  }
+  .cover h1 {
+    font-size: 26px;
+    line-height: 1.2;
+  }
+  .cover-lead {
+    font-size: 14px;
+  }
+  .main {
+    padding: 24px 16px 60px;
+  }
+  .module h2 {
+    font-size: 22px;
+  }
+  .section-title {
+    font-size: 17px;
+  }
+  .module-lead {
+    font-size: 14px;
+  }
+  pre, .code-block {
+    font-size: 11px;
+    padding: 14px 14px;
+  }
+  .data-table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .data-table th,
+  .data-table td {
+    white-space: normal;
+    font-size: 12.5px;
+    padding: 8px 10px;
+  }
+  .step {
+    gap: 10px;
+  }
+  .step-num {
+    min-width: 20px;
+    height: 20px;
+    font-size: 9px;
+  }
+  .troubleshoot-body {
+    padding: 12px 14px;
+  }
+}
+
+
+
+  /* ── GATE OVERLAY ── */
+  #gate-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: #faf8f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  #gate-overlay.hidden { display: none; }
+
+  .gate-box {
+    max-width: 480px;
+    width: 100%;
+    padding: 24px;
+    text-align: center;
+  }
+
+  .gate-logo {
+    font-family: 'Lora', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #1c1917;
+    margin-bottom: 40px;
+    letter-spacing: -0.01em;
+  }
+
+  .gate-card {
+    background: white;
+    border: 1px solid #ddd9d2;
+    border-radius: 10px;
+    padding: 40px 36px;
+  }
+
+  .gate-icon {
+    font-size: 32px;
+    margin-bottom: 16px;
+  }
+
+  .gate-title {
+    font-family: 'Lora', serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: #1c1917;
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+
+  .gate-body {
+    font-size: 14px;
+    color: #6b6560;
+    line-height: 1.7;
+    margin-bottom: 28px;
+  }
+
+  .gate-btn {
+    display: inline-block;
+    background: #b8430a;
+    color: white;
+    text-decoration: none;
+    padding: 13px 28px;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 14.5px;
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    transition: background 0.15s;
+    margin-bottom: 12px;
+  }
+
+  .gate-btn:hover { background: #9a360a; }
+
+  .gate-resend {
+    background: none;
+    border: 1px solid #ddd9d2;
+    color: #6b6560;
+    font-size: 13.5px;
+  }
+
+  .gate-resend:hover { background: #f3f0eb; }
+
+  .gate-input {
+    width: 100%;
+    border: 1px solid #ddd9d2;
+    border-radius: 5px;
+    padding: 11px 14px;
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    color: #1c1917;
+    margin-bottom: 10px;
+    outline: none;
+  }
+
+  .gate-input:focus { border-color: #b8430a; box-shadow: 0 0 0 3px rgba(184,67,10,0.08); }
+
+  .gate-msg {
+    font-size: 13px;
+    padding: 10px 14px;
+    border-radius: 5px;
+    margin-bottom: 14px;
+    display: none;
+  }
+
+  .gate-msg.error { background: #fef2f0; color: #8c1a10; border: 1px solid #c0392b; display: block; }
+  .gate-msg.success { background: #f0f7f2; color: #1f5c38; border: 1px solid #3a8c5c; display: block; }
+
+  .gate-spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    vertical-align: middle;
+    margin-right: 6px;
+  }
+
+  .gate-divider {
+    border: none;
+    border-top: 1px solid #e8e4de;
+    margin: 22px 0;
+    position: relative;
+  }
+
+  .gate-divider::after {
+    content: 'or';
+    position: absolute;
+    top: -9px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    padding: 0 10px;
+    font-size: 12px;
+    color: #9c9690;
+  }
+
+  .gate-fine {
+    font-size: 12px;
+    color: #9c9690;
+    margin-top: 16px;
+    line-height: 1.6;
+  }
+
+  .gate-fine a { color: #b8430a; }
+
+  #gate-content { display: none; }
+
+
+.prereq {
+  background: var(--note-bg);
+  border-left: 3px solid var(--note-border);
+  border-radius: 5px;
+  padding: 13px 16px;
+  margin-bottom: 32px;
+  color: var(--note-text);
+  font-size: 13.5px;
+  line-height: 1.72;
+}
+.prereq strong { font-weight: 600; }
+
+</style>
+</head>
+<body>
+
+<!-- GATE OVERLAY -->
+<div id="gate-overlay">
+  <div class="gate-box">
+    <div class="gate-logo">Build Your Business Website</div>
+
+    <!-- STATE: checking token -->
+    <div id="gate-checking" class="gate-card">
+      <div class="gate-icon">⏳</div>
+      <div class="gate-title">Checking your access…</div>
+      <p class="gate-body">Just a moment.</p>
+    </div>
+
+    <!-- STATE: no token / invalid  -  purchase prompt -->
+    <div id="gate-purchase" class="gate-card" style="display:none;">
+      <div class="gate-icon">📖</div>
+      <div class="gate-title">Get the complete course guide</div>
+      <p class="gate-body">
+        Every tool, every step, every fix  -  the full build documented so you can replicate it.
+        One-time purchase. Lifetime access.
+      </p>
+      <a href="https://applied-intelligence-studio.lemonsqueezy.com/checkout/buy/5cd21dd4-5416-4b96-9f04-2e2c29ed97c0" class="gate-btn" id="buy-btn">
+        Get Access - $79.99
+      </a>
+      <hr class="gate-divider">
+      <p style="font-size:13px;color:#6b6560;margin-bottom:10px;">Already purchased? Enter your email to resend your link.</p>
+      <div id="gate-msg-resend" class="gate-msg"></div>
+      <input type="email" id="gate-email-input" class="gate-input" placeholder="your@email.com" />
+      <button class="gate-btn gate-resend" onclick="resendLink()">Resend my access link</button>
+      <p class="gate-fine">Questions? <a href="mailto:hello@yourdomain.com">Get in touch</a></p>
+    </div>
+
+    <!-- STATE: invalid/revoked  -  specific message -->
+    <div id="gate-invalid" class="gate-card" style="display:none;">
+      <div class="gate-icon">🔒</div>
+      <div class="gate-title">This link isn't valid</div>
+      <p class="gate-body" id="gate-invalid-reason">
+        This access link may have expired or been revoked. Check your purchase email for your original link,
+        or enter your email below to have it resent.
+      </p>
+      <div id="gate-msg-invalid" class="gate-msg"></div>
+      <input type="email" id="gate-email-invalid" class="gate-input" placeholder="your@email.com" />
+      <button class="gate-btn gate-resend" onclick="resendLink('invalid')">Resend my access link</button>
+      <hr class="gate-divider">
+      <a href="https://applied-intelligence-studio.lemonsqueezy.com/checkout/buy/5cd21dd4-5416-4b96-9f04-2e2c29ed97c0" class="gate-btn">Purchase access</a>
+    </div>
+
+  </div>
+</div>
+
+<!-- GUIDE CONTENT -->
+<div id="gate-content">
+
+<div class="cover">
+  <div class="cover-eyebrow">Complete Suite - All 5 Guides</div>
+  <h1>The Complete <em>Build Suite</em></h1>
+  <p class="cover-lead">Every guide in one place - the core website build plus all four add-ons. Calendar sync, online payments, staff portal, admin dashboard, and client portal. The complete system, documented from start to finish.</p>
+  <div class="cover-meta">
+    <span class="meta-tag">Core Guide</span>
+    <span class="meta-tag">Calendar Sync</span>
+    <span class="meta-tag">Invoice &amp; Payments</span>
+    <span class="meta-tag">Staff Portal</span>
+    <span class="meta-tag">Client Portal</span>
+  </div>
+</div>
+
+<div class="page">
+<aside class="sidebar">
+  <div class="sidebar-title">All Guides</div>
+  <nav>
+    <a href="#core"><span class="num">01</span> Core Guide</a>
+    <a href="#addon1"><span class="num">02</span> Calendar Sync</a>
+    <a href="#addon2"><span class="num">03</span> Invoice &amp; Payments</a>
+    <a href="#addon3"><span class="num">04</span> Staff Portal</a>
+    <a href="#addon4"><span class="num">05</span> Client Portal</a>
+  </nav>
+  <div class="sidebar-section">
+    <div class="sidebar-title">Tools Used</div>
+    <nav>
+      <a href="https://github.com" target="_blank">github.com</a>
+      <a href="https://netlify.com" target="_blank">netlify.com</a>
+      <a href="https://supabase.com" target="_blank">supabase.com</a>
+      <a href="https://firebase.google.com" target="_blank">firebase.google.com</a>
+      <a href="https://stripe.com" target="_blank">stripe.com</a>
+      <a href="https://resend.com" target="_blank">resend.com</a>
+      <a href="https://claude.ai" target="_blank">claude.ai</a>
+    </nav>
+  </div>
+</aside>
+<main class="main">
+
+<div class="ai-intro">
+<strong>A note on how AI was used in this build.</strong> Claude (by Anthropic) was used throughout as a coding assistant - writing code, explaining errors, generating database schemas, and more. Wherever AI was involved, it is clearly marked. The decisions about what to build came entirely from the builder. AI was the contractor. The builder was the architect.
+</div>
+<div id="core">
+<div style="margin:64px 0 40px;padding:28px 32px;background:var(--bg3);border-radius:8px;border-left:4px solid var(--accent);">
+  <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--text4);margin-bottom:8px;">Guide 1 of 5</div>
+  <div style="font-family:'Source Serif 4',serif;font-size:26px;font-weight:700;color:var(--text);margin-bottom:4px;letter-spacing:-0.01em;">Build Your Business Website From Scratch</div>
+  <div style="font-size:13.5px;color:var(--text3);font-weight:300;">Core Guide - GitHub, Netlify, Supabase, live availability display</div>
+</div>
+<div class="module" id="m1">
+ <div class="module-tag"><span class="dot"></span>Module 01</div>
+ <h2>GitHub + Netlify: Free Hosting Setup</h2>
+ <p class="module-lead">Before writing a single line of your website, you need a place to store your files and a way to publish them automatically. This module covers GitHub (where your code lives) and Netlify (what serves it to the public) - two free tools that together replace what used to cost hundreds of dollars a month in hosting.</p>
+
+ <div class="section">
+ <div class="section-title">What is GitHub, and why is it not optional?</div>
+ <p>GitHub is version-controlled cloud storage for code. Think of it like Google Drive for your website files, but with a superpower: it remembers every change you've ever made. Every time you update your website, you save a labeled snapshot. If you accidentally break something, you can roll back to any previous version instantly.</p>
+ <p>The other reason GitHub matters: Netlify (your hosting platform) watches your GitHub repository and automatically re-publishes your website every time you push a change. No FTP clients, no manual file uploads, no logging into a server. Push code → website updates. That's the whole workflow.</p>
+ <div class="callout tip">
+ 
+ <div><strong>GitHub vs. just emailing yourself files:</strong> You could technically save your website files in a folder on your computer and upload them manually to any host. But the moment you want automation, database integration, serverless functions, or SSL certificates, you need a proper deployment pipeline. GitHub + Netlify is the industry standard for exactly this - and it's free.</div>
+ </div>
+ </div>
+
+ <div class="section">
+ <div class="section-title">Creating your GitHub repository</div>
+ <p>A repository (usually called a "repo") is a project folder on GitHub that tracks every version of your files.</p>
+ <div class="steps">
+ <div class="step"><span class="step-num"></span><div class="step-body">Go to <strong>github.com</strong> and create a free account. Use an email you check regularly - GitHub sends security alerts there.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Click the green <strong>"New"</strong> button on your dashboard. Name the repository after your business using lowercase letters and hyphens only - no spaces, no capitals. Example: <code>hartley-cleaning-co</code> or <code>my-business-site</code>.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Set it to <strong>Public</strong>. Netlify's free tier connects to public repos without issue. Private repos require a paid GitHub plan or paid Netlify plan.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Check <strong>"Add a README file"</strong> - this creates the repo with an initial file so it isn't empty. Click <strong>"Create repository."</strong></div></div>
+ </div>
+ <div class="troubleshoot">
+ <div class="troubleshoot-header"> Common Issues</div>
+ <div class="troubleshoot-body">
+ <div class="trouble-item">
+ <div class="trouble-q">"Repository name already exists"</div>
+ <div class="trouble-a">The name is taken in your account. Add a year or distinguishing word: <code>my-business-site-2024</code>. Repository names only need to be unique within your own account, not globally.</div>
+ </div>
+ <div class="trouble-item">
+ <div class="trouble-q">Not sure whether to make it public or private</div>
+ <div class="trouble-a">Make it public. Your code is available to anyone who looks for it, but nothing about your database passwords or secret keys should ever be committed to GitHub (we cover this in Module 3). Public code with secrets in environment variables is standard practice and completely safe when done correctly.</div>
+ </div>
+ </div>
+ </div>
+ </div>
+
+ <div class="section">
+ <div class="section-title">Installing Git on your computer</div>
+ <p>Git is the underlying software that tracks changes and connects your computer to GitHub. It's different from GitHub - Git is the tool, GitHub is the cloud service that hosts what Git manages.</p>
+ <div class="steps">
+ <div class="step"><span class="step-num"></span><div class="step-body"><strong>Mac:</strong> Open Terminal (search "Terminal" in Spotlight). Type <code>git --version</code> and press Enter. If Git isn't installed, macOS will ask if you want to install developer tools. Click Install. It takes about 5 minutes.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body"><strong>Windows:</strong> Download Git from <code>git-scm.com</code>. Run the installer - the default options are all fine. When it asks about your default editor, choose VS Code if you have it, or Notepad as a fallback.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">After installing, configure your identity. Open Terminal (Mac) or Git Bash (Windows) and run these two commands:
+ <div class="code-block">git config --global user.name "Your Full Name"
+git config --global user.email "you@youremail.com"</div>
+ Use the same email as your GitHub account. This info gets attached to every save (commit) you make.
+ </div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body"><strong>Download your repository to your computer.</strong> In Terminal, navigate to where you want your project folder to live (e.g., your Desktop or Documents), then run:
+ <div class="code-block">git clone https://github.com/YourUsername/your-repo-name.git</div>
+ Replace <code>YourUsername</code> and <code>your-repo-name</code> with your actual GitHub username and repo name. This creates a local folder connected to your GitHub repo.
+ </div></div>
+ </div>
+ <div class="troubleshoot">
+ <div class="troubleshoot-header"> Common Issues</div>
+ <div class="troubleshoot-body">
+ <div class="trouble-item">
+ <div class="trouble-q">"git: command not found" after installing</div>
+ <div class="trouble-a">On Mac, you may need to close Terminal completely and reopen it. On Windows, make sure you're using <strong>Git Bash</strong> (installed with Git), not the default Windows Command Prompt.</div>
+ </div>
+ <div class="trouble-item">
+ <div class="trouble-q">Git asks for username and password when cloning</div>
+ <div class="trouble-a">GitHub no longer accepts passwords - it uses Personal Access Tokens. Go to GitHub → Settings → Developer Settings → Personal Access Tokens → Tokens (classic) → Generate new token. Give it "repo" scope. Copy the token and use it as your password when prompted. You'll only need to do this once if you save credentials.</div>
+ </div>
+ <div class="trouble-item">
+ <div class="trouble-q">"Permission denied (publickey)"</div>
+ <div class="trouble-a">This means GitHub doesn't recognize your computer. The fix is to set up SSH authentication. Run <code>ssh-keygen -t ed25519 -C "you@email.com"</code> in Terminal, press Enter through all prompts, then run <code>cat ~/.ssh/id_ed25519.pub</code> and copy the output. Go to GitHub → Settings → SSH Keys → New SSH Key, paste it in. Then clone using the SSH URL (<code>git@github.com:username/repo.git</code>) instead of HTTPS.</div>
+ </div>
+ </div>
+ </div>
+ <div class="ai-note">
+ 
+ <div><strong>AI tip for Terminal errors:</strong> Git error messages are notoriously cryptic. If you get any error during setup, copy the entire error message and paste it to Claude with the message: "I'm setting up Git for the first time. Here's the error I got: [paste error]. What does this mean and how do I fix it?" You'll get a plain-English explanation and exact steps to fix it within seconds.</div>
+ </div>
+ </div>
+
+ <div class="section">
+ <div class="section-title">Connecting to Netlify</div>
+ <p>Netlify is your hosting platform. When you push code to GitHub, Netlify picks it up automatically and re-publishes your website. The free tier includes enough bandwidth and builds for any small business site.</p>
+ <div class="steps">
+ <div class="step"><span class="step-num"></span><div class="step-body">Go to <strong>netlify.com</strong> and click "Sign up." Choose <strong>"Sign up with GitHub"</strong> - this links your accounts so Netlify can access your repositories without any additional configuration.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Click <strong>"Add new site"</strong> → <strong>"Import an existing project"</strong> → <strong>"GitHub."</strong> Netlify will ask permission to read your repositories - approve it.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Select your repository. On the build settings screen, <strong>leave everything blank</strong>. Plain HTML/CSS/JS websites don't need a build command. Click <strong>"Deploy site."</strong></div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Netlify will deploy in 30-60 seconds and give you a randomly generated URL like <code>lucky-cake-4b2d91.netlify.app</code>. Your website is live. You'll connect your real domain in Module 10.</div></div>
+ </div>
+ <div class="callout warn">
+ 
+ <div><strong>Build minutes:</strong> Netlify's free plan includes 300 build minutes per month. Each time you push to GitHub, Netlify uses a small amount of build time. If you're constantly pushing tiny changes, you'll drain your build budget. Get into the habit of grouping your edits and pushing once, rather than pushing after every line change.</div>
+ </div>
+ <div class="troubleshoot">
+ <div class="troubleshoot-header"> Common Issues</div>
+ <div class="troubleshoot-body">
+ <div class="trouble-item">
+ <div class="trouble-q">Netlify deploys successfully but the site shows a blank page</div>
+ <div class="trouble-a">This almost always means your main HTML file isn't named <code>index.html</code>. Netlify (and all web servers) look for <code>index.html</code> as the default page. Rename your main file and push again.</div>
+ </div>
+ <div class="trouble-item">
+ <div class="trouble-q">Netlify says "Repository not found" when linking</div>
+ <div class="trouble-a">Go to Netlify → Team settings → GitHub access → Configure. Make sure Netlify has access to your specific repository. By default, GitHub only grants access to repositories you explicitly select.</div>
+ </div>
+ <div class="trouble-item">
+ <div class="trouble-q">I pushed a change but the site didn't update</div>
+ <div class="trouble-a">Check the Netlify dashboard for your site - click "Deploys." You'll see a list of all deployments. If the latest one shows "Failed," click it to see the error log. If it shows "Skipped," Netlify may have rate-limited your builds due to too many rapid pushes.</div>
+ </div>
+ </div>
+ </div>
+ </div>
+
+ <div class="section">
+ <div class="section-title">Your daily Git workflow</div>
+ <p>Every time you make changes to your website, you follow the same three steps to save and publish them. This becomes automatic after a few days.</p>
+ <div class="code-block"><span class="cmt"># Step 1: Stage the file(s) you changed</span>
+<span class="cmt"># Use the exact filename, or "." to stage everything</span>
+git add index.html
+<span class="cmt"># or</span>
+git add .
+
+<span class="cmt"># Step 2: Commit - create a labeled snapshot of your changes</span>
+git commit -m "Update pricing section with new rates"
+
+<span class="cmt"># Step 3: Push - send to GitHub, which triggers Netlify to redeploy</span>
+git push</div>
+ <div class="callout tip">
+ 
+ <div><strong>Write useful commit messages.</strong> "Update" or "Fix" tells you nothing in 6 months. Write what changed and why: "Fix mobile layout on services section" or "Add FAQ section with 7 questions." Future you will be grateful.</div>
+ </div>
+ <div class="troubleshoot">
+ <div class="troubleshoot-header"> Common Issues</div>
+ <div class="troubleshoot-body">
+ <div class="trouble-item">
+ <div class="trouble-q">"Nothing to commit, working tree clean"</div>
+ <div class="trouble-a">Git doesn't detect any unsaved file changes. Make sure you actually saved the file in your text editor (Cmd+S / Ctrl+S) before running <code>git add</code>.</div>
+ </div>
+ <div class="trouble-item">
+ <div class="trouble-q">"error: failed to push some refs" or "Updates were rejected"</div>
+ <div class="trouble-a">Your local copy is behind the remote. Someone (or you on another machine) pushed changes you don't have yet. Run <code>git pull</code> first, then <code>git push</code>. If <code>git pull</code> creates a merge conflict, AI can walk you through resolving it - just paste the conflict output.</div>
+ </div>
+ <div class="trouble-item">
+ <div class="trouble-q">I accidentally committed a password or secret key</div>
+ <div class="trouble-a">This is serious. First, immediately revoke and regenerate the key you exposed (do this in Stripe, Supabase, or wherever it came from). Then remove it from your code, commit, and push. The key will still be visible in Git history - if the repo is public, consider the key permanently compromised and treat regeneration as mandatory, not optional.</div>
+ </div>
+ </div>
+ </div>
+ </div>
+
+ <div class="section">
+ <div class="section-title">The netlify.toml configuration file</div>
+ <p>This optional file lives at the root of your project and tells Netlify how to handle your site - redirects, security headers, function settings, and environment rules. You create it once and it applies on every deploy. Having it from the start saves headaches later.</p>
+ <div class="code-block"><span class="cmt"># netlify.toml - place this in your project root folder</span>
+
+[functions]
+ node_bundler = "nft" <span class="cmt"># Required if you use Netlify Functions (Module 6)</span>
+
+[[redirects]]
+ from = "/book"
+ to = "/#booking-form"
+ status = 302 <span class="cmt"># Temporary redirect (use 301 for permanent)</span>
+
+[[headers]]
+ for = "/*"
+ [headers.values]
+ X-Frame-Options = "DENY"
+ X-Content-Type-Options = "nosniff"</div>
+ <div class="callout note">
+ 
+ <div>You won't need this file immediately, but create it early. When you add Netlify Functions in Module 6, the <code>node_bundler = "nft"</code> setting prevents a common deployment error where native Node.js modules fail to bundle correctly.</div>
+ </div>
+ </div>
+</div>
+
+<!-- ════════════════════════════════════════════ MODULE 2 ═════════════════════ -->
+
+<div class="module" id="m2">
+ <div class="module-tag"><span class="dot"></span>Module 02</div>
+ <h2>Building Your Main Website</h2>
+ <p class="module-lead">This module covers designing and coding your entire public-facing website. We'll work in a single HTML file, define your visual identity in CSS, build every section a service business needs, and optimize the whole thing for mobile. The process is iterative - describe, generate, review, refine, repeat.</p>
+
+ <div class="section">
+ <div class="section-title">The single-file approach</div>
+ <p>For a small business website, everything can live in one <code>index.html</code> file. Your CSS goes in a <code>&lt;style&gt;</code> block in the <code>&lt;head&gt;</code>. Your JavaScript goes in a <code>&lt;script&gt;</code> block just before the closing <code>&lt;/body&gt;</code> tag. This approach has real advantages: no broken imports, nothing to misconfigure, easier to hand off, and simpler to debug.</p>
+ <p>The tradeoff is that one file can get long. That's fine. Modern browsers handle it easily, and searching a single file for "pricing" or "FAQ" is faster than navigating folders of separate files.</p>
+ <div class="ai-note">
+ 
+ <div><strong>How AI was used to build the site:</strong> The HTML, CSS, and JavaScript for every section was written by AI. The workflow: describe what you need in plain English → AI generates the code → review and test it in a browser → request changes → paste the final version into your file. For example: <em>"Write a hero section with a full-width background, my headline 'Norfolk's Most Trusted Cleaners,' a short paragraph about the business, and two buttons: Book Now and View Pricing. Use the color variables I've defined."</em> AI produces complete, working code. You paste it in, check the browser, and iterate.</div>
+ </div>
+ </div>
+
+ <div class="section">
+ <div class="section-title">Setting up your CSS design system</div>
+ <p>Before writing any layout code, define your brand's colors and fonts as CSS variables. This is one of the highest-leverage decisions you make early on - if you change your mind on a color later, you change one line instead of searching through hundreds of style rules.</p>
+ <div class="code-block"><span class="cmt">/* Put this at the top of your &lt;style&gt; block */</span>
+:root {
+ <span class="cmt">/* Brand colors */</span>
+ --primary: #2C3E2D; <span class="cmt">/* Main dark color - headers, nav, footer */</span>
+ --accent: #C1633A; <span class="cmt">/* Action color - buttons, links, highlights */</span>
+ --light: #F5F0E8; <span class="cmt">/* Background and light text on dark sections */</span>
+ --text: #1a1a1a; <span class="cmt">/* Body copy */</span>
+ --text-soft: #555555; <span class="cmt">/* Secondary text, captions */</span>
+ --border: #e0dbd3; <span class="cmt">/* Lines, card borders */</span>
+
+ <span class="cmt">/* Typography */</span>
+ --font-heading: 'Playfair Display', serif;
+ --font-body: 'DM Sans', sans-serif;
+
+ <span class="cmt">/* Spacing scale */</span>
+ --space-sm: 12px;
+ --space-md: 24px;
+ --space-lg: 48px;
+ --space-xl: 80px;
+}</div>
+ <div class="callout tip">
+ 
+ <div><strong>Picking your fonts:</strong> Load them from Google Fonts for free. In the <code>&lt;head&gt;</code> of your HTML, add: <code>&lt;link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"&gt;</code>. Good pairings: Playfair Display + DM Sans (elegant), Fraunces + Inter (modern editorial), Cormorant Garamond + Jost (luxury). Pick two fonts maximum - one for headings, one for body text.</div>
+ </div>
+ </div>
+
+ <div class="section">
+ <div class="section-title">Essential sections for a service business</div>
+ <p>Every service business website needs the same core sections. Here's what each one must do and the most common mistakes people make building them:</p>
+
+ <div class="steps">
+ <div class="step"><span class="step-num"></span><div class="step-body">
+ <strong>Hero Section</strong> - Your headline, one sentence about what you do, and a primary call-to-action button. The hero has one job: make a new visitor immediately understand what you offer and what to do next. Avoid vague taglines like "Excellence in Every Service." Instead: "Residential Cleaning in Norfolk, VA - Book Online in Under 2 Minutes." Test it with someone who doesn't know your business. If they can't tell what you do in 5 seconds, rewrite it.
+ </div></div>
+
+ <div class="step"><span class="step-num"></span><div class="step-body">
+ <strong>Services & Pricing</strong> - One card per service with the service name, a 1-2 sentence description, and a clear price (or price range). People leave websites that hide pricing. You don't need an exact quote system - just give them enough to know if they're in the right ballpark. If pricing varies too much, say "Starting at $X" and explain what affects the final price.
+ </div></div>
+
+ <div class="step"><span class="step-num"></span><div class="step-body">
+ <strong>How It Works</strong> - 3 to 4 numbered steps describing your process from initial contact to delivered service. This reduces the anxiety first-time buyers feel about the unknown. Keep it concrete: "1. Fill out the booking form. 2. We confirm your appointment by email within 2 hours. 3. Our team arrives on the agreed date." Vague steps like "We provide quality service" are useless here.
+ </div></div>
+
+ <div class="step"><span class="step-num"></span><div class="step-body">
+ <strong>About / Trust Section</strong> - Who you are, how long you've been operating, relevant credentials, insurance status, certifications, and any associations or accreditations. Photos of real people significantly outperform stock photography. People hire businesses they trust. This section exists to build that trust before you've ever met them.
+ </div></div>
+
+ <div class="step"><span class="step-num"></span><div class="step-body">
+ <strong>Testimonials / Reviews</strong> - Real quotes from real clients with their name (and optionally their city or profession). If you have Google reviews, link directly to your Google Business profile so visitors can verify them. Three genuine testimonials beat ten that look fake.
+ </div></div>
+
+ <div class="step"><span class="step-num"></span><div class="step-body">
+ <strong>FAQ</strong> - Answer the 6-8 questions you get asked most often. "Do you bring your own supplies?" "Are you insured?" "What happens if I need to reschedule?" This section does double duty: it reduces inbound inquiries and it's excellent for SEO because real questions people search for end up on your page.
+ </div></div>
+
+ <div class="step"><span class="step-num"></span><div class="step-body">
+ <strong>Booking / Contact Form</strong> - The action you want visitors to take. Keep it to the minimum fields you actually need to follow up. Name, email, phone, service type, and preferred date covers almost every service business. Every additional field reduces conversion rate. Forms connect to your database in Module 3.
+ </div></div>
+
+ <div class="step"><span class="step-num"></span><div class="step-body">
+ <strong>Footer</strong> - Business name, contact email, phone number, social media links, service area, and a short copyright line. Optionally: a link to your privacy policy (increasingly expected and legally required in some states for contact forms that collect personal data).
+ </div></div>
+ </div>
+ </div>
+
+ <div class="section">
+ <div class="section-title">Promotional popup</div>
+ <p>A timed popup - appearing a few seconds after page load - announcing a discount, a seasonal offer, or a new service can meaningfully increase conversions. The key is making it dismissable and making sure it only appears once per visitor.</p>
+ <div class="code-block"><span class="cmt">/* CSS: popup overlay, hidden by default */</span>
+#promo-popup {
+ display: none;
+ position: fixed;
+ inset: 0;
+ background: rgba(0,0,0,0.55);
+ z-index: 9999;
+ align-items: center;
+ justify-content: center;
+}
+
+#promo-popup.visible {
+ display: flex;
+}</div>
+ <div class="code-block"><span class="cmt">// JavaScript: show after 4 seconds, but only once per visitor</span>
+function initPromoPopup() {
+ <span class="kw">const</span> alreadySeen = localStorage.getItem(<span class="str">'promo_dismissed'</span>);
+ <span class="kw">if</span> (alreadySeen) <span class="kw">return</span>; <span class="cmt">// They've already seen it, skip</span>
+
+ setTimeout(() => {
+ document.getElementById(<span class="str">'promo-popup'</span>).classList.add(<span class="str">'visible'</span>);
+ }, 4000);
+}
+
+function dismissPromo() {
+ document.getElementById(<span class="str">'promo-popup'</span>).classList.remove(<span class="str">'visible'</span>);
+ localStorage.setItem(<span class="str">'promo_dismissed'</span>, <span class="str">'true'</span>);
+}
+
+initPromoPopup();</div>
+ <div class="callout warn">
+ 
+ <div><strong>Don't abuse popups.</strong> A popup that fires instantly, covers the whole screen, is hard to close on mobile, and appears on every visit will hurt your bounce rate. The formula that works: delay it (3-5 seconds), make the close button obvious and large, and use localStorage so it never fires again after being dismissed.</div>
+ </div>
+ <div class="ai-note">
+ 
+ <div><strong>AI prompt that generated the popup code:</strong> "Add a full-screen popup overlay to my website that appears after 4 seconds. It should show a 10% off discount for first-time bookings with a code in bold, a brief description, and a large close button. It should never show again to visitors who have already dismissed it. Use the color variables I've defined at the top of my CSS."</div>
+ </div>
+ </div>
+
+ <div class="section">
+ <div class="section-title">Availability unavailable notice</div>
+ <p>There will be times when you go on vacation, take on a big contract, or just get fully booked. You need a way to tell website visitors you're not taking bookings without taking down the whole site or hand-editing every page.</p>
+ <div class="code-block"><span class="cmt">// At the top of your &lt;script&gt; block - flip this when needed</span>
+<span class="kw">const</span> BOOKING_UNAVAILABLE = <span class="kw">false</span>; <span class="cmt">// change to true to disable bookings</span>
+<span class="kw">const</span> UNAVAILABLE_MESSAGE = <span class="str">"We're fully booked through March. Check back April 1st, or leave your email below to be notified when we reopen bookings."</span>;
+
+<span class="cmt">// Apply it when the page loads</span>
+document.addEventListener(<span class="str">'DOMContentLoaded'</span>, () => {
+ <span class="kw">if</span> (BOOKING_UNAVAILABLE) {
+ document.getElementById(<span class="str">'booking-form'</span>).style.display = <span class="str">'none'</span>;
+ document.getElementById(<span class="str">'unavailable-notice'</span>).style.display = <span class="str">'block'</span>;
+ document.getElementById(<span class="str">'unavailable-notice'</span>).textContent = UNAVAILABLE_MESSAGE;
+ }
+});</div>
+ <p>Change one variable, save, push - done. The message is editable too, so you can tell people <em>why</em> you're unavailable and what to do instead (leave an email, check back on a date, call you directly).</p>
+ </div>
+
+ <div class="section">
+ <div class="section-title">Mobile optimization</div>
+ <p>More than half of all website visitors are on phones. Your site must work on a 390px screen. This is not optional. Google also uses the mobile version of your site as the primary version for search ranking (called mobile-first indexing).</p>
+ <div class="steps">
+ <div class="step"><span class="step-num"></span><div class="step-body">Make sure this tag is in your <code>&lt;head&gt;</code>. Without it, mobile browsers render your desktop site at full width and scale it down, making everything tiny:
+ <div class="code-block">&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</div>
+ </div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Add mobile overrides using CSS media queries at the bottom of your <code>&lt;style&gt;</code> block:
+ <div class="code-block"><span class="cmt">/* Mobile styles - applied on screens narrower than 640px */</span>
+@media (max-width: 640px) {
+ .services-grid {
+ grid-template-columns: 1fr; <span class="cmt">/* Stack cards vertically */</span>
+ gap: 16px;
+ }
+ h1 { font-size: 32px; } <span class="cmt">/* Reduce headline size */</span>
+ .hero { padding: 48px 20px; } <span class="cmt">/* Reduce padding */</span>
+ .nav-links { display: none; } <span class="cmt">/* Hide desktop nav (add hamburger) */</span>
+}</div>
+ </div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body"><strong>Test continuously.</strong> In Chrome, press F12 to open DevTools, then click the phone/tablet icon at the top of the DevTools panel. You can switch between different device sizes. Select "iPhone SE" (375px wide) as your minimum bar - if it looks good there, it'll look good everywhere.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body"><strong>Before going live, test on a real phone.</strong> The DevTools preview is good but not perfect. Colors, tap target sizes, and font legibility can look different on an actual device screen. Email yourself the Netlify URL and check it on your phone.</div></div>
+ </div>
+ <div class="troubleshoot">
+ <div class="troubleshoot-header"> Common Mobile Issues</div>
+ <div class="troubleshoot-body">
+ <div class="trouble-item">
+ <div class="trouble-q">Horizontal scrollbar appears on mobile</div>
+ <div class="trouble-a">Something is wider than the screen. The usual culprits: a <code>width: 100vw</code> element that doesn't account for scrollbar width, an element with a fixed <code>min-width</code> wider than the viewport, or an overflowing flex container. Add <code>overflow-x: hidden</code> to the <code>body</code> as a temporary fix, then use the DevTools inspector to find the offending element.</div>
+ </div>
+ <div class="trouble-item">
+ <div class="trouble-q">Buttons are too small to tap</div>
+ <div class="trouble-a">Apple's Human Interface Guidelines specify a minimum tap target of 44×44px. Add <code>min-height: 44px; padding: 12px 20px;</code> to all clickable buttons and links on mobile.</div>
+ </div>
+ <div class="trouble-item">
+ <div class="trouble-q">Text is readable on desktop but looks too small on phone</div>
+ <div class="trouble-a">Base body font should be at minimum 16px on mobile. Below 16px, iOS Safari automatically zooms in when users tap input fields, which breaks your layout. Use your media query to set <code>font-size: 16px</code> on body for mobile.</div>
+ </div>
+ </div>
+ </div>
+ <div class="ai-note">
+ 
+ <div><strong>AI was used for mobile fixes throughout:</strong> When a layout issue appeared on mobile (e.g., "the testimonials section has a gap on the right side on iPhone"), describing the problem to AI - including the relevant CSS and HTML - consistently produced the correct fix. AI is particularly fast at diagnosing overflow and flexbox issues.</div>
+ </div>
+ </div>
+</div>
+
+<!-- ════════════════════════════════════════════ MODULE 3 ═════════════════════ -->
+
+<div class="module" id="m3">
+ <div class="module-tag"><span class="dot green"></span>Module 03</div>
+ <h2>Setting Up a Backend Database</h2>
+ <p class="module-lead">A static HTML file can only show information that was written into it at build time. A database lets your site show information that changes - your current availability, a specific client's invoice, a booking confirmation. This module covers Supabase: a free, powerful database that your website can read from and write to in real time.</p>
+
+ <div class="section">
+ <div class="section-title">Do you actually need a database?</div>
+ <div class="concept-grid">
+ <div class="concept-box">
+ <div class="label">Without a database</div>
+ <div class="val">To update your availability, you edit the HTML file, commit, and push. Every change requires a new deployment. Clients see whatever was true when you last deployed - not what's true right now.</div>
+ </div>
+ <div class="concept-box">
+ <div class="label">With a database</div>
+ <div class="val">Your website reads live data every time a visitor loads it. You update your calendar, and the availability on your site updates automatically - no touching the HTML file at all.</div>
+ </div>
+ </div>
+ <p>If your website needs to show availability, process bookings, store client information, generate invoices, or display anything that changes more than once a month - you need a database. Everything from Module 4 onward depends on this.</p>
+ </div>
+
+ <div class="section">
+ <div class="section-title">Setting up Supabase</div>
+ <p>Supabase is an open-source Firebase alternative built on PostgreSQL. It gives you a database, a REST API to query it, a JavaScript client library, real-time subscriptions, authentication, and serverless functions - all on a free tier that is more than sufficient for a small business site.</p>
+ <div class="steps">
+ <div class="step"><span class="step-num"></span><div class="step-body">Go to <strong>supabase.com</strong>, create a free account, and click "New Project." Give it a name (your business name works), set a strong database password (save this somewhere secure - you'll need it if you ever connect via direct SQL), and choose the region geographically closest to you for minimum latency.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Wait 2-3 minutes for your project to be provisioned. Once the green "healthy" indicator appears, go to <strong>Settings → API</strong>. You'll see two keys:
+ <ul style="margin: 8px 0 0 18px; font-size: 13.5px; color: var(--ink2); line-height: 1.8;">
+ <li><strong>anon / public key</strong> - Safe to use in your HTML files. This key is controlled by Row Level Security (RLS) rules you set in Supabase. It can only read/write what you explicitly allow.</li>
+ <li><strong>service_role / secret key</strong> - Has full admin access to your database. Never, ever put this in an HTML file or commit it to GitHub. Only use it in serverless functions as an environment variable.</li>
+ </ul>
+ </div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Copy both keys to a secure note. You'll need the <code>anon</code> key in your frontend code and the <code>service_role</code> key when setting up Netlify Functions and Supabase Edge Functions.</div></div>
+ </div>
+ <div class="callout danger">
+ 
+ <div><strong>Never commit your service_role key to GitHub.</strong> The anon key is safe because it's governed by Row Level Security. The service_role key bypasses all security rules. If it gets into a public GitHub repo, someone can delete your entire database, read all your client data, and run arbitrary SQL. Store it only as an environment variable in Netlify and Supabase secrets.</div>
+ </div>
+ </div>
+
+ <div class="section">
+ <div class="section-title">Creating your first database table</div>
+ <p>Tables in Supabase work like spreadsheets. Each row is a record. Each column is a field. You design the structure - Supabase handles the storage, indexing, and API.</p>
+ <div class="steps">
+ <div class="step"><span class="step-num"></span><div class="step-body">In Supabase, go to <strong>Table Editor → New table</strong>. Name it descriptively in lowercase with underscores: <code>availability</code>, <code>invoices</code>, <code>bookings</code>, <code>contact_submissions</code>.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Every table automatically gets an <code>id</code> column (auto-incrementing integer or UUID). Add your columns based on what data you need. For each column, you'll choose a <strong>data type</strong>:
+ <table class="data-table" style="margin-top: 10px;">
+ <thead><tr><th>Type</th><th>Use for</th><th>Examples</th></tr></thead>
+ <tbody>
+ <tr><td><code>text</code></td><td>Any text/string</td><td>client name, email, notes</td></tr>
+ <tr><td><code>int4</code></td><td>Whole numbers</td><td>slot count, quantity, order number</td></tr>
+ <tr><td><code>numeric</code></td><td>Decimal numbers</td><td>price ($125.00), percentage</td></tr>
+ <tr><td><code>bool</code></td><td>True/false</td><td>is_paid, is_confirmed, is_active</td></tr>
+ <tr><td><code>date</code></td><td>Calendar dates</td><td>appointment_date, invoice_date</td></tr>
+ <tr><td><code>timestamptz</code></td><td>Date + time + timezone</td><td>created_at, updated_at, paid_at</td></tr>
+ </tbody>
+ </table>
+ </div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Enable <strong>Row Level Security (RLS)</strong> on every table (it's a toggle when creating the table). Then create policies that define who can read or write. For availability data that anyone can read: create a policy for <code>SELECT</code> that allows <code>anon</code> role with condition <code>true</code> (anyone can read). For writes, restrict to <code>service_role</code> only.</div></div>
+ </div>
+ <div class="troubleshoot">
+ <div class="troubleshoot-header"> Common Issues</div>
+ <div class="troubleshoot-body">
+ <div class="trouble-item">
+ <div class="trouble-q">API returns an empty array even though the table has data</div>
+ <div class="trouble-a">Row Level Security (RLS) is blocking the read. Go to Supabase → Authentication → Policies and make sure you have a SELECT policy on the table that allows the <code>anon</code> role. Alternatively, in Table Editor you can temporarily disable RLS to confirm this is the issue, then re-enable and add the policy.</div>
+ </div>
+ <div class="trouble-item">
+ <div class="trouble-q">Supabase project is "paused" and not responding</div>
+ <div class="trouble-a">Free Supabase projects automatically pause after 7 days of inactivity (no API requests). Log into supabase.com, find your project, and click "Restore." It takes 1-2 minutes. To prevent this, make sure your cron job (Module 5) runs at least once a week - even a no-op request counts as activity.</div>
+ </div>
+ <div class="trouble-item">
+ <div class="trouble-q">I accidentally deleted a table with data in it</div>
+ <div class="trouble-a">Supabase does not provide point-in-time recovery on the free plan. Once a table is deleted, the data is gone. Paid plans include database backups. For a production site collecting real client data, the Pro plan ($25/month) is worth it for the backup protection alone.</div>
+ </div>
+ </div>
+ </div>
+ <div class="ai-note">
+ 
+ <div><strong>AI designed the table schemas.</strong> Rather than guessing which columns were needed and what types to use, the table structure for availability, invoices, and bookings was described to AI in plain English: "I need a table to track daily availability. Each day can have up to 3 bookings in morning, afternoon, or evening slots. I need to know the date and how many slots are taken in each time window." AI returned a complete table design with column names, types, and the rationale for each decision.</div>
+ </div>
+ </div>
+
+ <div class="section">
+ <div class="section-title">Supabase Edge Functions</div>
+ <p>Edge Functions are small server-side scripts (written in TypeScript) that run on Supabase's servers. They're for tasks that must happen on the backend - using your secret keys, calling external APIs, running scheduled jobs. Think of them as serverless functions that have automatic access to your Supabase database.</p>
+ <div class="steps">
+ <div class="step"><span class="step-num"></span><div class="step-body">Install the Supabase CLI. On Mac with Homebrew: <code>brew install supabase/tap/supabase</code>. On Windows: download from the GitHub releases page at <code>github.com/supabase/cli/releases</code>.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Log in: <code>supabase login</code>. This opens a browser window for authentication.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Link your local project to your Supabase project: <code>supabase link --project-ref your-project-id</code>. Find your project ID in Supabase → Settings → General.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Create a new function: <code>supabase functions new function-name</code>. This creates a <code>supabase/functions/function-name/index.ts</code> file.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Write your function logic in the TypeScript file. See Module 5 for the full calendar sync function.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Deploy: <code>supabase functions deploy function-name --no-verify-jwt</code>. The <code>--no-verify-jwt</code> flag is required if you're calling this function from a cron job or external service rather than from an authenticated user session.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Set any secrets the function needs: <code>supabase secrets set CALENDAR_REFRESH_TOKEN=your-token-here</code>. Secrets are environment variables available inside the function as <code>Deno.env.get('CALENDAR_REFRESH_TOKEN')</code>.</div></div>
+ </div>
+ <div class="troubleshoot">
+ <div class="troubleshoot-header"> Common Issues</div>
+ <div class="troubleshoot-body">
+ <div class="trouble-item">
+ <div class="trouble-q">"supabase: command not found" after installing on Mac</div>
+ <div class="trouble-a">The Homebrew binary path isn't in your shell's PATH. Run <code>echo 'export PATH="/opt/homebrew/bin:$PATH"' >> ~/.zshrc && source ~/.zshrc</code> (for Zsh, which is the default on modern Macs) and try again.</div>
+ </div>
+ <div class="trouble-item">
+ <div class="trouble-q">Function deploys but returns a 500 error when called</div>
+ <div class="trouble-a">Check the function logs: Supabase → Edge Functions → your function → Logs. The error details will tell you exactly what line failed and why. Common causes: a missing secret (typo in the secret name), a JSON parse error on an API response, or an incorrect Supabase database query.</div>
+ </div>
+ <div class="trouble-item">
+ <div class="trouble-q">"JWT verification failed" error</div>
+ <div class="trouble-a">You're calling a function that requires a user JWT token, but you're calling it without one. Either redeploy with <code>--no-verify-jwt</code> if the function should be publicly callable (like from a cron job), or pass the correct authorization header if it should require authentication.</div>
+ </div>
+ </div>
+ </div>
+ </div>
+</div>
+
+<!-- ════════════════════════════════════════════ MODULE 4 ═════════════════════ -->
+
+<div class="module" id="m4">
+ <div class="module-tag"><span class="dot green"></span>Module 04</div>
+ <h2>Live Availability Display</h2>
+ <p class="module-lead">This module builds the system that shows your real-time availability on your public website - a calendar grid where visitors can see which days and time slots are open, filling up, or fully booked. The display reads from your Supabase database and updates automatically when your calendar syncs.</p>
+
+ <div class="section">
+ <div class="section-title">How the system is designed</div>
+ <p>There are three connected parts:</p>
+ <div class="steps">
+ <div class="step"><span class="step-num"></span><div class="step-body"><strong>The database table</strong> - stores a row for each date with slot counts (morning, afternoon, evening). A date with no row means all slots are fully open.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body"><strong>The sync function</strong> - reads your actual calendar (covered in Module 5), counts booked slots per day, and writes those counts to the database once per hour.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body"><strong>The frontend display</strong> - when a visitor loads your website, JavaScript fetches the next 30 days of data from Supabase and renders a color-coded availability calendar.</div></div>
+ </div>
+ <p>You set a maximum number of bookings per slot (e.g., 3). The frontend compares the count to the max and assigns a status: open, filling up, or unavailable.</p>
+ </div>
+
+ <div class="section">
+ <div class="section-title">Fetching availability from your website</div>
+ <p>Your frontend HTML calls Supabase's REST API directly using the browser's built-in <code>fetch()</code> function. No library required. The anon key is safe to include here because your Row Level Security policy only allows reads.</p>
+ <div class="code-block"><span class="kw">const</span> SUPABASE_URL = <span class="str">'https://yourprojectid.supabase.co'</span>;
+<span class="kw">const</span> SUPABASE_ANON_KEY = <span class="str">'your-anon-key-here'</span>;
+<span class="kw">const</span> MAX_PER_SLOT = 3; <span class="cmt">// adjust to your capacity</span>
+
+<span class="kw">async function</span> <span class="fn">loadAvailability</span>() {
+ <span class="kw">const</span> today = <span class="kw">new</span> Date().toISOString().slice(0, 10); <span class="cmt">// "2024-03-15"</span>
+
+ <span class="kw">const</span> response = <span class="kw">await</span> fetch(
+ `${SUPABASE_URL}/rest/v1/availability?date=gte.${today}&order=date.asc&limit=30`,
+ {
+ headers: {
+ <span class="str">'apikey'</span>: SUPABASE_ANON_KEY,
+ <span class="str">'Authorization'</span>: `Bearer ${SUPABASE_ANON_KEY}`
+ }
+ }
+ );
+
+ <span class="kw">if</span> (!response.ok) {
+ console.error(<span class="str">'Failed to load availability:'</span>, response.status);
+ <span class="kw">return</span>;
+ }
+
+ <span class="kw">const</span> data = <span class="kw">await</span> response.json();
+ renderAvailabilityCalendar(data);
+}</div>
+ <div class="callout note">
+ 
+ <div><strong>Why include both <code>apikey</code> and <code>Authorization</code> headers?</strong> Supabase requires both. The <code>apikey</code> header identifies your project. The <code>Authorization: Bearer</code> header is the authentication token. For public/anon requests they're the same value - the anon key.</div>
+ </div>
+ </div>
+
+ <div class="section">
+ <div class="section-title">Rendering the availability grid</div>
+ <div class="code-block"><span class="kw">function</span> <span class="fn">renderAvailabilityCalendar</span>(dbRows) {
+ <span class="kw">const</span> container = document.getElementById(<span class="str">'availability-grid'</span>);
+ container.innerHTML = <span class="str">''</span>;
+
+ <span class="cmt">// Build a quick lookup: { "2024-03-15": { morning: 2, afternoon: 1, ... } }</span>
+ <span class="kw">const</span> lookup = {};
+ dbRows.forEach(row => lookup[row.date] = row);
+
+ <span class="cmt">// Generate cards for the next 30 days</span>
+ <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; 30; i++) {
+ <span class="kw">const</span> date = <span class="kw">new</span> Date();
+ date.setDate(date.getDate() + i);
+ <span class="kw">const</span> dateStr = date.toISOString().slice(0, 10);
+ <span class="kw">const</span> row = lookup[dateStr] || {}; <span class="cmt">// No row = all open</span>
+
+ <span class="kw">const</span> slots = [<span class="str">'morning'</span>, <span class="str">'afternoon'</span>, <span class="str">'evening'</span>];
+ <span class="kw">const</span> card = document.createElement(<span class="str">'div'</span>);
+ card.className = <span class="str">'availability-card'</span>;
+
+ card.innerHTML = `
+ &lt;div class="date-label"&gt;
+ &lt;span class="day"&gt;${date.toLocaleDateString('en-US', {weekday:'short'})}&lt;/span&gt;
+ &lt;span class="num"&gt;${date.getDate()}&lt;/span&gt;
+ &lt;/div&gt;
+ &lt;div class="slots"&gt;
+ ${slots.map(slot => {
+ const count = row[slot] || 0;
+ const status = count >= MAX_PER_SLOT ? 'full'
+ : count >= MAX_PER_SLOT - 1 ? 'limited'
+ : 'open';
+ const labels = { open: 'Open', limited: 'Limited', full: 'Full' };
+ return `&lt;span class="slot ${status}"&gt;${slot.charAt(0).toUpperCase() + slot.slice(1)}: ${labels[status]}&lt;/span&gt;`;
+ }).join('')}
+ &lt;/div&gt;
+ `;
+ container.appendChild(card);
+ }
+}</div>
+ <div class="troubleshoot">
+ <div class="troubleshoot-header"> Common Issues</div>
+ <div class="troubleshoot-body">
+ <div class="trouble-item">
+ <div class="trouble-q">All slots show as "Open" even when I have bookings</div>
+ <div class="trouble-a">The sync function (Module 5) hasn't run yet, or ran with an error. Check the Supabase Edge Function logs. If the function ran successfully but the counts are still wrong, verify the event titles in your calendar include the slot keywords you defined (e.g., "Morning", "Afternoon"). Case sensitivity matters - make the comparison case-insensitive in your sync function.</div>
+ </div>
+ <div class="trouble-item">
+ <div class="trouble-q">The date offset shows yesterday's date as the first day</div>
+ <div class="trouble-a">This is a timezone issue. <code>new Date()</code> uses the browser's local time, but <code>.toISOString()</code> converts to UTC. If you're in a timezone behind UTC (like US Eastern, GMT-5), midnight local time is 5am UTC, so the ISO date string for today might still show yesterday's date. Fix: build the date string from local year/month/day: <code>const today = `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`</code></div>
+ </div>
+ </div>
+ </div>
+ </div>
+</div>
+
+<!-- ════════════════════════════════════════════ MODULE 5 ═════════════════════ -->
+
+<div class="module" id="m5">
+ <div class="module-tag"><span class="dot"></span>Module 05</div>
+ <h2>Deploying & Going Live</h2>
+ <p class="module-lead">The final module covers connecting your custom domain, switching payments to live mode, and a complete pre-launch checklist. Going live isn't one action - it's a sequence of steps in the right order, with verification at each one. Do it right and you deploy with confidence.</p>
+
+ <div class="section">
+ <div class="section-title">Connecting a custom domain</div>
+ <div class="steps">
+ <div class="step"><span class="step-num"></span><div class="step-body">In Netlify, go to your site → <strong>Site configuration → Domain management → Add custom domain</strong>. Enter your domain name (e.g., <code>yourbusiness.com</code>).</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Netlify will ask if you want to use Netlify DNS or your existing DNS provider. <strong>Using Netlify DNS is simpler</strong> - Netlify gives you nameservers to point your domain at. Log into your domain registrar and update the nameservers to Netlify's.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">If you prefer to keep your existing DNS (e.g., because you have other services like Google Workspace running from it), add a CNAME record instead: <code>www</code> pointing to your Netlify site URL. For the root domain (<code>yourbusiness.com</code> without www), add an A record or ALIAS record to Netlify's load balancer IP.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Once DNS propagates (typically 15 minutes to 1 hour with Netlify DNS, up to 48 hours for nameserver changes), Netlify automatically provisions a free SSL certificate from Let's Encrypt. Your site will be available at <code>https://yourbusiness.com</code>.</div></div>
+ </div>
+ <div class="troubleshoot">
+ <div class="troubleshoot-header"> Common Issues</div>
+ <div class="troubleshoot-body">
+ <div class="trouble-item">
+ <div class="trouble-q">SSL certificate shows "not secure" in browser after domain connected</div>
+ <div class="trouble-a">Wait. Let's Encrypt certificate provisioning takes a few minutes after DNS resolves. If the padlock isn't showing after 30+ minutes, check Netlify → Domain management - it will show SSL certificate status. If it shows "Awaiting external DNS," your DNS hasn't fully propagated yet.</div>
+ </div>
+ <div class="trouble-item">
+ <div class="trouble-q">Site loads at www.yourdomain.com but not at yourdomain.com (or vice versa)</div>
+ <div class="trouble-a">Set up a redirect in Netlify: Domain management → add your www and non-www versions, then set one as the primary and configure Netlify to redirect the other. Alternatively, add both as custom domains and Netlify handles the redirect.</div>
+ </div>
+ </div>
+ </div>
+ </div>
+
+ <div class="section">
+ <div class="section-title">Switching Stripe to live mode</div>
+ <div class="steps">
+ <div class="step"><span class="step-num"></span><div class="step-body">In Stripe, click the <strong>Test / Live toggle</strong> in the top-left of the dashboard to switch to Live mode. Get your live API keys from Developers → API keys.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Update <code>STRIPE_SECRET_KEY</code> in Netlify environment variables with your live secret key (<code>sk_live_...</code>). Trigger a new deploy after updating (Netlify → Deploys → Trigger deploy).</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Update the publishable key in your invoice HTML from <code>pk_test_...</code> to <code>pk_live_...</code>. Commit and push.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body"><strong>Run a real test transaction.</strong> Create an invoice for $1.00, pay it with an actual card, and immediately issue a full refund in Stripe. Verify the payment appears in your Stripe live dashboard, the invoice is marked paid in Supabase, and the notification email arrives. Do not skip this step.</div></div>
+ </div>
+ <div class="callout warn">
+ 
+ <div><strong>Stripe requires identity verification before live mode is active.</strong> If you haven't completed the business/identity verification steps in your Stripe account settings, payments will process in live mode but payouts to your bank will be on hold. Complete verification as soon as you create your Stripe account, not at the last minute before launch.</div>
+ </div>
+ </div>
+
+ <div class="section">
+ <div class="section-title">Pre-launch checklist</div>
+ <div class="callout note">
+ 
+ <div>Go through every item on this checklist before sharing your URL publicly. Fixing issues after clients have already visited is harder - and occasionally embarrassing.</div>
+ </div>
+ <table class="data-table">
+ <thead><tr><th>What to check</th><th>How to verify</th><th>Status</th></tr></thead>
+ <tbody>
+ <tr><td>All Netlify environment variables set</td><td>Netlify → Site configuration → Environment variables. Count them: STRIPE_SECRET_KEY, RESEND_API_KEY, OWNER_EMAIL, SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY</td><td></td></tr>
+ <tr><td>Supabase Edge Function secrets set</td><td>Terminal: <code>supabase secrets list</code></td><td></td></tr>
+ <tr><td>Cron job running and logging</td><td>Supabase SQL: <code>select * from cron.job_run_details order by start_time desc limit 5;</code></td><td></td></tr>
+ <tr><td>Custom domain connected with HTTPS</td><td>Visit site - green padlock in browser, URL shows https://</td><td></td></tr>
+ <tr><td>Availability display is loading correctly</td><td>Add a test calendar event with a slot keyword, wait for sync, check the website</td><td></td></tr>
+ <tr><td>Mobile layout verified on a real phone</td><td>Open the live URL on your actual phone, test all sections and the booking form</td><td></td></tr>
+ 
+ <tr><td>Contact/booking form submissions save correctly</td><td>Submit a test inquiry and verify it appears in your database</td><td></td></tr>
+ <tr><td>No console errors on any page</td><td>F12 in Chrome on each page - Console tab should show no red errors</td><td></td></tr>
+ <tr><td>Page title and meta description set</td><td>View page source, find <code>&lt;title&gt;</code> and <code>&lt;meta name="description"&gt;</code></td><td></td></tr>
+ </tbody>
+ </table>
+ </div>
+
+ <div class="section">
+ <div class="section-title">Ongoing maintenance</div>
+ <div class="steps">
+ <div class="step"><span class="step-num"></span><div class="step-body"><strong>OAuth refresh tokens expire.</strong> Zoho tokens can expire after months of inactivity or when permissions change. If your availability sync suddenly stops working, this is the most likely cause. Re-run the OAuth flow, generate a new refresh token, and update it with <code>supabase secrets set ZOHO_REFRESH_TOKEN=new-token</code>. The fix takes under 5 minutes once you know the process.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body"><strong>Supabase projects pause after 7 days of inactivity</strong> on the free tier. If your database-dependent features suddenly stop working, log into Supabase and restore the project. Having an active cron job (Module 5) prevents this - any API call counts as activity. Alternatively, upgrade to the Pro plan ($25/month) to disable auto-pausing.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body"><strong>Monitor Netlify build minutes.</strong> You get 300 per month on the free plan. If you're frequently pushing small changes, consolidate your edits and push once. Check usage under Netlify → Team settings → Billing.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body"><strong>Stripe payout delays.</strong> For new Stripe accounts, the first few payouts have a 7-day delay. This normalizes over time. You can check payout schedules and history in Stripe → Balance → Payouts.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body"><strong>Firebase security rules.</strong> If you launched with test mode rules (allow all reads/writes), set proper production rules before you have significant client data. At minimum, require authentication for writes and restrict reads to authenticated users.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body"><strong>Keep an eye on free tier limits.</strong> All the services used here have generous free tiers, but they're not unlimited. If your business grows significantly, you'll eventually need to upgrade. Stripe is the only service with variable cost (2.9% + $0.30 per transaction) - all others are flat tiers.</div></div>
+ </div>
+ </div>
+
+ <div class="section">
+ <div class="section-title">Total cost summary</div>
+ <table class="data-table">
+ <thead><tr><th>Service</th><th>What it does</th><th>Cost</th></tr></thead>
+ <tbody>
+ <tr><td>GitHub</td><td>Code storage and version control</td><td><span class="badge free">Free</span></td></tr>
+ <tr><td>Netlify</td><td>Hosting + serverless functions</td><td><span class="badge free">Free (300 builds/mo)</span></td></tr>
+ <tr><td>Supabase</td><td>Availability database + Edge Functions + cron</td><td><span class="badge free">Free (pauses after 7d inactivity)</span></td></tr>
+ <tr><td>Firebase</td><td>Real-time client database</td><td><span class="badge free">Free (50k reads/day)</span></td></tr>
+ <tr><td>Stripe</td><td>Payment processing</td><td><span class="badge paid">2.9% + $0.30 per transaction</span></td></tr>
+ <tr><td>Resend</td><td>Email API</td><td><span class="badge free">Free (3,000 emails/mo)</span></td></tr>
+ <tr><td>Google Fonts</td><td>Web typography</td><td><span class="badge free">Free</span></td></tr>
+ <tr><td>Claude / ChatGPT</td><td>AI coding assistant throughout</td><td><span class="badge free">Free tier available</span></td></tr>
+ <tr><td>Custom domain</td><td>Your branded URL</td><td><span class="badge paid">~$10-15/year</span></td></tr>
+ </tbody>
+ </table>
+ <p style="margin-top: 14px;">At the end of this build, your monthly infrastructure cost is <strong>$0</strong> plus Stripe's per-transaction fee on actual payments received. The only mandatory annual cost is your domain name - roughly a dollar a month.</p>
+ </div>
+
+ <div class="section">
+ <div class="section-title">An honest summary of AI's role in this build</div>
+ <div class="concept-grid">
+ <div class="concept-box">
+ <div class="label">AI wrote</div>
+ <div class="val">All HTML, CSS, JavaScript, TypeScript, Python, and SQL. Every API integration, Edge Function, Netlify Function, and database schema. All error fixes. Essentially: any time code needed to exist that didn't exist before, AI wrote the first draft.</div>
+ </div>
+ <div class="concept-box">
+ <div class="label">AI explained</div>
+ <div class="val">Every concept that wasn't understood - OAuth2 flows, Firestore subcollections, Stripe's cents-based amounts, DNS record types, CORS headers, cron syntax. Instead of reading documentation, any confusing term or error could be explained in plain English, instantly, in the context of the actual code being built.</div>
+ </div>
+ <div class="concept-box">
+ <div class="label">Humans decided</div>
+ <div class="val">What the business needs. Which features to build. What the site should look like and say. How to price services. What client information matters. Which problems were worth solving. None of these decisions can be delegated to AI - they require understanding the actual business.</div>
+ </div>
+ <div class="concept-box">
+ <div class="label">Humans tested</div>
+ <div class="val">Every feature on the live site. AI can review code for obvious bugs, but it cannot load your URL on a phone and tap through the booking form. Real-world testing caught issues that no code review would have found - including a mobile layout that broke only on a specific iPhone model and screen size.</div>
+ </div>
+ </div>
+ <div class="callout tip" style="margin-top: 20px;">
+ 
+ <div><strong>The shift this represents:</strong> Building this entire system used to require a developer with 3-5 years of experience and would cost $8,000-$25,000 to commission. With AI as a coding assistant, a non-developer with time, patience, and willingness to learn as they go can build the same thing for the cost of a domain name. The skill being exercised isn't knowing how to code - it's knowing how to describe what you want clearly, test whether it works, and debug what doesn't by communicating the problem accurately.</div>
+ </div>
+ </div>
+</div>
+</div>
+<div id="addon1">
+<div style="margin:64px 0 40px;padding:28px 32px;background:var(--bg3);border-radius:8px;border-left:4px solid var(--accent);">
+  <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--text4);margin-bottom:8px;">Guide 2 of 5</div>
+  <div style="font-family:'Source Serif 4',serif;font-size:26px;font-weight:700;color:var(--text);margin-bottom:4px;letter-spacing:-0.01em;">Calendar Sync Automation</div>
+  <div style="font-size:13.5px;color:var(--text3);font-weight:300;">Add-on 01 - OAuth2, Supabase Edge Functions, pg_cron scheduler</div>
+</div>
+<div class="prereq"><strong>Prerequisites:</strong> Requires the core guide. GitHub, Netlify, and Supabase should already be set up.</div>
+<div class="module" id="a1-m1">
+ <div class="module-tag"><span class="dot purple"></span>Module 01</div>
+ <h2>Calendar Sync Automation</h2>
+ <p class="module-lead">This is the most technically complex part of the build - connecting your actual calendar to your website so that when you add a booking to your calendar, your website's availability display updates automatically within the hour. No manual updates, no double entry. This module covers OAuth2 authentication, the sync script itself, and setting up an automated hourly cron job.</p>
+
+ <div class="section">
+ <div class="section-title">The complete sync flow</div>
+ <p>Here's what happens end to end, every hour:</p>
+ <div class="steps">
+ <div class="step"><span class="step-num"></span><div class="step-body">A cron job fires a request to your Supabase Edge Function (the sync script).</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">The function uses your stored refresh token to get a fresh access token from your calendar provider (Zoho, Google, etc.).</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">It fetches all calendar events for the next 30 days.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">It reads each event's title to determine which slot it occupies (morning / afternoon / evening).</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">It counts how many events fall in each slot for each date.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">It upserts (insert or update) those counts into your Supabase availability table.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Your website reads the updated data the next time a visitor loads the availability section.</div></div>
+ </div>
+ <div class="callout tip">
+ 
+ <div><strong>Naming your calendar events:</strong> The sync script identifies which time slot a booking belongs to by reading the event title. You need to include the slot name in the title consistently: "Window Cleaning - Morning," "Deep Clean - Afternoon," "Move-Out Clean - Evening." You choose the keywords - just use them consistently on every event you want tracked.</div>
+ </div>
+ </div>
+
+ <div class="section">
+ <div class="section-title">OAuth2 - Getting calendar access</div>
+ <p>OAuth2 is the authentication standard that lets your application access your calendar on your behalf, without storing your password. You do a one-time setup to generate a <em>refresh token</em>. Your sync script uses that refresh token to silently get a fresh <em>access token</em> (which expires hourly) whenever it needs to read your calendar.</p>
+ <div class="steps">
+ <div class="step"><span class="step-num"></span><div class="step-body"><strong>For Zoho Calendar:</strong> Log into Zoho Developer Console at <code>api-console.zoho.com</code>. Click "Add Client" and select "Self Client" (this is for scripts that access your own data, not other users' data). Note your Client ID and Client Secret.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body"><strong>For Google Calendar:</strong> Go to Google Cloud Console at <code>console.cloud.google.com</code>. Create a project, enable the Google Calendar API, and create OAuth2 credentials. Download the credentials JSON file.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Generate an authorization code. For Zoho, in the Self Client console, request a code with scope <code>ZohoCalendar.event.READ</code>. This code expires in 1-3 minutes. For Google, run a local OAuth flow to get the refresh token (AI can generate this script for you).</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Exchange the short-lived code for a refresh token. Run this script immediately after getting the code:
+ <div class="code-block"><span class="cmt"># Python script - run this once to get your refresh token</span>
+import requests
+
+CLIENT_ID = "your_client_id"
+CLIENT_SECRET = "your_client_secret"
+AUTH_CODE = "the_code_you_just_got" <span class="cmt"># Expires in ~1 minute!</span>
+
+response = requests.post("https://accounts.zoho.com/oauth/v2/token", data={
+ "grant_type": "authorization_code",
+ "client_id": CLIENT_ID,
+ "client_secret": CLIENT_SECRET,
+ "redirect_uri": "https://localhost", <span class="cmt"># Must match what you set in console</span>
+ "code": AUTH_CODE
+})
+
+print(response.json()) <span class="cmt"># Copy the "refresh_token" value</span></div>
+ </div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Copy the <code>refresh_token</code> from the response. Store it as a Supabase secret: <code>supabase secrets set ZOHO_REFRESH_TOKEN=your-token-value</code>. Also store the client credentials: <code>supabase secrets set ZOHO_CLIENT_ID=xxx</code> and <code>supabase secrets set ZOHO_CLIENT_SECRET=xxx</code>.</div></div>
+ </div>
+ <div class="troubleshoot">
+ <div class="troubleshoot-header"> Common Issues - OAuth2 is the #1 Source of Problems</div>
+ <div class="troubleshoot-body">
+ <div class="trouble-item">
+ <div class="trouble-q">"invalid_code" or "code expired" error when exchanging for refresh token</div>
+ <div class="trouble-a">The authorization code expired before you could use it. They're valid for 60-180 seconds. Have your token exchange script ready to run before you generate the code. Copy the code, immediately switch windows, paste it, and run the script. Don't take any breaks in between.</div>
+ </div>
+ <div class="trouble-item">
+ <div class="trouble-q">"redirect_uri_mismatch" error</div>
+ <div class="trouble-a">The redirect_uri in your token exchange request must exactly match what you registered in the developer console - including the protocol (https vs http), trailing slash, and any path. <code>https://localhost</code> and <code>http://localhost</code> are different. Check for exact character-by-character match.</div>
+ </div>
+ <div class="trouble-item">
+ <div class="trouble-q">Refresh token stops working after a few months</div>
+ <div class="trouble-a">Zoho refresh tokens are typically long-lived but can expire after extended periods of inactivity (often 6 months to 1 year) or if you revoke app permissions. Google refresh tokens can expire if the OAuth consent screen is in "testing" mode with unverified status. If your availability sync suddenly stops, this is the first thing to check. Re-run the token generation process and update the Supabase secret.</div>
+ </div>
+ <div class="trouble-item">
+ <div class="trouble-q">"insufficient_scope" error when fetching calendar events</div>
+ <div class="trouble-a">The scope you requested when generating the authorization code doesn't include the permission to read events. For Zoho, make sure you requested <code>ZohoCalendar.event.READ</code>. For Google, make sure you included <code>https://www.googleapis.com/auth/calendar.readonly</code>. You'll need to generate a new authorization code and refresh token with the correct scope.</div>
+ </div>
+ </div>
+ </div>
+ <div class="ai-note">
+ 
+ <div><strong>AI wrote the OAuth token exchange script.</strong> OAuth2 documentation is dense and inconsistent between providers. AI was given the task: "Write a Python script that exchanges a Zoho OAuth authorization code for a refresh token. The client ID is [x], client secret is [y]. The redirect URI I registered is https://localhost." It produced working code on the first try. When the "invalid_parameter" error appeared (Zoho expects the date range in a specific JSON string format, not URL parameters), pasting the exact error response into AI produced the corrected request format immediately.</div>
+ </div>
+ </div>
+
+ <div class="section">
+ <div class="section-title">The sync script (Edge Function)</div>
+ <div class="code-block"><span class="cmt">// supabase/functions/sync-availability/index.ts</span>
+<span class="cmt">// Deployed with: supabase functions deploy sync-availability --no-verify-jwt</span>
+
+<span class="kw">import</span> { createClient } <span class="kw">from</span> <span class="str">'https://esm.sh/@supabase/supabase-js@2'</span>
+
+<span class="kw">const</span> MAX_PER_SLOT = 3;
+<span class="kw">const</span> SLOT_KEYWORDS: Record&lt;string, string[]&gt; = {
+ morning: [<span class="str">'morning'</span>, <span class="str">'am'</span>, <span class="str">'a.m.'</span>],
+ afternoon: [<span class="str">'afternoon'</span>, <span class="str">'pm'</span>, <span class="str">'p.m.'</span>],
+ evening: [<span class="str">'evening'</span>, <span class="str">'night'</span>, <span class="str">'eve'</span>]
+};
+
+Deno.serve(<span class="kw">async</span> () => {
+ <span class="cmt">// 1. Get fresh access token using refresh token</span>
+ <span class="kw">const</span> tokenRes = <span class="kw">await</span> fetch(<span class="str">'https://accounts.zoho.com/oauth/v2/token'</span>, {
+ method: <span class="str">'POST'</span>,
+ headers: { <span class="str">'Content-Type'</span>: <span class="str">'application/x-www-form-urlencoded'</span> },
+ body: <span class="kw">new</span> URLSearchParams({
+ grant_type: <span class="str">'refresh_token'</span>,
+ refresh_token: Deno.env.get(<span class="str">'ZOHO_REFRESH_TOKEN'</span>)!,
+ client_id: Deno.env.get(<span class="str">'ZOHO_CLIENT_ID'</span>)!,
+ client_secret: Deno.env.get(<span class="str">'ZOHO_CLIENT_SECRET'</span>)!
+ })
+ });
+ <span class="kw">const</span> { access_token } = <span class="kw">await</span> tokenRes.json();
+
+ <span class="cmt">// 2. Fetch calendar events for next 30 days</span>
+ <span class="kw">const</span> now = <span class="kw">new</span> Date();
+ <span class="kw">const</span> future = <span class="kw">new</span> Date();
+ future.setDate(future.getDate() + 30);
+
+ <span class="cmt">// Zoho requires this specific JSON string format for date ranges</span>
+ <span class="kw">const</span> range = JSON.stringify({
+ start: now.toISOString().replace(<span class="str">'T'</span>, <span class="str">' '</span>).slice(0,19),
+ end: future.toISOString().replace(<span class="str">'T'</span>, <span class="str">' '</span>).slice(0,19)
+ });
+
+ <span class="kw">const</span> calRes = <span class="kw">await</span> fetch(
+ `https://calendar.zoho.com/api/v1/calendars/${Deno.env.get('ZOHO_CALENDAR_ID')}/events?range=${encodeURIComponent(range)}`,
+ { headers: { <span class="str">'Authorization'</span>: `Zoho-oauthtoken ${access_token}` } }
+ );
+ <span class="kw">const</span> { events } = <span class="kw">await</span> calRes.json();
+
+ <span class="cmt">// 3. Count slots per date</span>
+ <span class="kw">const</span> counts: Record&lt;string, Record&lt;string, number&gt;&gt; = {};
+
+ <span class="kw">for</span> (<span class="kw">const</span> event <span class="kw">of</span> events ?? []) {
+ <span class="kw">const</span> date = event.dateandtime?.start?.slice(0, 10);
+ <span class="kw">const</span> title = (event.title ?? <span class="str">''</span>).toLowerCase();
+ <span class="kw">if</span> (!date) <span class="kw">continue</span>;
+
+ <span class="kw">const</span> slot = Object.entries(SLOT_KEYWORDS).find(
+ ([_, keywords]) => keywords.some(k => title.includes(k))
+ )?.[0];
+ <span class="kw">if</span> (!slot) <span class="kw">continue</span>;
+
+ <span class="kw">if</span> (!counts[date]) counts[date] = {};
+ counts[date][slot] = Math.min((counts[date][slot] ?? 0) + 1, MAX_PER_SLOT);
+ }
+
+ <span class="cmt">// 4. Write to Supabase</span>
+ <span class="kw">const</span> supabase = createClient(
+ Deno.env.get(<span class="str">'SUPABASE_URL'</span>)!,
+ Deno.env.get(<span class="str">'SUPABASE_SERVICE_ROLE_KEY'</span>)!
+ );
+
+ <span class="kw">for</span> (<span class="kw">const</span> [date, slots] <span class="kw">of</span> Object.entries(counts)) {
+ <span class="kw">const</span> { error } = <span class="kw">await</span> supabase
+ .from(<span class="str">'availability'</span>)
+ .upsert({ date, ...slots }, { onConflict: <span class="str">'date'</span> });
+ <span class="kw">if</span> (error) console.error(<span class="str">`Upsert failed for ${date}:`</span>, error);
+ }
+
+ <span class="kw">return new</span> Response(<span class="str">'Sync complete'</span>, { status: 200 });
+});</div>
+ </div>
+
+ <div class="section">
+ <div class="section-title">Scheduling the sync with a cron job</div>
+ <p>Supabase has a built-in cron scheduler via the <code>pg_cron</code> PostgreSQL extension. You run this SQL once in the Supabase SQL Editor and it schedules the sync forever - no external service, no additional cost.</p>
+ <div class="code-block"><span class="cmt">-- Run this in Supabase → SQL Editor → New Query</span>
+
+<span class="cmt">-- Enable the required extensions first</span>
+create extension if not exists pg_cron;
+create extension if not exists pg_net;
+
+<span class="cmt">-- Schedule the sync to run at the top of every hour</span>
+select cron.schedule(
+ <span class="str">'sync-availability-hourly'</span>, <span class="cmt">-- job name (must be unique)</span>
+ <span class="str">'0 * * * *'</span>, <span class="cmt">-- cron expression: minute hour day month weekday</span>
+ $$
+ select net.http_post(
+ url := <span class="str">'https://yourprojectid.supabase.co/functions/v1/sync-availability'</span>,
+ headers := <span class="str">'{}'</span>::jsonb,
+ body := <span class="str">'{}'</span>::jsonb
+ ) as request_id;
+ $$
+);
+
+<span class="cmt">-- Verify it was created:</span>
+select * from cron.job;</div>
+ <div class="troubleshoot">
+ <div class="troubleshoot-header"> Common Issues</div>
+ <div class="troubleshoot-body">
+ <div class="trouble-item">
+ <div class="trouble-q">"extension pg_cron does not exist"</div>
+ <div class="trouble-a">pg_cron is a Supabase extension that must be enabled first. Go to Supabase → Database → Extensions, search for "pg_cron," and toggle it on. Then re-run the SQL.</div>
+ </div>
+ <div class="trouble-item">
+ <div class="trouble-q">Cron job is listed but the sync never runs</div>
+ <div class="trouble-a">Check <code>select * from cron.job_run_details order by start_time desc limit 10;</code> to see recent executions. If runs appear but fail, look at the <code>return_message</code> column. If no runs appear at all, verify the cron expression is correct - <code>0 * * * *</code> runs at minute 0 of every hour. You can test immediately with <code>select cron.run_job('sync-availability-hourly');</code></div>
+ </div>
+ <div class="trouble-item">
+ <div class="trouble-q">Cron job runs but returns a "JWT verification failed" error</div>
+ <div class="trouble-a">The function was deployed without the <code>--no-verify-jwt</code> flag. The cron job doesn't have a user JWT to pass, so the function rejects it. Redeploy the function: <code>supabase functions deploy sync-availability --no-verify-jwt</code></div>
+ </div>
+ <div class="trouble-item">
+ <div class="trouble-q">JSON parse error - "invalid input syntax for type json"</div>
+ <div class="trouble-a">This happened during the build when a JWT token that was embedded in the SQL headers string contained a hidden newline character, breaking the JSON syntax. The fix: use empty headers <code>'{}'::jsonb</code> in the HTTP call (as shown in the code above) and rely on the <code>--no-verify-jwt</code> deployment flag instead of passing a JWT header. This is both cleaner and avoids the issue entirely.</div>
+ </div>
+ </div>
+ </div>
+ </div>
+</div>
+</div>
+<div id="addon2">
+<div style="margin:64px 0 40px;padding:28px 32px;background:var(--bg3);border-radius:8px;border-left:4px solid var(--accent);">
+  <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--text4);margin-bottom:8px;">Guide 3 of 5</div>
+  <div style="font-family:'Source Serif 4',serif;font-size:26px;font-weight:700;color:var(--text);margin-bottom:4px;letter-spacing:-0.01em;">Online Invoice & Payments</div>
+  <div style="font-size:13.5px;color:var(--text3);font-weight:300;">Add-on 02 - Stripe, Netlify Functions, Resend email API</div>
+</div>
+<div class="prereq"><strong>Prerequisites:</strong> Requires the core guide. Netlify Functions are introduced here for the first time.</div>
+<div class="module" id="a2-m1">
+ <div class="module-tag"><span class="dot"></span>Module 01</div>
+ <h2>Online Invoice & Payment System</h2>
+ <p class="module-lead">This module builds an end-to-end invoicing system: you create invoices in an admin view, clients receive a link to a payment page, they pay with a credit card, and you get an email confirmation. No third-party invoicing app, no monthly subscription. Just your website, Netlify Functions for the backend, and Stripe for payment processing.</p>
+
+ <div class="section">
+ <div class="section-title">How the payment flow works</div>
+ <div class="steps">
+ <div class="step"><span class="step-num"></span><div class="step-body"><strong>You</strong> open the admin view and create an invoice: client name, service description, and amount. The invoice is saved to your database with a unique ID and a status of "unpaid."</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body"><strong>You</strong> copy the invoice link (e.g., <code>yourdomain.com/invoice.html?id=INV-1042</code>) and send it to the client by email or text.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body"><strong>The client</strong> opens the link, sees their invoice with the amount due, and clicks "Pay Now." Your frontend calls a Netlify Function to create a Stripe Payment Intent.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body"><strong>Stripe</strong> handles the card input securely (via Stripe Elements). No card data ever touches your servers. Stripe processes the payment.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body"><strong>On success</strong>, your Netlify confirmation function marks the invoice as paid in Supabase and sends you a notification email via Resend. The client sees a success screen.</div></div>
+ </div>
+ <div class="ai-note">
+ 
+ <div><strong>The entire invoicing system was designed and written by AI.</strong> The HTML invoice page, all three Netlify Functions, the Stripe integration, and the database schema were all generated through conversation with Claude. A bug was also caught during testing - a price calculation function was referencing the wrong dropdown element. Running a code review pass with AI ("review this JavaScript function for bugs, especially in how it reads the form values") identified the error before it could affect real payments.</div>
+ </div>
+ </div>
+
+ <div class="section">
+ <div class="section-title">Netlify Functions - Your backend</div>
+ <p>Netlify Functions are small Node.js scripts that run on Netlify's servers when called by your frontend. They're the right place for any code that uses secret API keys - Stripe's secret key, Supabase's service role key, your email API key. The frontend calls the function URL, the function runs securely, and returns a response.</p>
+ <div class="steps">
+ <div class="step"><span class="step-num"></span><div class="step-body">Create a <code>netlify/functions/</code> folder in your project root. Every <code>.js</code> file in this folder becomes an API endpoint automatically at <code>/.netlify/functions/filename</code>.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Use native Node.js <code>fetch()</code> for all HTTP calls. Avoid npm packages where possible - they add complexity and occasional build failures. Everything needed here (Stripe API, Supabase REST API, Resend API) can be called with plain fetch.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Access your secret environment variables inside functions with <code>process.env.YOUR_VARIABLE_NAME</code>. Set them in Netlify under Site settings → Environment variables → Add a variable.</div></div>
+ </div>
+ <p>You'll need three functions for the payment system:</p>
+ <table class="data-table">
+ <thead><tr><th>Function file</th><th>What it does</th><th>When it's called</th></tr></thead>
+ <tbody>
+ <tr><td><code>create-payment-intent.js</code></td><td>Creates a Stripe Payment Intent and returns the client_secret needed to confirm payment</td><td>Client clicks "Pay Now"</td></tr>
+ <tr><td><code>confirm-payment.js</code></td><td>Verifies payment success, marks invoice paid in Supabase, triggers notification email</td><td>Stripe confirms payment</td></tr>
+ <tr><td><code>get-invoice.js</code></td><td>Fetches invoice details from Supabase for a given invoice ID</td><td>Invoice page loads</td></tr>
+ </tbody>
+ </table>
+ </div>
+
+ <div class="section">
+ <div class="section-title">The create-payment-intent function</div>
+ <div class="code-block"><span class="cmt">// netlify/functions/create-payment-intent.js</span>
+
+exports.handler = <span class="kw">async</span> (event) => {
+ <span class="cmt">// Only allow POST requests</span>
+ <span class="kw">if</span> (event.httpMethod !== <span class="str">'POST'</span>) {
+ <span class="kw">return</span> { statusCode: 405, body: <span class="str">'Method Not Allowed'</span> };
+ }
+
+ <span class="kw">let</span> amount, invoiceId;
+ <span class="kw">try</span> {
+ ({ amount, invoiceId } = JSON.parse(event.body));
+ } <span class="kw">catch</span> {
+ <span class="kw">return</span> { statusCode: 400, body: <span class="str">'Invalid request body'</span> };
+ }
+
+ <span class="cmt">// amount comes in as dollars; Stripe uses cents</span>
+ <span class="kw">const</span> amountCents = Math.round(parseFloat(amount) * 100);
+ <span class="kw">if</span> (isNaN(amountCents) || amountCents &lt;= 0) {
+ <span class="kw">return</span> { statusCode: 400, body: <span class="str">'Invalid amount'</span> };
+ }
+
+ <span class="kw">const</span> response = <span class="kw">await</span> fetch(<span class="str">'https://api.stripe.com/v1/payment_intents'</span>, {
+ method: <span class="str">'POST'</span>,
+ headers: {
+ <span class="str">'Authorization'</span>: `Bearer ${process.env.STRIPE_SECRET_KEY}`,
+ <span class="str">'Content-Type'</span>: <span class="str">'application/x-www-form-urlencoded'</span>
+ },
+ body: <span class="kw">new</span> URLSearchParams({
+ amount: String(amountCents),
+ currency: <span class="str">'usd'</span>,
+ <span class="str">'metadata[invoice_id]'</span>: invoiceId
+ })
+ });
+
+ <span class="kw">const</span> intent = <span class="kw">await</span> response.json();
+
+ <span class="kw">if</span> (intent.error) {
+ <span class="kw">return</span> { statusCode: 500, body: JSON.stringify({ error: intent.error.message }) };
+ }
+
+ <span class="kw">return</span> {
+ statusCode: 200,
+ headers: { <span class="str">'Content-Type'</span>: <span class="str">'application/json'</span> },
+ body: JSON.stringify({ clientSecret: intent.client_secret })
+ };
+};</div>
+ <div class="troubleshoot">
+ <div class="troubleshoot-header"> Common Issues</div>
+ <div class="troubleshoot-body">
+ <div class="trouble-item">
+ <div class="trouble-q">Function returns 500 with "No such api_key"</div>
+ <div class="trouble-a">Your <code>STRIPE_SECRET_KEY</code> environment variable isn't set in Netlify, or was set incorrectly. Go to Netlify → Site configuration → Environment variables. The value should start with <code>sk_test_</code> (test mode) or <code>sk_live_</code> (live mode). Make sure there are no leading/trailing spaces - they're invisible but will cause authentication failures.</div>
+ </div>
+ <div class="trouble-item">
+ <div class="trouble-q">Function works in Netlify's test dashboard but fails when called from the website</div>
+ <div class="trouble-a">CORS (Cross-Origin Resource Sharing) is blocking the request. Your Netlify Function needs to return CORS headers. Add to the return object: <code>headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'Content-Type' }</code>. Also add a handler for OPTIONS preflight requests at the top of the function.</div>
+ </div>
+ <div class="trouble-item">
+ <div class="trouble-q">Amount arrives at Stripe as $0.01 instead of $125.00</div>
+ <div class="trouble-a">Stripe amounts are in the smallest currency unit (cents for USD). $125 must be sent as <code>12500</code>, not <code>125</code> or <code>1.25</code>. The bug often comes from the HTML form: verify the amount value being sent from the frontend is in dollars (the number the user sees), and that you're multiplying by 100 and rounding before sending to Stripe.</div>
+ </div>
+ </div>
+ </div>
+ </div>
+
+ <div class="section">
+ <div class="section-title">Stripe setup</div>
+ <div class="steps">
+ <div class="step"><span class="step-num"></span><div class="step-body">Create a free Stripe account at <strong>stripe.com</strong>. Complete identity verification (required for receiving payouts to your bank).</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">In the Stripe dashboard, make sure the mode toggle in the top-left shows <strong>"Test"</strong> while you're building. You'll switch to live when deploying. Go to Developers → API keys and copy your test publishable key (<code>pk_test_...</code>) and secret key (<code>sk_test_...</code>).</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Add the secret key to Netlify environment variables as <code>STRIPE_SECRET_KEY</code>.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Add Stripe.js to your invoice HTML page. This must load from Stripe's servers - do not download and self-host it:
+ <div class="code-block">&lt;script src="https://js.stripe.com/v3/"&gt;&lt;/script&gt;</div>
+ </div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Initialize Stripe in your page script with the <strong>publishable</strong> key (this one is safe for frontend use): <code>const stripe = Stripe('pk_test_your_key_here');</code></div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Use Stripe Elements for the card input. This renders a secure, hosted card form inside an iframe - no card data ever passes through your code:
+ <div class="code-block"><span class="kw">const</span> elements = stripe.elements();
+<span class="kw">const</span> cardElement = elements.create(<span class="str">'card'</span>);
+cardElement.mount(<span class="str">'#card-element'</span>); <span class="cmt">// mounts into &lt;div id="card-element"&gt;&lt;/div&gt;</span></div>
+ </div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Use test card number <strong>4242 4242 4242 4242</strong> with any future expiry and any 3-digit CVC to test payments in test mode. Stripe has a full list of test cards for different scenarios (declined, insufficient funds, etc.) in their docs.</div></div>
+ </div>
+ <div class="callout danger">
+ 
+ <div><strong>Your Stripe secret key (<code>sk_live_...</code>) must never appear in any file that gets committed to GitHub or served to a browser.</strong> Store it only as a Netlify environment variable. The publishable key (<code>pk_live_...</code>) is designed to be public and can be in your HTML. The secret key is not. If you accidentally expose your live secret key, go to Stripe → Developers → API keys → Roll key immediately.</div>
+ </div>
+ </div>
+</div>
+
+<!-- ════════════════════════════════════════════ MODULE 7 ═════════════════════ -->
+
+<div class="module" id="a2-m2">
+ <div class="module-tag"><span class="dot"></span>Module 02</div>
+ <h2>Automated Email Notifications</h2>
+ <p class="module-lead">Every time a client pays an invoice, you receive an automatic email with the details - client name, amount, invoice ID, and timestamp. This module covers setting up Resend (a free transactional email API), verifying your sending domain, and wiring the notification into your payment confirmation function.</p>
+
+ <div class="section">
+ <div class="section-title">Why Resend, and what the alternatives are</div>
+ <p>Resend is a developer-focused email API with a free tier of 3,000 emails per month and 100 per day. It supports sending from your own domain, which means emails come from <code>hello@yourbusiness.com</code> rather than a generic service address - significantly better for deliverability and professionalism.</p>
+ <p>Alternatives worth knowing about: SendGrid (larger scale, slightly more complex setup), Postmark (excellent deliverability, focused on transactional email), Mailgun (popular with developers). For this use case - a small volume of payment notification emails - Resend is the simplest choice.</p>
+ </div>
+
+ <div class="section">
+ <div class="section-title">Verifying your sending domain</div>
+ <p>To send email from your own domain address, you must prove to email servers worldwide that you're authorized to send from it. This is done via DNS records. Without this, your emails will go to spam or be rejected outright.</p>
+ <div class="steps">
+ <div class="step"><span class="step-num"></span><div class="step-body">Create a Resend account at <strong>resend.com</strong>. Go to <strong>Domains → Add Domain</strong> and enter your domain name (e.g., <code>yourbusiness.com</code>).</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Resend provides 3 DNS records to add. These are:
+ <ul style="margin: 8px 0 0 18px; font-size: 13.5px; color: var(--ink2); line-height: 1.9;">
+ <li><strong>SPF</strong> - A TXT record that lists Resend as an authorized sender for your domain</li>
+ <li><strong>DKIM</strong> - A TXT record with a cryptographic key that signs your outgoing emails, proving they're legitimate</li>
+ <li><strong>DMARC</strong> - A TXT record that tells receiving servers what to do with emails that fail SPF or DKIM (reject, quarantine, or just report)</li>
+ </ul>
+ </div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Log into your domain registrar (where you bought your domain - GoDaddy, Namecheap, Squarespace, Google Domains, etc.) and navigate to DNS settings. Add each record exactly as provided by Resend. The record type, name, and value must be exact.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Click <strong>"Verify"</strong> in Resend. DNS changes propagate globally over time - typically 15 minutes to a few hours, but can occasionally take up to 24-48 hours in edge cases.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Create an API key: Resend → API Keys → Create API Key. Copy it and add it to Netlify environment variables as <code>RESEND_API_KEY</code>. Also add your email address as <code>OWNER_EMAIL</code>.</div></div>
+ </div>
+ <div class="troubleshoot">
+ <div class="troubleshoot-header"> Common Issues</div>
+ <div class="troubleshoot-body">
+ <div class="trouble-item">
+ <div class="trouble-q">Resend says "DNS records not verified" after 24 hours</div>
+ <div class="trouble-a">One or more records wasn't entered correctly. Common mistake: the DKIM record name should be something like <code>resend._domainkey</code> - some registrars automatically append your domain to the name, resulting in <code>resend._domainkey.yourdomain.com.yourdomain.com</code>. If your registrar auto-appends the domain, enter just <code>resend._domainkey</code> without your domain. Check each record using a tool like <code>mxtoolbox.com</code>.</div>
+ </div>
+ <div class="trouble-item">
+ <div class="trouble-q">Emails send successfully but end up in spam</div>
+ <div class="trouble-a">Most commonly caused by DMARC not being set up, or the DMARC policy being set to <code>none</code> (just monitoring). Make sure all three records (SPF, DKIM, DMARC) are verified in Resend. Also check that your email subject lines don't look like spam (avoid ALL CAPS, excessive punctuation, or words like FREE, URGENT, ACT NOW).</div>
+ </div>
+ <div class="trouble-item">
+ <div class="trouble-q">Resend returns 403 Forbidden when called from Netlify Function</div>
+ <div class="trouble-a">The API key is wrong, not set in Netlify environment variables, or the variable name doesn't match what you're using in code (<code>process.env.RESEND_API_KEY</code>). Environment variables in Netlify require a redeploy to take effect - if you added the variable after the last deploy, trigger a new deploy.</div>
+ </div>
+ </div>
+ </div>
+ <div class="ai-note">
+ 
+ <div><strong>AI explained the DNS records setup.</strong> SPF, DKIM, and DMARC are not intuitive concepts for non-developers. When asked "what exactly is a DKIM record and why does it need to be on my domain?", AI gave a plain-English explanation (private/public key cryptography applied to email authentication) that made the setup process understandable rather than a blind copy-paste exercise.</div>
+ </div>
+ </div>
+
+ <div class="section">
+ <div class="section-title">Sending the notification email</div>
+ <p>This code lives inside your <code>confirm-payment.js</code> Netlify Function, called after Stripe confirms payment success:</p>
+ <div class="code-block"><span class="cmt">// Inside confirm-payment.js - call this after marking invoice as paid</span>
+<span class="kw">async function</span> <span class="fn">sendPaymentNotification</span>(invoiceId, clientName, amount) {
+ <span class="kw">const</span> response = <span class="kw">await</span> fetch(<span class="str">'https://api.resend.com/emails'</span>, {
+ method: <span class="str">'POST'</span>,
+ headers: {
+ <span class="str">'Authorization'</span>: `Bearer ${process.env.RESEND_API_KEY}`,
+ <span class="str">'Content-Type'</span>: <span class="str">'application/json'</span>
+ },
+ body: JSON.stringify({
+ from: `Your Business &lt;hello@yourdomain.com&gt;`,
+ to: process.env.OWNER_EMAIL,
+ subject: `Payment received - ${clientName} - $${amount}`,
+ html: `
+ &lt;div style="font-family: sans-serif; max-width: 560px; margin: 0 auto;"&gt;
+ &lt;h2 style="color: #2a5c45;"&gt; Payment Received&lt;/h2&gt;
+ &lt;table style="width: 100%; border-collapse: collapse;"&gt;
+ &lt;tr&gt;&lt;td style="padding: 8px 0; color: #555;"&gt;Invoice&lt;/td&gt;
+ &lt;td style="padding: 8px 0; font-weight: bold;"&gt;${invoiceId}&lt;/td&gt;&lt;/tr&gt;
+ &lt;tr&gt;&lt;td style="padding: 8px 0; color: #555;"&gt;Client&lt;/td&gt;
+ &lt;td style="padding: 8px 0;"&gt;${clientName}&lt;/td&gt;&lt;/tr&gt;
+ &lt;tr&gt;&lt;td style="padding: 8px 0; color: #555;"&gt;Amount&lt;/td&gt;
+ &lt;td style="padding: 8px 0; font-weight: bold; color: #2a5c45;"&gt;$${amount}&lt;/td&gt;&lt;/tr&gt;
+ &lt;tr&gt;&lt;td style="padding: 8px 0; color: #555;"&gt;Paid at&lt;/td&gt;
+ &lt;td style="padding: 8px 0;"&gt;${new Date().toLocaleString()}&lt;/td&gt;&lt;/tr&gt;
+ &lt;/table&gt;
+ &lt;/div&gt;
+ `
+ })
+ });
+
+ <span class="kw">if</span> (!response.ok) {
+ console.error(<span class="str">'Email failed:'</span>, <span class="kw">await</span> response.text());
+ }
+}</div>
+ </div>
+</div>
+</div>
+<div id="addon3">
+<div style="margin:64px 0 40px;padding:28px 32px;background:var(--bg3);border-radius:8px;border-left:4px solid var(--accent);">
+  <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--text4);margin-bottom:8px;">Guide 4 of 5</div>
+  <div style="font-family:'Source Serif 4',serif;font-size:26px;font-weight:700;color:var(--text);margin-bottom:4px;letter-spacing:-0.01em;">Staff Portal & Admin Dashboard</div>
+  <div style="font-size:13.5px;color:var(--text3);font-weight:300;">Add-on 03 - Firebase Firestore, real-time data, client management</div>
+</div>
+<div class="prereq"><strong>Prerequisites:</strong> Requires the core guide. Firebase is added alongside your existing Supabase setup.</div>
+<div class="module" id="a3-m1">
+ <div class="module-tag"><span class="dot blue"></span>Module 01</div>
+ <h2>Staff / Internal Portal</h2>
+ <p class="module-lead">The staff portal is a separate, password-protected HTML page built for you and your team - not clients. It's optimized for use on a phone in the field: fast, minimal, displaying client details, service history, and notes without any page reloads. It connects to Firebase Firestore for real-time data.</p>
+
+ <div class="section">
+ <div class="section-title">Why Firebase for the portal?</div>
+ <p>The portal uses Firebase Firestore rather than Supabase for one specific reason: Firestore's real-time listeners. When you update a client's record from the admin dashboard, the portal on someone's phone in the field updates instantly without a page refresh. For a service team that needs current information, this matters.</p>
+ <div class="concept-grid">
+ <div class="concept-box">
+ <div class="label">Supabase (Modules 3-6)</div>
+ <div class="val">Best for structured data, complex queries, and scheduled operations. Polling-based - you request data when you need it.</div>
+ </div>
+ <div class="concept-box">
+ <div class="label">Firebase Firestore (Modules 8-9)</div>
+ <div class="val">Best for app-like features with live data. Push-based - data appears on screen automatically the moment it changes.</div>
+ </div>
+ </div>
+ </div>
+
+ <div class="section">
+ <div class="section-title">Firebase project setup</div>
+ <div class="steps">
+ <div class="step"><span class="step-num"></span><div class="step-body">Go to <strong>console.firebase.google.com</strong>. Sign in with a Google account and click "Add project." Name it (your business name), disable Google Analytics (not needed), and create the project.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Inside the project, click the web icon (<code>&lt;/&gt;</code>) to add a web app. Give it a nickname. Disable Firebase Hosting (you're using Netlify). Click "Register app."</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Firebase shows you a config object. Create <code>portal/js/firebase-config.js</code> in your project and paste the entire config into it. This file will be loaded by both the staff portal and the admin dashboard.
+ <div class="code-block"><span class="cmt">// portal/js/firebase-config.js</span>
+<span class="kw">const</span> firebaseConfig = {
+ apiKey: <span class="str">"your-api-key"</span>,
+ authDomain: <span class="str">"your-project.firebaseapp.com"</span>,
+ projectId: <span class="str">"your-project-id"</span>,
+ storageBucket: <span class="str">"your-project.appspot.com"</span>,
+ messagingSenderId: <span class="str">"000000000000"</span>,
+ appId: <span class="str">"1:000000000000:web:abc123"</span>
+};
+firebase.initializeApp(firebaseConfig);
+<span class="kw">const</span> db = firebase.firestore();</div>
+ </div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">In Firebase → Firestore Database, click "Create database." Start in <strong>test mode</strong> (allows all reads/writes - fine for development). Switch to production rules with proper authentication before going live.</div></div>
+ </div>
+ <div class="callout warn">
+ 
+ <div><strong>Firebase API key in your HTML:</strong> Unlike Supabase's service_role key, the Firebase config object (including the API key) is designed to be in your frontend code. Firebase uses security rules - not API key secrecy - to control access. Your API key alone does nothing without matching security rules. That said, make sure your Firestore security rules are correctly set up before you go live with real client data.</div>
+ </div>
+ </div>
+
+ <div class="section">
+ <div class="section-title">Firestore data structure</div>
+ <p>Firestore organizes data into collections and documents rather than tables and rows. The structure for a client database:</p>
+ <div class="code-block"><span class="cmt">clients/ (collection)
+ ├── BIZ-1042 (document - the client's unique code is the document ID)
+ │ name: "Sarah Johnson"
+ │ email: "sarah@email.com"
+ │ phone: "555-0192"
+ │ service: "Deep Clean"
+ │ address: "123 Oak Street, Norfolk VA"
+ │ notes: "Has two dogs, prefers afternoon appointments"
+ │ registered: true
+ │ createdAt: [timestamp]
+ │ lastService: [timestamp]
+ │
+ │ sessions/ (subcollection)
+ │ ├── [auto-id] (document)
+ │ │ date: "2024-03-15"
+ │ │ service: "Monthly Clean"
+ │ │ notes: "Cleaned all 3 bedrooms, kitchen, 2 baths"
+ │ │ completedBy: "Team A"
+ │ └── ...
+ └── ...</span></div>
+ <div class="callout note">
+ 
+ <div><strong>Using the client code as the document ID</strong> (instead of a Firebase auto-generated ID) means you can fetch a client's document directly with <code>db.collection('clients').doc('BIZ-1042').get()</code> without needing to run a query. Faster and simpler for the use case of clients accessing their own data.</div>
+ </div>
+ </div>
+
+ <div class="section">
+ <div class="section-title">Unique client code generation</div>
+ <div class="code-block"><span class="kw">async function</span> <span class="fn">generateUniqueClientCode</span>(prefix = <span class="str">'BIZ'</span>) {
+ <span class="kw">let</span> code, attempts = 0;
+ <span class="kw">do</span> {
+ <span class="kw">if</span> (attempts++ > 10) <span class="kw">throw new</span> Error(<span class="str">'Too many collision attempts'</span>);
+ <span class="kw">const</span> digits = String(Math.floor(1000 + Math.random() * 9000));
+ code = prefix + <span class="str">'-'</span> + digits; <span class="cmt">// e.g., "BIZ-4821"</span>
+ <span class="kw">const</span> snap = <span class="kw">await</span> db.collection(<span class="str">'clients'</span>).doc(code).get();
+ <span class="kw">if</span> (!snap.exists) <span class="kw">break</span>; <span class="cmt">// Code is available</span>
+ } <span class="kw">while</span> (<span class="kw">true</span>);
+
+ <span class="kw">return</span> code;
+}</div>
+ </div>
+
+ <div class="section">
+ <div class="section-title">Deleting a client and all their data</div>
+ <p>This is a common Firestore gotcha: deleting a document does <em>not</em> delete its subcollections. If you delete a client document, all their session records remain as orphaned data in Firestore. You must delete subcollections manually first.</p>
+ <div class="code-block"><span class="kw">async function</span> <span class="fn">deleteClientCompletely</span>(clientId) {
+ <span class="kw">if</span> (!confirm(`Delete client ${clientId} and ALL their session history?\nThis cannot be undone.`)) <span class="kw">return</span>;
+
+ <span class="kw">try</span> {
+ <span class="cmt">// 1. Get all session documents</span>
+ <span class="kw">const</span> sessionsSnap = <span class="kw">await</span> db
+ .collection(<span class="str">'clients'</span>).doc(clientId)
+ .collection(<span class="str">'sessions'</span>).get();
+
+ <span class="cmt">// 2. Delete sessions in a single batch (more efficient than individual deletes)</span>
+ <span class="kw">const</span> batch = db.batch();
+ sessionsSnap.docs.forEach(doc => batch.delete(doc.ref));
+ <span class="kw">await</span> batch.commit();
+
+ <span class="cmt">// 3. Now safe to delete the parent document</span>
+ <span class="kw">await</span> db.collection(<span class="str">'clients'</span>).doc(clientId).delete();
+
+ console.log(<span class="str">`Client ${clientId} and all sessions deleted.`</span>);
+ } <span class="kw">catch</span> (err) {
+ console.error(<span class="str">'Delete failed:'</span>, err);
+ alert(<span class="str">'Error deleting client. Check console for details.'</span>);
+ }
+}</div>
+ <div class="troubleshoot">
+ <div class="troubleshoot-header"> Common Issues</div>
+ <div class="troubleshoot-body">
+ <div class="trouble-item">
+ <div class="trouble-q">Real-time updates work in one browser tab but not on a different device</div>
+ <div class="trouble-a">Firestore real-time listeners (<code>onSnapshot</code>) only update the tab/device where they're running. Each client that opens the portal sets up its own listener. As long as the listener is active (the page is open), updates appear instantly. If the page was closed and reopened, it fetches fresh data on load.</div>
+ </div>
+ <div class="trouble-item">
+ <div class="trouble-q">Firebase free tier quota warnings</div>
+ <div class="trouble-a">The Spark (free) plan allows 50,000 reads and 20,000 writes per day. Real-time listeners count reads differently - an <code>onSnapshot</code> listener counts one read for the initial fetch plus one for each document that changes. For a small business with a few dozen clients, you're unlikely to approach these limits. You can monitor usage in Firebase Console → Usage and billing.</div>
+ </div>
+ </div>
+ </div>
+ <div class="ai-note">
+ 
+ <div><strong>AI handled all Firebase code:</strong> Firestore's API for reading, writing, querying, batching, and real-time subscriptions was written entirely by AI. The subcollection deletion requirement - that you must delete subcollections before parent documents - is a Firestore-specific behavior that AI flagged proactively when asked to write the delete function, preventing a data orphaning bug.</div>
+ </div>
+ </div>
+</div>
+
+<!-- ════════════════════════════════════════════ MODULE 9 ═════════════════════ -->
+
+<div class="module" id="a3-m2">
+ <div class="module-tag"><span class="dot"></span>Module 02</div>
+ <h2>Admin Dashboard</h2>
+ <p class="module-lead">The admin dashboard is your command center - a single protected page where you can view all clients, see business stats, create invoices, manage bookings, and access internal notes. It shares the same Firebase database as the staff portal, so any client added here appears there instantly.</p>
+
+ <div class="section">
+ <div class="section-title">Dashboard layout pattern</div>
+ <p>The dashboard uses a fixed sidebar for navigation and a main content area with multiple panels. Only one panel is visible at a time - clicking a nav item swaps the visible panel using CSS classes. This gives you multi-section navigation with a single HTML file and zero page reloads.</p>
+ <div class="code-block"><span class="cmt">/* CSS: panels are hidden by default, only .active is shown */</span>
+.panel { display: none; }
+.panel.active { display: block; }
+
+.sidebar-nav a { cursor: pointer; }
+.sidebar-nav a.active-nav { background: var(--accent); color: white; }</div>
+ <div class="code-block"><span class="cmt">// JavaScript: show a panel and update the active nav link</span>
+<span class="kw">function</span> <span class="fn">showPanel</span>(name) {
+ <span class="cmt">// Hide all panels</span>
+ document.querySelectorAll(<span class="str">'.panel'</span>)
+ .forEach(el => el.classList.remove(<span class="str">'active'</span>));
+
+ <span class="cmt">// Deactivate all nav links</span>
+ document.querySelectorAll(<span class="str">'.sidebar-nav a'</span>)
+ .forEach(el => el.classList.remove(<span class="str">'active-nav'</span>));
+
+ <span class="cmt">// Activate the selected panel and link</span>
+ document.getElementById(<span class="str">'panel-'</span> + name)?.classList.add(<span class="str">'active'</span>);
+ document.getElementById(<span class="str">'nav-'</span> + name)?.classList.add(<span class="str">'active-nav'</span>);
+}
+
+<span class="cmt">// Load the default panel on page open</span>
+showPanel(<span class="str">'overview'</span>);</div>
+ </div>
+
+ <div class="section">
+ <div class="section-title">Loading and displaying all clients</div>
+ <div class="code-block"><span class="kw">let</span> allClients = []; <span class="cmt">// In-memory cache - all display functions use this array</span>
+
+<span class="kw">async function</span> <span class="fn">loadAllClients</span>() {
+ <span class="kw">const</span> snapshot = <span class="kw">await</span> db.collection(<span class="str">'clients'</span>).orderBy(<span class="str">'createdAt'</span>, <span class="str">'desc'</span>).get();
+ allClients = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+ renderClientTable(allClients);
+ updateStats(allClients);
+}
+
+<span class="kw">function</span> <span class="fn">renderClientTable</span>(clients) {
+ <span class="kw">const</span> tbody = document.querySelector(<span class="str">'#clients-table tbody'</span>);
+ tbody.innerHTML = clients.map(c => `
+ &lt;tr&gt;
+ &lt;td&gt;&lt;strong&gt;${c.id}&lt;/strong&gt;&lt;/td&gt;
+ &lt;td&gt;${c.name || <span class="str">' - '</span>}&lt;/td&gt;
+ &lt;td&gt;${c.email || <span class="str">' - '</span>}&lt;/td&gt;
+ &lt;td&gt;${c.service || <span class="str">' - '</span>}&lt;/td&gt;
+ &lt;td&gt;
+ &lt;button onclick="openClientDetail('${c.id}')"&gt;View&lt;/button&gt;
+ &lt;button onclick="deleteClientCompletely('${c.id}')"&gt;Delete&lt;/button&gt;
+ &lt;/td&gt;
+ &lt;/tr&gt;
+ `).join('');
+}
+
+<span class="kw">function</span> <span class="fn">updateStats</span>(clients) {
+ document.getElementById(<span class="str">'stat-total'</span>).textContent = clients.length;
+ document.getElementById(<span class="str">'stat-active'</span>).textContent =
+ clients.filter(c => c.registered).length;
+}</div>
+ </div>
+
+ <div class="section">
+ <div class="section-title">Client search</div>
+ <p>With all clients loaded into the <code>allClients</code> array, search is just a filter - no database queries needed:</p>
+ <div class="code-block">document.getElementById(<span class="str">'client-search'</span>).addEventListener(<span class="str">'input'</span>, (e) => {
+ <span class="kw">const</span> query = e.target.value.toLowerCase().trim();
+ <span class="kw">if</span> (!query) {
+ renderClientTable(allClients); <span class="cmt">// Show all if search is empty</span>
+ <span class="kw">return</span>;
+ }
+ <span class="kw">const</span> filtered = allClients.filter(c =>
+ c.id?.toLowerCase().includes(query) ||
+ c.name?.toLowerCase().includes(query) ||
+ c.email?.toLowerCase().includes(query) ||
+ c.service?.toLowerCase().includes(query)
+ );
+ renderClientTable(filtered);
+});</div>
+ </div>
+
+ <div class="section">
+ <div class="section-title">Notes stored in the browser</div>
+ <p>Internal notes - ideas, reminders, things to follow up on - don't need to sync across devices. Browser <code>localStorage</code> is simpler and faster for single-device use:</p>
+ <div class="code-block"><span class="cmt">// Load notes when the page opens</span>
+<span class="kw">function</span> <span class="fn">loadNotes</span>() {
+ <span class="kw">const</span> stored = localStorage.getItem(<span class="str">'admin_notes_v2'</span>);
+ <span class="kw">return</span> stored ? JSON.parse(stored) : [];
+}
+
+<span class="cmt">// Save notes</span>
+<span class="kw">function</span> <span class="fn">saveNote</span>(text) {
+ <span class="kw">const</span> notes = loadNotes();
+ notes.unshift({ id: Date.now(), text, created: <span class="kw">new</span> Date().toISOString() });
+ localStorage.setItem(<span class="str">'admin_notes_v2'</span>, JSON.stringify(notes));
+ renderNotes();
+}</div>
+ <div class="callout warn">
+ 
+ <div><strong>localStorage is device-specific.</strong> Notes saved in Chrome on your laptop do not appear on your phone. If you need notes on multiple devices, save them to Firestore instead - it's a small change to the save/load functions. localStorage is also cleared if a user clears browser data, so don't rely on it for anything you can't afford to lose.</div>
+ </div>
+ <div class="ai-note">
+ 
+ <div><strong>AI designed and built the entire dashboard.</strong> The layout, stat cards, data tables, client detail modals, invoice creation form, and all JavaScript logic were generated by AI from a description of what information the dashboard needed to display. The visual design (sidebar navigation, card grid, status badges, responsive behavior) was part of the initial code generation - not added separately.</div>
+ </div>
+ </div>
+</div>
+</div>
+<div id="addon4">
+<div style="margin:64px 0 40px;padding:28px 32px;background:var(--bg3);border-radius:8px;border-left:4px solid var(--accent);">
+  <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--text4);margin-bottom:8px;">Guide 5 of 5</div>
+  <div style="font-family:'Source Serif 4',serif;font-size:26px;font-weight:700;color:var(--text);margin-bottom:4px;letter-spacing:-0.01em;">Client Portal with Secure Login</div>
+  <div style="font-size:13.5px;color:var(--text3);font-weight:300;">Add-on 04 - Firebase Authentication, Storage, security rules</div>
+</div>
+<div class="prereq"><strong>Prerequisites:</strong> Requires the core guide and Add-on 03.</div>
+<!-- ══════════════════════════════════════════════════════════
+     MODULE 01  -  Firebase Auth Setup
+═══════════════════════════════════════════════════════════ -->
+<div class="module" id="a4-m1">
+  <div class="module-tag"><span class="dot"></span>Module 01</div>
+  <h2>Firebase Authentication Setup</h2>
+  <p class="module-lead">Before building any portal screens, you need Firebase Authentication configured correctly. This module covers enabling email/password auth, writing the Firestore security rules that keep each client's data private, and understanding how Firebase links an authenticated user to their documents in the database.</p>
+
+  <div class="section">
+    <div class="section-title">Why Firebase Authentication</div>
+    <p>Firebase Authentication handles the hardest parts of user accounts for you: secure password hashing, session tokens, password reset emails, and account management. You do not store passwords - Firebase does, and it does it correctly. Your job is to connect auth state to your data.</p>
+    <p>The client portal uses two Firebase products together: Authentication (who is this person?) and Firestore (what data are they allowed to see?). Security rules sit between them - they check the authenticated user's UID against the data being requested and allow or deny the read.</p>
+    <div class="callout note">
+      <strong>Prerequisite:</strong> This add-on builds on the staff portal and admin dashboard (Add-on 03). Your Firebase project, Firestore database, and client collection should already exist. If they do not, complete Add-on 03 first.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Enabling email/password authentication</div>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body">In Firebase Console, go to your project and click <strong>Authentication</strong> in the left sidebar. Click <strong>"Get started"</strong> if you have not used it before.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">Click <strong>Sign-in method</strong>. Find <strong>Email/Password</strong> and click the pencil icon. Toggle <strong>Enable</strong> on. Leave "Email link (passwordless sign-in)" off. Click Save.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">Go to <strong>Authentication → Settings → Authorized domains</strong>. Your Netlify domain should already be there from previous setup. If not, add it now: <code>yourdomain.com</code> and <code>yourdomain.netlify.app</code>.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">In <strong>Authentication → Templates</strong>, customize the password reset email. Set the sender name to your business name, and update the subject line and body to match your brand voice. Firebase sends this automatically when clients click "Forgot password."</div></div>
+    </div>
+    <div class="callout tip">
+      <strong>Custom email domain for auth emails:</strong> By default, Firebase sends password reset emails from <code>noreply@[your-project].firebaseapp.com</code>. To send from your own domain, go to Authentication → Templates → Edit → Customize action URL. This requires a verified sending domain - the same one you set up in Resend (Add-on 02) works for this.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Linking auth users to Firestore client documents</div>
+    <p>When a client creates an account, Firebase Authentication assigns them a unique UID (e.g., <code>uid: "wX9k2mA..."</code>). Your Firestore client documents need to store this UID so the security rules can match the logged-in user to their data.</p>
+    <p>The approach: when you create a client in the admin dashboard, you also create their Firebase Auth account programmatically. Firebase returns the new UID, which you then save into the client's Firestore document. From that point on, the UID is the link between auth and data.</p>
+    <div class="code-block"><span class="cmt">// In your admin dashboard  -  creating a new client with auth account</span>
+<span class="kw">async function</span> createClientWithAuth(name, email, tempPassword) {
+  <span class="cmt">// 1. Create the Firebase Auth account</span>
+  <span class="kw">const</span> userRecord = <span class="kw">await</span> firebase.auth()
+    .createUserWithEmailAndPassword(email, tempPassword);
+  
+  <span class="kw">const</span> uid = userRecord.user.uid;
+
+  <span class="cmt">// 2. Generate their client code</span>
+  <span class="kw">const</span> clientCode = <span class="kw">await</span> generateUniqueClientCode();
+
+  <span class="cmt">// 3. Create the Firestore document with the UID stored</span>
+  <span class="kw">await</span> db.collection(<span class="str">'clients'</span>).doc(clientCode).set({
+    name,
+    email,
+    uid,         <span class="cmt">// critical  -  links this doc to the auth account</span>
+    clientCode,
+    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    registered: <span class="kw">true</span>
+  });
+
+  <span class="cmt">// 4. Send them a password reset so they set their own password</span>
+  <span class="kw">await</span> firebase.auth().sendPasswordResetEmail(email);
+
+  <span class="kw">return</span> { uid, clientCode };
+}</div>
+    <div class="callout warn">
+      <strong>Temporary passwords:</strong> Generate a random temporary password (e.g., <code>crypto.randomUUID()</code>) when creating the account. Immediately send a password reset email. The client sets their own password before they ever log in. You never store or see their actual password.
+    </div>
+    <div class="ai-note">
+      <strong>AI used here:</strong> The client creation flow - including the correct order of operations (create auth first, get UID, then create Firestore doc) and the password reset email trigger - was written by AI. Getting the sequence wrong causes orphaned auth accounts with no matching Firestore data, which is difficult to debug. AI also flagged that <code>createUserWithEmailAndPassword</code> signs the admin in as the new user, which is a side effect that needs to be handled. The fix: use the Firebase Admin SDK in a Netlify Function instead of the client SDK, so the admin session is not affected.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Firestore security rules</div>
+    <p>This is the most important part of the entire client portal. Security rules determine what data each authenticated user can read. Without correct rules, any logged-in client could read any other client's data just by guessing a document path.</p>
+    <p>The rules below allow a client to read their own document (matched by UID) and their own subcollections. They cannot read any other client's document, regardless of whether they know the ID.</p>
+    <div class="code-block"><span class="cmt">// Firebase Console → Firestore → Rules</span>
+rules_version = <span class="str">'2'</span>;
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    <span class="cmt">// Clients collection</span>
+    match /clients/{clientCode} {
+
+      <span class="cmt">// A client can only read their OWN document</span>
+      <span class="cmt">// request.auth.uid must match the uid field stored in the document</span>
+      allow read: <span class="kw">if</span> request.auth != null
+                  && request.auth.uid == resource.data.uid;
+
+      <span class="cmt">// Only admin (service role via Functions) can write</span>
+      allow write: <span class="kw">if</span> false;
+
+      <span class="cmt">// Sessions subcollection  -  same rule</span>
+      match /sessions/{sessionId} {
+        allow read: <span class="kw">if</span> request.auth != null
+                    && request.auth.uid == get(
+                      /databases/$(database)/documents/clients/$(clientCode)
+                    ).data.uid;
+        allow write: <span class="kw">if</span> false;
+      }
+
+      <span class="cmt">// Documents subcollection</span>
+      match /documents/{docId} {
+        allow read: <span class="kw">if</span> request.auth != null
+                    && request.auth.uid == get(
+                      /databases/$(database)/documents/clients/$(clientCode)
+                    ).data.uid;
+        allow write: <span class="kw">if</span> false;
+      }
+    }
+  }
+}</div>
+    <div class="troubleshoot">
+      <div class="troubleshoot-header">Common Issues - Security Rules</div>
+      <div class="troubleshoot-body">
+        <div class="trouble-item">
+          <div class="trouble-q">Rules simulator shows "allow" but live app gets permission denied</div>
+          <div class="trouble-a">The simulator uses the document data at simulation time. If the <code>uid</code> field was not set correctly when the document was created (e.g., it was added in a separate update rather than in the initial <code>set()</code> call), the field may be missing from older documents. Check the actual Firestore document in the console and confirm the <code>uid</code> field is present and matches the auth UID exactly.</div>
+        </div>
+        <div class="trouble-item">
+          <div class="trouble-q">Subcollection reads fail even though the parent document read works</div>
+          <div class="trouble-a">Subcollection rules require a <code>get()</code> call to fetch the parent document's UID for comparison. This is a cross-document read and counts against your Firestore read quota. More importantly, it will fail if the client does not have read permission on the parent document itself. Make sure the parent read rule is passing first before debugging subcollection rules.</div>
+        </div>
+        <div class="trouble-item">
+          <div class="trouble-q">"Missing or insufficient permissions" on first login</div>
+          <div class="trouble-a">Firebase Auth tokens take a moment to propagate. If your code fetches Firestore data immediately after <code>signInWithEmailAndPassword</code> resolves, the auth token may not yet be attached to the request. Wrap your data fetch in an <code>onAuthStateChanged</code> listener instead of calling it directly after sign-in. The listener fires once the token is confirmed valid.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     MODULE 02  -  Login and Registration Pages
+═══════════════════════════════════════════════════════════ -->
+<div class="module" id="a4-m2">
+  <div class="module-tag"><span class="dot green"></span>Module 02</div>
+  <h2>Login and Registration Pages</h2>
+  <p class="module-lead">The auth screens are the first thing clients see. This module covers the sign-in page, password reset flow, and handling the edge cases that will actually come up: wrong password, unverified email, session persistence across browser closes, and what to show while auth state is loading.</p>
+
+  <div class="section">
+    <div class="section-title">Page structure</div>
+    <p>The client portal lives as a separate HTML file in your project - <code>client-portal.html</code>. It handles two states: unauthenticated (shows the login form) and authenticated (shows the dashboard). No separate login page needed - a single file manages both views with JavaScript, the same panel-switching pattern from the admin dashboard.</p>
+    <div class="code-block"><span class="cmt">/* Two top-level views inside client-portal.html */</span>
+#auth-view     { display: block; }   <span class="cmt">/* login/signup form */</span>
+#portal-view   { display: none; }    <span class="cmt">/* the actual dashboard */</span>
+
+<span class="cmt">/* Swap them based on auth state */</span>
+firebase.auth().onAuthStateChanged(user => {
+  <span class="kw">if</span> (user) {
+    document.getElementById(<span class="str">'auth-view'</span>).style.display   = <span class="str">'none'</span>;
+    document.getElementById(<span class="str">'portal-view'</span>).style.display = <span class="str">'block'</span>;
+    loadClientData(user.uid);
+  } <span class="kw">else</span> {
+    document.getElementById(<span class="str">'auth-view'</span>).style.display   = <span class="str">'block'</span>;
+    document.getElementById(<span class="str">'portal-view'</span>).style.display = <span class="str">'none'</span>;
+  }
+});</div>
+    <div class="callout tip">
+      <strong>Session persistence:</strong> Firebase Authentication persists the session in <code>localStorage</code> by default. A client who signs in will still be signed in when they close and reopen their browser, until they explicitly sign out. You can change this to session-only (tab closes = signed out) with <code>firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)</code> before calling sign-in.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">The sign-in form</div>
+    <div class="code-block"><span class="kw">async function</span> signIn() {
+  <span class="kw">const</span> email    = document.getElementById(<span class="str">'email-input'</span>).value.trim();
+  <span class="kw">const</span> password = document.getElementById(<span class="str">'password-input'</span>).value;
+  <span class="kw">const</span> errorEl  = document.getElementById(<span class="str">'auth-error'</span>);
+
+  errorEl.textContent = <span class="str">''</span>;
+
+  <span class="kw">try</span> {
+    <span class="kw">await</span> firebase.auth().signInWithEmailAndPassword(email, password);
+    <span class="cmt">// onAuthStateChanged handles the rest</span>
+  } <span class="kw">catch</span> (err) {
+    <span class="cmt">// Map Firebase error codes to human-readable messages</span>
+    <span class="kw">const</span> messages = {
+      <span class="str">'auth/user-not-found'</span>:     <span class="str">'No account found with that email.'</span>,
+      <span class="str">'auth/wrong-password'</span>:     <span class="str">'Incorrect password. Try again or reset it below.'</span>,
+      <span class="str">'auth/invalid-email'</span>:      <span class="str">'Please enter a valid email address.'</span>,
+      <span class="str">'auth/too-many-requests'</span>:  <span class="str">'Too many attempts. Try again in a few minutes.'</span>,
+      <span class="str">'auth/user-disabled'</span>:      <span class="str">'This account has been disabled. Please contact us.'</span>,
+    };
+    errorEl.textContent = messages[err.code] || <span class="str">'Something went wrong. Please try again.'</span>;
+  }
+}</div>
+    <div class="callout warn">
+      <strong>Never show Firebase's raw error messages to users.</strong> Messages like <code>auth/user-not-found</code> or <code>Firebase: Error (auth/wrong-password)</code> are jarring and expose implementation details. Always map them to plain English. The code above covers every error a legitimate user will encounter. Log the raw error to the console for your own debugging, but show only the friendly version.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Password reset flow</div>
+    <div class="code-block"><span class="kw">async function</span> sendPasswordReset() {
+  <span class="kw">const</span> email  = document.getElementById(<span class="str">'email-input'</span>).value.trim();
+  <span class="kw">const</span> msgEl  = document.getElementById(<span class="str">'reset-message'</span>);
+
+  <span class="kw">if</span> (!email) {
+    msgEl.textContent = <span class="str">'Enter your email address above first.'</span>;
+    <span class="kw">return</span>;
+  }
+
+  <span class="kw">try</span> {
+    <span class="kw">await</span> firebase.auth().sendPasswordResetEmail(email);
+    <span class="cmt">// Always show success  -  do not reveal whether the email exists</span>
+    msgEl.textContent = <span class="str">'If that email has an account, a reset link is on its way. Check your spam folder too.'</span>;
+  } <span class="kw">catch</span> {
+    msgEl.textContent = <span class="str">'Could not send the reset email. Try again in a moment.'</span>;
+  }
+}</div>
+    <div class="callout note">
+      <strong>Do not reveal whether an email exists.</strong> If someone enters an email that has no account, show the same success message as if the reset email was sent. This prevents someone from using your password reset form to enumerate which emails have accounts. The code above does this correctly by catching all errors and showing a neutral message.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Loading state while auth resolves</div>
+    <p><code>onAuthStateChanged</code> fires asynchronously - there is a brief moment on page load where Firebase does not yet know if the user is signed in. During this time, showing either the login form or the dashboard would cause a flash of the wrong view. The fix is a loading screen that covers both until auth state is known.</p>
+    <div class="code-block"><span class="cmt">/* Show a loading overlay on page load */</span>
+#loading-overlay {
+  position: fixed;
+  inset: 0;
+  background: #f7f7f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+<span class="cmt">// Hide it once auth state is determined</span>
+firebase.auth().onAuthStateChanged(user => {
+  document.getElementById(<span class="str">'loading-overlay'</span>).style.display = <span class="str">'none'</span>;
+  <span class="cmt">// ... rest of auth handling</span>
+});</div>
+    <div class="troubleshoot">
+      <div class="troubleshoot-header">Common Issues - Auth Pages</div>
+      <div class="troubleshoot-body">
+        <div class="trouble-item">
+          <div class="trouble-q">Client signs in successfully but the dashboard never appears</div>
+          <div class="trouble-a"><code>onAuthStateChanged</code> fired but <code>loadClientData</code> likely threw an error before updating the UI. Open the browser console - if there is a Firestore permission error, the UID stored in Firestore does not match the authenticated user's UID. This usually means the client document was created before the auth account, or the UID was stored incorrectly. Check the client's Firestore document directly and compare the <code>uid</code> field to the UID in Firebase Authentication → Users.</div>
+        </div>
+        <div class="trouble-item">
+          <div class="trouble-q">Password reset email is going to spam</div>
+          <div class="trouble-a">Firebase's default sending domain (<code>firebaseapp.com</code>) has reasonable deliverability but is not your domain. Until you configure a custom email domain in Firebase Authentication settings, some providers will flag it. For a production portal, set up the custom domain. Firebase's documentation covers this under Authentication → Templates → Customize action URL.</div>
+        </div>
+        <div class="trouble-item">
+          <div class="trouble-q">"The email address is already in use" when creating a client account</div>
+          <div class="trouble-a">That email already has a Firebase Auth account in your project. Check Authentication → Users for the existing account. Either delete it (if it was a test) or link the existing UID to their Firestore document rather than creating a new auth account. Never create duplicate auth accounts for the same email.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     MODULE 03  -  The Client Dashboard
+═══════════════════════════════════════════════════════════ -->
+<div class="module" id="a4-m3">
+  <div class="module-tag"><span class="dot blue"></span>Module 03</div>
+  <h2>The Client Dashboard</h2>
+  <p class="module-lead">The dashboard is what clients see after signing in - a tabbed layout showing their invoices, booking history, session notes, and uploaded documents. Each tab pulls from a different data source. This module covers loading the data, rendering each view, and making the whole thing feel fast and professional.</p>
+
+  <div class="section">
+    <div class="section-title">Dashboard layout</div>
+    <p>The same panel-switching pattern from the admin dashboard applies here - one HTML file, multiple content panels, only one visible at a time. The client sees a top navigation bar with their name and a sign-out button, and four tabs below: Invoices, Bookings, Session Notes, and Documents.</p>
+    <div class="code-block"><span class="kw">async function</span> loadClientData(uid) {
+  <span class="cmt">// Find the client's Firestore document by UID</span>
+  <span class="kw">const</span> snapshot = <span class="kw">await</span> db.collection(<span class="str">'clients'</span>)
+    .where(<span class="str">'uid'</span>, <span class="str">'=='</span>, uid)
+    .limit(1)
+    .get();
+
+  <span class="kw">if</span> (snapshot.empty) {
+    showError(<span class="str">'Account not found. Please contact us.'</span>);
+    <span class="kw">return</span>;
+  }
+
+  <span class="kw">const</span> clientDoc  = snapshot.docs[0];
+  <span class="kw">const</span> clientData = clientDoc.data();
+  <span class="kw">const</span> clientCode = clientDoc.id;
+
+  <span class="cmt">// Display their name in the header</span>
+  document.getElementById(<span class="str">'client-name'</span>).textContent =
+    clientData.name?.split(<span class="str">' '</span>)[0] || <span class="str">'Welcome back'</span>;
+
+  <span class="cmt">// Load all tabs in parallel</span>
+  <span class="kw">await</span> Promise.all([
+    loadInvoices(clientData.email),
+    loadSessions(clientCode),
+    loadDocuments(clientCode),
+  ]);
+
+  showTab(<span class="str">'invoices'</span>); <span class="cmt">// default tab</span>
+}</div>
+    <div class="callout note">
+      <strong>Why query by UID rather than storing the client code in auth?</strong> Firebase Authentication custom claims could store the client code, but that requires the Admin SDK and a server-side function to set them. Querying Firestore by UID is simpler and works entirely on the client side, at the cost of one extra read on login. For the scale of a small business portal, that is the right tradeoff.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Invoices tab - reading from Supabase</div>
+    <p>Invoice data lives in Supabase (set up in Add-on 02), not Firebase. The client portal reads it directly using the client's email as a lookup key, with the anon key. Make sure your Supabase Row Level Security policy allows reads where the email column matches the requesting user's email - or scope it through a Netlify Function if you want stricter control.</p>
+    <div class="code-block"><span class="kw">async function</span> loadInvoices(email) {
+  <span class="kw">const</span> res = <span class="kw">await</span> fetch(
+    `${SUPABASE_URL}/rest/v1/invoices?email=eq.${encodeURIComponent(email)}&order=created_at.desc`,
+    { headers: { <span class="str">'apikey'</span>: SUPABASE_ANON_KEY } }
+  );
+
+  <span class="kw">const</span> invoices = <span class="kw">await</span> res.json();
+  <span class="kw">const</span> container = document.getElementById(<span class="str">'invoices-list'</span>);
+
+  <span class="kw">if</span> (!invoices.length) {
+    container.innerHTML = <span class="str">'&lt;p class="empty"&gt;No invoices yet.&lt;/p&gt;'</span>;
+    <span class="kw">return</span>;
+  }
+
+  container.innerHTML = invoices.map(inv => `
+    &lt;div class="invoice-row ${inv.paid ? 'paid' : 'unpaid'}"&gt;
+      &lt;div class="inv-id"&gt;${inv.id}&lt;/div&gt;
+      &lt;div class="inv-desc"&gt;${inv.description || inv.service}&lt;/div&gt;
+      &lt;div class="inv-amount"&gt;$${parseFloat(inv.amount).toFixed(2)}&lt;/div&gt;
+      &lt;div class="inv-status"&gt;
+        ${inv.paid
+          ? '&lt;span class="badge paid"&gt;Paid&lt;/span&gt;'
+          : `&lt;a href="/invoice.html?id=${inv.id}" class="pay-btn"&gt;Pay Now&lt;/a&gt;`}
+      &lt;/div&gt;
+    &lt;/div&gt;
+  `).join(<span class="str">''</span>);
+}</div>
+    <div class="callout warn">
+      <strong>RLS policy for client invoice reads:</strong> In Supabase, create a SELECT policy on your invoices table: <code>CREATE POLICY "clients_read_own_invoices" ON invoices FOR SELECT USING (email = current_setting('request.jwt.claims', true)::json->>'email');</code> - this requires JWT auth from Supabase. If you are using the anon key without user JWTs, a simpler approach is to route invoice reads through a Netlify Function that validates the Firebase auth token first, then returns only that client's invoices using the service role key.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Session history and notes tab</div>
+    <div class="code-block"><span class="kw">async function</span> loadSessions(clientCode) {
+  <span class="kw">const</span> snapshot = <span class="kw">await</span> db
+    .collection(<span class="str">'clients'</span>).doc(clientCode)
+    .collection(<span class="str">'sessions'</span>)
+    .orderBy(<span class="str">'date'</span>, <span class="str">'desc'</span>)
+    .get();
+
+  <span class="kw">const</span> container = document.getElementById(<span class="str">'sessions-list'</span>);
+
+  <span class="kw">if</span> (snapshot.empty) {
+    container.innerHTML = <span class="str">'&lt;p class="empty"&gt;No sessions recorded yet.&lt;/p&gt;'</span>;
+    <span class="kw">return</span>;
+  }
+
+  container.innerHTML = snapshot.docs.map(doc => {
+    <span class="kw">const</span> s = doc.data();
+    <span class="kw">return</span> `
+      &lt;div class="session-row"&gt;
+        &lt;div class="session-date"&gt;${s.date}&lt;/div&gt;
+        &lt;div class="session-service"&gt;${s.service || ''}&lt;/div&gt;
+        &lt;div class="session-notes"&gt;${s.notes || 'No notes for this session.'}&lt;/div&gt;
+        ${s.completedBy ? \`&lt;div class="session-by"&gt;${s.completedBy}&lt;/div&gt;\` : ''}
+      &lt;/div&gt;
+    `;
+  }).join(<span class="str">''</span>);
+}</div>
+    <div class="callout tip">
+      <strong>What to show vs. what to hide:</strong> Staff notes in sessions may contain internal observations that were not meant for clients. Before going live, decide which session fields are client-facing. Either add a <code>clientVisible: true/false</code> field to each session document and filter on it, or create a separate <code>client_notes</code> field alongside your internal <code>notes</code> field. Do not show everything staff can see.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Documents tab - Firebase Storage</div>
+    <p>Firebase Storage holds files (contracts, photos, before/after images, receipts) scoped per client. Storage security rules mirror the Firestore rules - each client can only read files in their own folder.</p>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body">In Firebase Console, go to <strong>Storage → Get started</strong>. Choose a location and start in production mode. You will set the rules manually.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">Set Storage security rules:
+        <div class="code-block">rules_version = <span class="str">'2'</span>;
+service firebase.storage {
+  match /b/{bucket}/o {
+    <span class="cmt">// Each client can only read their own folder</span>
+    match /clients/{clientCode}/{allPaths=**} {
+      allow read: <span class="kw">if</span> request.auth != null
+                  && request.auth.uid == firestore.get(
+                    /databases/(default)/documents/clients/$(clientCode)
+                  ).data.uid;
+      <span class="cmt">// Only admin uploads (via Functions) - clients cannot upload</span>
+      allow write: <span class="kw">if</span> false;
+    }
+  }
+}</div>
+      </div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">Store document metadata in Firestore (name, upload date, type) and the Storage path. The client's portal reads the metadata from Firestore, then generates a download URL from Storage when the client clicks a file.</div></div>
+    </div>
+    <div class="code-block"><span class="kw">async function</span> loadDocuments(clientCode) {
+  <span class="kw">const</span> snapshot = <span class="kw">await</span> db
+    .collection(<span class="str">'clients'</span>).doc(clientCode)
+    .collection(<span class="str">'documents'</span>)
+    .orderBy(<span class="str">'uploadedAt'</span>, <span class="str">'desc'</span>)
+    .get();
+
+  <span class="kw">const</span> container = document.getElementById(<span class="str">'documents-list'</span>);
+
+  <span class="kw">if</span> (snapshot.empty) {
+    container.innerHTML = <span class="str">'&lt;p class="empty"&gt;No documents shared yet.&lt;/p&gt;'</span>;
+    <span class="kw">return</span>;
+  }
+
+  <span class="cmt">// Generate signed download URLs for each file</span>
+  <span class="kw">const</span> rows = <span class="kw">await</span> Promise.all(snapshot.docs.map(<span class="kw">async</span> doc => {
+    <span class="kw">const</span> d = doc.data();
+    <span class="kw">const</span> storageRef = firebase.storage().ref(d.storagePath);
+    <span class="kw">const</span> url = <span class="kw">await</span> storageRef.getDownloadURL();
+    <span class="kw">return</span> `
+      &lt;div class="doc-row"&gt;
+        &lt;div class="doc-name"&gt;${d.name}&lt;/div&gt;
+        &lt;div class="doc-date"&gt;${d.uploadedAt?.toDate().toLocaleDateString()}&lt;/div&gt;
+        &lt;a href="${url}" target="_blank" class="doc-download"&gt;Download&lt;/a&gt;
+      &lt;/div&gt;
+    `;
+  }));
+
+  container.innerHTML = rows.join(<span class="str">''</span>);
+}</div>
+    <div class="troubleshoot">
+      <div class="troubleshoot-header">Common Issues - Dashboard</div>
+      <div class="troubleshoot-body">
+        <div class="trouble-item">
+          <div class="trouble-q">Invoices tab shows nothing even though invoices exist in Supabase</div>
+          <div class="trouble-a">The email used in the Supabase invoice record must exactly match the email in Firebase Auth (including case). Check both. Also verify the Supabase RLS policy allows the read - temporarily disable RLS to confirm data is there, then re-enable and debug the policy.</div>
+        </div>
+        <div class="trouble-item">
+          <div class="trouble-q">Document download URLs expire and stop working</div>
+          <div class="trouble-a">Firebase Storage download URLs from <code>getDownloadURL()</code> do not expire if the Storage security rules allow the read - they are access-token URLs tied to the authenticated user. If links are expiring, it is usually because the client signed out and the URL requires authentication. The solution: generate URLs server-side using the Admin SDK (via a Netlify Function), which produces URLs that do not require client auth. Or accept that clients must be signed in to download, which is the correct behavior anyway.</div>
+        </div>
+        <div class="trouble-item">
+          <div class="trouble-q">All tabs load slowly on first open</div>
+          <div class="trouble-a"><code>Promise.all</code> in <code>loadClientData</code> fires all three requests in parallel, which is already the fastest approach. If it still feels slow, add skeleton loading placeholders (grey boxes that show while data loads) so the page feels instant even if the data takes a moment. This is a perceived performance fix rather than a real one, but it significantly improves how the portal feels to use.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     MODULE 04  -  Admin Integration
+═══════════════════════════════════════════════════════════ -->
+<div class="module" id="a4-m4">
+  <div class="module-tag"><span class="dot purple"></span>Module 04</div>
+  <h2>Admin Integration</h2>
+  <p class="module-lead">The client portal does not exist in isolation. When you add a client in the admin dashboard, their portal account should be created automatically. When you upload a document from the admin side, it should appear in the client's portal immediately. This module covers wiring the admin dashboard to the portal so both sides stay in sync without manual steps.</p>
+
+  <div class="section">
+    <div class="section-title">Creating portal accounts from the admin dashboard</div>
+    <p>Adding "create portal account" to your existing admin new-client flow requires one additional step: calling a Netlify Function that uses the Firebase Admin SDK to create the auth account server-side. This avoids the issue of <code>createUserWithEmailAndPassword</code> signing the admin out of their own session.</p>
+    <div class="code-block"><span class="cmt">// netlify/functions/create-client-auth.js</span>
+<span class="cmt">// Uses Firebase Admin SDK  -  requires FIREBASE_SERVICE_ACCOUNT env variable</span>
+
+<span class="kw">const</span> admin = require(<span class="str">'firebase-admin'</span>);
+
+<span class="kw">if</span> (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.cert(
+      JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT)
+    )
+  });
+}
+
+exports.handler = <span class="kw">async</span> (event) => {
+  <span class="kw">const</span> { email, clientCode } = JSON.parse(event.body);
+
+  <span class="kw">try</span> {
+    <span class="cmt">// Create the auth account</span>
+    <span class="kw">const</span> user = <span class="kw">await</span> admin.auth().createUser({ email });
+
+    <span class="cmt">// Store the UID in the Firestore client document</span>
+    <span class="kw">await</span> admin.firestore()
+      .collection(<span class="str">'clients'</span>).doc(clientCode)
+      .update({ uid: user.uid });
+
+    <span class="cmt">// Generate a password reset link (client sets their own password)</span>
+    <span class="kw">const</span> link = <span class="kw">await</span> admin.auth()
+      .generatePasswordResetLink(email);
+
+    <span class="cmt">// Send the welcome email via Resend</span>
+    <span class="kw">await</span> sendWelcomeEmail(email, link); <span class="cmt">// see below</span>
+
+    <span class="kw">return</span> { statusCode: 200, body: JSON.stringify({ uid: user.uid }) };
+  } <span class="kw">catch</span> (err) {
+    <span class="kw">return</span> { statusCode: 500, body: JSON.stringify({ error: err.message }) };
+  }
+};</div>
+    <div class="callout warn">
+      <strong>Firebase Admin SDK setup:</strong> The Admin SDK requires a service account key JSON file from Firebase. Go to Firebase Console → Project settings → Service accounts → Generate new private key. Download the JSON. In Netlify, add it as an environment variable: <code>FIREBASE_SERVICE_ACCOUNT</code> with the entire JSON as the value (minified, no line breaks). Add <code>firebase-admin</code> to your <code>package.json</code> dependencies and run <code>npm install</code> before deploying.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">The welcome email</div>
+    <p>When a client's portal account is created, send them a welcome email with their login link and instructions. The password reset link Firebase generates is how they set their first password - frame it as "set up your account" rather than "reset your password."</p>
+    <div class="code-block"><span class="kw">async function</span> sendWelcomeEmail(email, passwordSetupLink) {
+  <span class="kw">await</span> fetch(<span class="str">'https://api.resend.com/emails'</span>, {
+    method: <span class="str">'POST'</span>,
+    headers: {
+      <span class="str">'Authorization'</span>: `Bearer ${process.env.RESEND_API_KEY}`,
+      <span class="str">'Content-Type'</span>: <span class="str">'application/json'</span>
+    },
+    body: JSON.stringify({
+      from:    process.env.FROM_EMAIL,
+      to:      email,
+      subject: <span class="str">'Your client portal is ready'</span>,
+      html: `
+        &lt;div style="font-family: Georgia, serif; max-width: 540px; margin: 0 auto;"&gt;
+          &lt;h2&gt;Your account is set up.&lt;/h2&gt;
+          &lt;p&gt;You now have access to your client portal, where you can view
+          your invoices, session history, and shared documents.&lt;/p&gt;
+          &lt;p style="margin: 28px 0;"&gt;
+            &lt;a href="${passwordSetupLink}"
+               style="background: #1e3a5f; color: white; padding: 13px 24px;
+                      text-decoration: none; border-radius: 5px; font-family: sans-serif;"&gt;
+              Set Up Your Password
+            &lt;/a&gt;
+          &lt;/p&gt;
+          &lt;p style="font-size: 13px; color: #6b7280;"&gt;
+            After setting your password, you can log in any time at
+            &lt;a href="${process.env.GUIDE_URL}/client-portal.html"&gt;
+              your portal
+            &lt;/a&gt;.
+            This setup link expires in 24 hours.
+          &lt;/p&gt;
+        &lt;/div&gt;
+      `
+    })
+  });
+}</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Uploading documents from the admin side</div>
+    <p>When you want to share a document with a client - a contract, a photo, a receipt - you upload it from the admin dashboard. The file goes to Firebase Storage and the metadata is written to the client's Firestore <code>documents</code> subcollection. It appears in their portal immediately.</p>
+    <div class="code-block"><span class="kw">async function</span> uploadClientDocument(clientCode, file) {
+  <span class="kw">const</span> storagePath = `clients/${clientCode}/${Date.now()}_${file.name}`;
+  <span class="kw">const</span> storageRef  = firebase.storage().ref(storagePath);
+
+  <span class="cmt">// Upload the file</span>
+  <span class="kw">const</span> snapshot = <span class="kw">await</span> storageRef.put(file);
+
+  <span class="cmt">// Save metadata to Firestore</span>
+  <span class="kw">await</span> db.collection(<span class="str">'clients'</span>).doc(clientCode)
+    .collection(<span class="str">'documents'</span>)
+    .add({
+      name:        file.name,
+      storagePath: storagePath,
+      size:        file.size,
+      type:        file.type,
+      uploadedAt:  firebase.firestore.FieldValue.serverTimestamp()
+    });
+}</div>
+    <div class="callout tip">
+      <strong>File size limits:</strong> Firebase Storage on the free (Spark) plan allows up to 5GB total storage. There is no per-file limit enforced by Firebase, but set one in your upload UI: <code>if (file.size > 10 * 1024 * 1024) { alert('File must be under 10MB'); return; }</code>. Large files cause slow uploads with no progress feedback, which looks like the form is broken.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Disabling a client's portal access</div>
+    <p>If a client relationship ends, you can disable their portal access without deleting their data. Firebase Authentication lets you disable an account - they cannot sign in, but their Firestore documents and Storage files remain intact.</p>
+    <div class="code-block"><span class="cmt">// In your admin dashboard  -  disable portal access</span>
+<span class="kw">async function</span> disableClientPortal(clientCode) {
+  <span class="kw">const</span> clientDoc = <span class="kw">await</span> db.collection(<span class="str">'clients'</span>).doc(clientCode).get();
+  <span class="kw">const</span> uid = clientDoc.data().uid;
+
+  <span class="kw">if</span> (!uid) {
+    alert(<span class="str">'This client does not have a portal account.'</span>);
+    <span class="kw">return</span>;
+  }
+
+  <span class="cmt">// Call a Netlify Function that uses Admin SDK to disable the account</span>
+  <span class="kw">await</span> fetch(<span class="str">'/.netlify/functions/disable-client-auth'</span>, {
+    method: <span class="str">'POST'</span>,
+    headers: { <span class="str">'Content-Type'</span>: <span class="str">'application/json'</span> },
+    body: JSON.stringify({ uid })
+  });
+
+  <span class="cmt">// Mark as disabled in Firestore</span>
+  <span class="kw">await</span> db.collection(<span class="str">'clients'</span>).doc(clientCode)
+    .update({ portalDisabled: <span class="kw">true</span> });
+
+  alert(<span class="str">'Portal access disabled. The client cannot sign in.'</span>);
+}</div>
+    <div class="troubleshoot">
+      <div class="troubleshoot-header">Common Issues - Admin Integration</div>
+      <div class="troubleshoot-body">
+        <div class="trouble-item">
+          <div class="trouble-q">"Cannot find module firebase-admin" when deploying the Netlify Function</div>
+          <div class="trouble-a">The <code>firebase-admin</code> package must be listed in a <code>package.json</code> at the root of your project. Create one if it does not exist: <code>npm init -y</code>, then <code>npm install firebase-admin</code>. Netlify reads <code>package.json</code> and installs dependencies automatically during the build. Make sure your <code>netlify.toml</code> has <code>node_bundler = "nft"</code>.</div>
+        </div>
+        <div class="trouble-item">
+          <div class="trouble-q">FIREBASE_SERVICE_ACCOUNT environment variable causes a JSON parse error</div>
+          <div class="trouble-a">When pasting the service account JSON into Netlify's environment variable field, it must be on a single line with no line breaks. Use a minifier or run <code>cat serviceAccount.json | python3 -m json.tool --compact</code> to collapse it. Line breaks inside the JSON value will cause a parse failure when the function reads it with <code>JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT)</code>.</div>
+        </div>
+        <div class="trouble-item">
+          <div class="trouble-q">Welcome email password setup link expires before the client uses it</div>
+          <div class="trouble-a">Firebase password reset links expire after one hour by default. You can set a custom expiry duration using the Admin SDK: pass an <code>ActionCodeSettings</code> object to <code>generatePasswordResetLink()</code> with a longer <code>expiresIn</code>. Alternatively, note in the welcome email that the link is time-limited and include a clear instruction for what to do if it expires (go to the login page and click "Forgot password").</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</main>
+</div>
+
+<div class="footer">
+  Every tool, every step, every error, every fix - documented so you can build it too.
+</div>
+
+</div><!-- end gate-content -->
+
+<script>
+// ── Configuration ─────────────────────────────────────────────
+// Update VALIDATE_URL to your actual Netlify site URL
+const VALIDATE_URL = '/.netlify/functions/validate-token';
+const RESEND_URL   = '/.netlify/functions/resend-link';
+
+// ── Gate state helpers ────────────────────────────────────────
+function showGateState(state) {
+  document.getElementById('gate-checking').style.display = 'none';
+  document.getElementById('gate-purchase').style.display = 'none';
+  document.getElementById('gate-invalid').style.display  = 'none';
+  document.getElementById(`gate-${state}`).style.display = 'block';
+}
+
+function grantAccess() {
+  document.getElementById('gate-overlay').classList.add('hidden');
+  document.getElementById('gate-content').classList.add('visible');
+  // Persist the token in sessionStorage so validation
+  // doesn't re-run on every anchor link click within the page
+  const token = new URLSearchParams(window.location.search).get('token');
+  if (token) sessionStorage.setItem('guide_token', token);
+}
+
+// ── Main validation flow ──────────────────────────────────────
+async function validateAccess() {
+  // Check sessionStorage first (avoids re-validating within a session)
+  const cachedToken = sessionStorage.getItem('guide_token');
+  const urlToken    = new URLSearchParams(window.location.search).get('token');
+  const token       = urlToken || cachedToken;
+
+  if (!token) {
+    showGateState('purchase');
+    return;
+  }
+
+  try {
+    const res  = await fetch(VALIDATE_URL, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ token }),
+    });
+
+    const data = await res.json();
+
+    if (data.valid) {
+      grantAccess();
+    } else {
+      // Show different UI for "never had access" vs "had access but something's wrong"
+      if (!urlToken && !cachedToken) {
+        showGateState('purchase');
+      } else {
+        document.getElementById('gate-invalid-reason').textContent =
+          data.reason === 'Token expired'  ? 'Your access link has expired.' :
+          data.reason === 'Access revoked' ? 'Your access has been revoked. If you think this is a mistake, please get in touch.' :
+          'This link doesn\'t match our records. Check your original purchase email.';
+        showGateState('invalid');
+      }
+    }
+  } catch (err) {
+    // Network error  -  fail open so buyers aren't locked out by a server hiccup
+    console.error('Validation error:', err);
+    // Show the guide but log the failure
+    grantAccess();
+  }
+}
+
+// ── Resend link ───────────────────────────────────────────────
+async function resendLink(context = 'purchase') {
+  const inputId = context === 'invalid' ? 'gate-email-invalid' : 'gate-email-input';
+  const msgId   = context === 'invalid' ? 'gate-msg-invalid'   : 'gate-msg-resend';
+  const email   = document.getElementById(inputId).value.trim();
+  const msg     = document.getElementById(msgId);
+
+  if (!email || !email.includes('@')) {
+    msg.className = 'gate-msg error';
+    msg.textContent = 'Please enter a valid email address.';
+    return;
+  }
+
+  msg.className = 'gate-msg';
+  msg.textContent = '';
+  document.getElementById(inputId).disabled = true;
+
+  try {
+    const res  = await fetch(RESEND_URL, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ email }),
+    });
+
+    if (res.ok) {
+      msg.className = 'gate-msg success';
+      msg.textContent = 'If that email has a purchase on record, you\'ll get the link within a minute. Check your spam folder if it doesn\'t arrive.';
+    } else {
+      throw new Error('Server error');
+    }
+  } catch {
+    msg.className = 'gate-msg error';
+    msg.textContent = 'Something went wrong. Please try again or get in touch directly.';
+    document.getElementById(inputId).disabled = false;
+  }
+}
+
+// Allow pressing Enter in email fields
+['gate-email-input', 'gate-email-invalid'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('keydown', e => { if (e.key === 'Enter') resendLink(id.includes('invalid') ? 'invalid' : 'purchase'); });
+});
+
+// ── Run on load ───────────────────────────────────────────────
+validateAccess();
+</script>
+
+</body>
+</html>

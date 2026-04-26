@@ -1,0 +1,1369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Online Invoice & Payments - Add-on 02</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+
+/* ── DESIGN TOKENS ──────────────────────────────────────────── */
+:root {
+  /* Page */
+  --bg:          #f7f7f5;
+  --bg2:         #efefec;
+  --bg3:         #e5e5e1;
+  --border:      #d8d8d3;
+  --border2:     #c8c8c2;
+
+  /* Text */
+  --text:        #18181b;
+  --text2:       #3f3f46;
+  --text3:       #71717a;
+  --text4:       #a1a1aa;
+
+  /* Accent - deep navy */
+  --accent:      #1e3a5f;
+  --accent-mid:  #2d5a8e;
+  --accent-soft: #e8eef6;
+
+  /* Inline code highlight */
+  --code-fg:     #1e3a5f;
+  --code-bg:     #eef2f8;
+  --code-border: #c8d4e8;
+
+  /* Callout colors */
+  --tip-bg:      #f0f7f2;
+  --tip-border:  #2d7a4f;
+  --tip-text:    #1a5c38;
+
+  --warn-bg:     #fdf8ee;
+  --warn-border: #c8960a;
+  --warn-text:   #6b4f08;
+
+  --danger-bg:   #fdf2f2;
+  --danger-border: #b83232;
+  --danger-text: #7a1f1f;
+
+  --note-bg:     #f0f4ff;
+  --note-border: #3a5cbf;
+  --note-text:   #1f3a8c;
+
+  /* AI note */
+  --ai-bg:       #f4f3ff;
+  --ai-border:   #7c6fdf;
+  --ai-text:     #3d3480;
+
+  /* Syntax */
+  --syn-cmt:     #7a8a78;
+  --syn-kw:      #7c5c1e;
+  --syn-str:     #2d6e3e;
+  --syn-fn:      #1e4a8a;
+  --syn-num:     #8a3a1e;
+}
+
+/* ── RESET ──────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.75;
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── COVER ──────────────────────────────────────────────────── */
+.cover {
+  background: #111827;
+  color: #f9fafb;
+  padding: 80px 64px 72px;
+}
+
+.cover-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #6b7280;
+  margin-bottom: 22px;
+  font-weight: 400;
+}
+
+.cover h1 {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 48px;
+  line-height: 1.13;
+  margin-bottom: 22px;
+  max-width: 700px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.cover h1 em {
+  color: #93c5fd;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.cover-lead {
+  font-size: 16px;
+  color: #9ca3af;
+  max-width: 620px;
+  line-height: 1.75;
+  margin-bottom: 40px;
+  font-weight: 300;
+}
+
+.cover-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 28px;
+  border-top: 1px solid #1f2937;
+}
+
+.meta-tag {
+  background: #1f2937;
+  border: 1px solid #374151;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: #9ca3af;
+  letter-spacing: 0.02em;
+}
+
+/* ── PAGE LAYOUT ────────────────────────────────────────────── */
+.page {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ── SIDEBAR ────────────────────────────────────────────────── */
+.sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  padding: 36px 20px 36px 32px;
+  border-right: 1px solid var(--border);
+  background: var(--bg);
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+  flex-shrink: 0;
+}
+
+.sidebar-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text4);
+  font-weight: 500;
+  margin-bottom: 10px;
+  padding-left: 10px;
+}
+
+.sidebar nav a {
+  display: block;
+  padding: 6px 10px;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text3);
+  text-decoration: none;
+  border-radius: 5px;
+  line-height: 1.45;
+  transition: background 0.1s, color 0.1s;
+}
+
+.sidebar nav a:hover {
+  background: var(--bg2);
+  color: var(--text);
+}
+
+.sidebar nav a .num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  color: var(--text4);
+  margin-right: 7px;
+}
+
+.sidebar-section {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+
+/* ── MAIN ───────────────────────────────────────────────────── */
+.main {
+  padding: 52px 60px 96px;
+  min-width: 0;
+  max-width: 780px;
+}
+
+/* ── AI INTRO NOTE ──────────────────────────────────────────── */
+.ai-intro {
+  background: var(--ai-bg);
+  border-left: 3px solid var(--ai-border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  margin-bottom: 52px;
+  color: var(--ai-text);
+  font-size: 13.5px;
+  line-height: 1.72;
+}
+
+.ai-intro strong { color: var(--ai-text); font-weight: 600; }
+
+/* ── MODULE ─────────────────────────────────────────────────── */
+.module {
+  margin-bottom: 72px;
+  padding-bottom: 72px;
+  border-bottom: 1px solid var(--border);
+}
+
+.module:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.module-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text4);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.module-tag .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+.module-tag .dot.green  { background: #2d7a4f; }
+.module-tag .dot.blue   { background: #1e4a8a; }
+.module-tag .dot.purple { background: #6b4fa0; }
+
+.module h2 {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 32px;
+  line-height: 1.22;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+.module-lead {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 15px;
+  color: var(--text3);
+  line-height: 1.75;
+  margin-bottom: 36px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--border);
+  font-style: italic;
+}
+
+/* ── SECTION ────────────────────────────────────────────────── */
+.section {
+  margin-bottom: 40px;
+}
+
+.section-title {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border2);
+  letter-spacing: -0.005em;
+}
+
+.section p {
+  font-size: 14.5px;
+  color: var(--text2);
+  line-height: 1.8;
+  margin-bottom: 14px;
+}
+
+.section p:last-child { margin-bottom: 0; }
+
+/* ── STEPS ──────────────────────────────────────────────────── */
+.steps { margin: 16px 0; }
+
+.step {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 12px;
+  align-items: flex-start;
+}
+
+.step-num {
+  counter-increment: step;
+  background: var(--accent);
+  color: #fff;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  min-width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.step-body {
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.75;
+}
+
+.step-body strong { color: var(--text); font-weight: 600; }
+
+.steps { counter-reset: step; }
+
+/* ── CODE ───────────────────────────────────────────────────── */
+pre, .code-block {
+  background: #1a1f2e;
+  color: #d4daf0;
+  border-radius: 6px;
+  padding: 18px 20px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12.5px;
+  line-height: 1.72;
+  overflow-x: auto;
+  margin: 16px 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+code {
+  background: var(--code-bg);
+  border: 1px solid var(--code-border);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--code-fg);
+}
+
+pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
+}
+
+.cmt { color: #6a7a90; }
+.kw  { color: #c9956c; }
+.str { color: #7ec09a; }
+.fn  { color: #82aacc; }
+.num { color: #d49a7a; }
+
+/* ── CALLOUTS ───────────────────────────────────────────────── */
+.callout {
+  border-radius: 5px;
+  padding: 13px 16px;
+  margin: 14px 0;
+  font-size: 13.5px;
+  line-height: 1.72;
+  display: block;
+}
+
+.callout strong { font-weight: 600; }
+
+.callout.tip    { background: var(--tip-bg);    border-left: 3px solid var(--tip-border);    color: var(--tip-text); }
+.callout.warn   { background: var(--warn-bg);   border-left: 3px solid var(--warn-border);   color: var(--warn-text); }
+.callout.danger { background: var(--danger-bg); border-left: 3px solid var(--danger-border); color: var(--danger-text); }
+.callout.note   { background: var(--note-bg);   border-left: 3px solid var(--note-border);   color: var(--note-text); }
+
+/* ── AI NOTE ────────────────────────────────────────────────── */
+.ai-note {
+  background: var(--ai-bg);
+  border-left: 3px solid var(--ai-border);
+  border-radius: 5px;
+  padding: 13px 16px;
+  margin: 14px 0;
+  color: var(--ai-text);
+  font-size: 13.5px;
+  line-height: 1.72;
+  display: block;
+}
+
+.ai-note strong { color: var(--ai-text); font-weight: 600; }
+
+/* ── TROUBLESHOOT ───────────────────────────────────────────── */
+.troubleshoot {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  margin: 18px 0;
+  overflow: hidden;
+}
+
+.troubleshoot-header {
+  background: var(--bg3);
+  border-bottom: 1px solid var(--border);
+  padding: 9px 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text3);
+}
+
+.troubleshoot-body { padding: 14px 16px; }
+
+.trouble-item {
+  margin-bottom: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.trouble-item:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.trouble-q {
+  font-weight: 600;
+  font-size: 13.5px;
+  color: var(--text);
+  margin-bottom: 5px;
+  padding-left: 14px;
+  position: relative;
+}
+
+.trouble-q::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 7px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-mid);
+}
+
+.trouble-a {
+  font-size: 13.5px;
+  color: var(--text3);
+  line-height: 1.72;
+  padding-left: 14px;
+}
+
+/* ── CONCEPT GRID ───────────────────────────────────────────── */
+.concept-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 16px 0;
+}
+
+.concept-box {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 14px 16px;
+}
+
+.concept-box .label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text4);
+  margin-bottom: 5px;
+}
+
+.concept-box .val {
+  font-size: 13.5px;
+  color: var(--text2);
+  line-height: 1.65;
+}
+
+/* ── TABLE ──────────────────────────────────────────────────── */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+  margin: 16px 0;
+}
+
+.data-table th {
+  text-align: left;
+  padding: 9px 14px;
+  background: var(--bg3);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text3);
+  border-bottom: 1px solid var(--border2);
+}
+
+.data-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text2);
+  vertical-align: top;
+  line-height: 1.65;
+}
+
+.data-table tr:last-child td { border-bottom: none; }
+
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  font-weight: 500;
+}
+.badge.free { background: var(--tip-bg); color: var(--tip-text); border: 1px solid var(--tip-border); }
+.badge.paid { background: var(--warn-bg); color: var(--warn-text); border: 1px solid var(--warn-border); }
+
+/* ── CROSS-SELL ─────────────────────────────────────────────── */
+.cross-sell {
+  background: #111827;
+  border-radius: 8px;
+  padding: 36px 40px;
+  margin: 64px 0 0;
+}
+
+.cross-sell .cross-sell-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #4b5563;
+  margin-bottom: 16px;
+  font-weight: 500;
+  display: block;
+}
+
+.cross-sell h3 {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: #f9fafb;
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+
+.cross-sell > p {
+  font-size: 13.5px;
+  color: #6b7280;
+  line-height: 1.7;
+  margin-bottom: 22px;
+}
+
+.addon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 10px;
+}
+
+.addon-card {
+  background: #1f2937;
+  border: 1px solid #374151;
+  border-radius: 6px;
+  padding: 16px 18px;
+}
+
+.addon-card .addon-title {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #e5e7eb;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.addon-card .addon-desc {
+  font-size: 12px;
+  color: #6b7280;
+  line-height: 1.6;
+  display: block;
+}
+
+.addon-card .addon-tag {
+  display: inline-block;
+  margin-top: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  color: #60a5fa;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ── FOOTER ─────────────────────────────────────────────────── */
+.footer {
+  background: #111827;
+  color: #374151;
+  text-align: center;
+  padding: 32px 40px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  margin-top: 0;
+}
+
+/* ── PREREQ NOTE ────────────────────────────────────────────── */
+.prereq {
+  background: var(--note-bg);
+  border-left: 3px solid var(--note-border);
+  border-radius: 5px;
+  padding: 13px 16px;
+  margin-bottom: 48px;
+  color: var(--note-text);
+  font-size: 13.5px;
+  line-height: 1.72;
+}
+
+.prereq strong { font-weight: 600; }
+
+/* ── RESPONSIVE ─────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .page {
+    grid-template-columns: 1fr;
+  }
+  .sidebar {
+    display: none;
+  }
+  .main {
+    padding: 32px 28px 72px;
+    max-width: 100%;
+  }
+  .cover {
+    padding: 52px 28px 48px;
+  }
+  .cover h1 {
+    font-size: 32px;
+  }
+  .cover-lead {
+    font-size: 15px;
+  }
+  .module h2 {
+    font-size: 26px;
+  }
+  .concept-grid {
+    grid-template-columns: 1fr;
+  }
+  .addon-grid {
+    grid-template-columns: 1fr;
+  }
+  .cross-sell {
+    padding: 28px 24px;
+  }
+}
+
+@media (max-width: 540px) {
+  .cover {
+    padding: 36px 18px 36px;
+  }
+  .cover h1 {
+    font-size: 26px;
+    line-height: 1.2;
+  }
+  .cover-lead {
+    font-size: 14px;
+  }
+  .main {
+    padding: 24px 16px 60px;
+  }
+  .module h2 {
+    font-size: 22px;
+  }
+  .section-title {
+    font-size: 17px;
+  }
+  .module-lead {
+    font-size: 14px;
+  }
+  pre, .code-block {
+    font-size: 11px;
+    padding: 14px 14px;
+  }
+  .data-table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .data-table th,
+  .data-table td {
+    white-space: normal;
+    font-size: 12.5px;
+    padding: 8px 10px;
+  }
+  .step {
+    gap: 10px;
+  }
+  .step-num {
+    min-width: 20px;
+    height: 20px;
+    font-size: 9px;
+  }
+  .troubleshoot-body {
+    padding: 12px 14px;
+  }
+}
+
+
+
+  /* ── GATE OVERLAY ── */
+  #gate-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: #faf8f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  #gate-overlay.hidden { display: none; }
+
+  .gate-box {
+    max-width: 480px;
+    width: 100%;
+    padding: 24px;
+    text-align: center;
+  }
+
+  .gate-logo {
+    font-family: 'Lora', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #1c1917;
+    margin-bottom: 40px;
+    letter-spacing: -0.01em;
+  }
+
+  .gate-card {
+    background: white;
+    border: 1px solid #ddd9d2;
+    border-radius: 10px;
+    padding: 40px 36px;
+  }
+
+  .gate-icon {
+    font-size: 32px;
+    margin-bottom: 16px;
+  }
+
+  .gate-title {
+    font-family: 'Lora', serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: #1c1917;
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+
+  .gate-body {
+    font-size: 14px;
+    color: #6b6560;
+    line-height: 1.7;
+    margin-bottom: 28px;
+  }
+
+  .gate-btn {
+    display: inline-block;
+    background: #b8430a;
+    color: white;
+    text-decoration: none;
+    padding: 13px 28px;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 14.5px;
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    transition: background 0.15s;
+    margin-bottom: 12px;
+  }
+
+  .gate-btn:hover { background: #9a360a; }
+
+  .gate-resend {
+    background: none;
+    border: 1px solid #ddd9d2;
+    color: #6b6560;
+    font-size: 13.5px;
+  }
+
+  .gate-resend:hover { background: #f3f0eb; }
+
+  .gate-input {
+    width: 100%;
+    border: 1px solid #ddd9d2;
+    border-radius: 5px;
+    padding: 11px 14px;
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    color: #1c1917;
+    margin-bottom: 10px;
+    outline: none;
+  }
+
+  .gate-input:focus { border-color: #b8430a; box-shadow: 0 0 0 3px rgba(184,67,10,0.08); }
+
+  .gate-msg {
+    font-size: 13px;
+    padding: 10px 14px;
+    border-radius: 5px;
+    margin-bottom: 14px;
+    display: none;
+  }
+
+  .gate-msg.error { background: #fef2f0; color: #8c1a10; border: 1px solid #c0392b; display: block; }
+  .gate-msg.success { background: #f0f7f2; color: #1f5c38; border: 1px solid #3a8c5c; display: block; }
+
+  .gate-spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    vertical-align: middle;
+    margin-right: 6px;
+  }
+
+  .gate-divider {
+    border: none;
+    border-top: 1px solid #e8e4de;
+    margin: 22px 0;
+    position: relative;
+  }
+
+  .gate-divider::after {
+    content: 'or';
+    position: absolute;
+    top: -9px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    padding: 0 10px;
+    font-size: 12px;
+    color: #9c9690;
+  }
+
+  .gate-fine {
+    font-size: 12px;
+    color: #9c9690;
+    margin-top: 16px;
+    line-height: 1.6;
+  }
+
+  .gate-fine a { color: #b8430a; }
+
+  #gate-content { display: none; }
+  #gate-content.visible { display: block; }
+
+</style>
+</head>
+<body>
+
+<!-- GATE OVERLAY -->
+═══════════════════════════════════════════════════════════ -->
+<div id="gate-overlay">
+  <div class="gate-box">
+    <div class="gate-logo">Build Your Business Website</div>
+
+    <!-- STATE: checking token -->
+    <div id="gate-checking" class="gate-card">
+      <div class="gate-icon">⏳</div>
+      <div class="gate-title">Checking your access…</div>
+      <p class="gate-body">Just a moment.</p>
+    </div>
+
+    <!-- STATE: no token / invalid  -  purchase prompt -->
+    <div id="gate-purchase" class="gate-card" style="display:none;">
+      <div class="gate-icon">📖</div>
+      <div class="gate-title">Get the complete course guide</div>
+      <p class="gate-body">
+        Every tool, every step, every fix  -  the full build documented so you can replicate it.
+        One-time purchase. Lifetime access.
+      </p>
+      <a href="https://applied-intelligence-studio.lemonsqueezy.com/checkout/buy/464b2937-5697-49b3-930c-951a5392fea5" class="gate-btn" id="buy-btn">
+        Get Access - $18.99
+      </a>
+      <hr class="gate-divider">
+      <p style="font-size:13px;color:#6b6560;margin-bottom:10px;">Already purchased? Enter your email to resend your link.</p>
+      <div id="gate-msg-resend" class="gate-msg"></div>
+      <input type="email" id="gate-email-input" class="gate-input" placeholder="your@email.com" />
+      <button class="gate-btn gate-resend" onclick="resendLink()">Resend my access link</button>
+      <p class="gate-fine">Questions? <a href="mailto:hello@yourdomain.com">Get in touch</a></p>
+    </div>
+
+    <!-- STATE: invalid/revoked  -  specific message -->
+    <div id="gate-invalid" class="gate-card" style="display:none;">
+      <div class="gate-icon">🔒</div>
+      <div class="gate-title">This link isn't valid</div>
+      <p class="gate-body" id="gate-invalid-reason">
+        This access link may have expired or been revoked. Check your purchase email for your original link,
+        or enter your email below to have it resent.
+      </p>
+      <div id="gate-msg-invalid" class="gate-msg"></div>
+      <input type="email" id="gate-email-invalid" class="gate-input" placeholder="your@email.com" />
+      <button class="gate-btn gate-resend" onclick="resendLink('invalid')">Resend my access link</button>
+      <hr class="gate-divider">
+      <a href="https://applied-intelligence-studio.lemonsqueezy.com/checkout/buy/464b2937-5697-49b3-930c-951a5392fea5" class="gate-btn">Purchase access</a>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     GUIDE CONTENT  -  hidden until token validates
+═══════════════════════════════════════════════════════════ -->
+
+<!-- GUIDE CONTENT -->
+<div id="gate-content">
+
+<div class="cover">
+  <div class="cover-eyebrow">Add-on 02 · Requires Core Guide</div>
+  <h1>Online Invoice &amp; <em>Payment System</em></h1>
+  <p class="cover-lead">Create invoices your clients can pay online with a credit card - no third-party invoicing app, no monthly subscription. Builds the complete payment flow: invoice creation, a client-facing payment page, Stripe integration, and automatic email notifications.</p>
+  <div class="cover-meta">
+    <span class="meta-tag">Stripe payments</span>
+    <span class="meta-tag">Netlify Functions</span>
+    <span class="meta-tag">Resend email API</span>
+    <span class="meta-tag">Supabase invoice database</span>
+    <span class="meta-tag">AI-assisted throughout</span>
+  </div>
+</div>
+
+<div class="page">
+<aside class="sidebar">
+  <div class="sidebar-title">Modules</div>
+  <nav>
+    <a href="#m1"><span class="num">01</span> Invoice &amp; Payments</a>
+    <a href="#m2"><span class="num">02</span> Email Notifications</a>
+  </nav>
+  <div class="sidebar-section">
+    <div class="sidebar-title">Core Guide</div>
+    <nav>
+    <a href="#">Main Website Build</a>
+    </nav>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-title">Other Add-ons</div>
+    <nav>
+    <a href="#"><span class="num">+1</span> Calendar Sync</a>
+    <a href="#"><span class="num">+3</span> Staff Portal</a>
+    <a href="#"><span class="num">+4</span> Client Portal</a>
+    </nav>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-title">Tools</div>
+    <nav>
+    <a href="https://stripe.com" target="_blank">stripe.com</a>
+    <a href="https://resend.com" target="_blank">resend.com</a>
+    <a href="https://netlify.com" target="_blank">netlify.com</a>
+    </nav>
+  </div>
+</aside>
+
+<main class="main">
+<div class="prereq"><strong>Prerequisites:</strong> This add-on assumes you have completed the core guide. GitHub, Netlify, and Supabase should already be set up. Netlify Functions are introduced here for the first time and covered from scratch.</div>
+
+<div class="module" id="m1">
+ <div class="module-tag"><span class="dot"></span>Module 01</div>
+ <h2>Online Invoice & Payment System</h2>
+ <p class="module-lead">This module builds an end-to-end invoicing system: you create invoices in an admin view, clients receive a link to a payment page, they pay with a credit card, and you get an email confirmation. No third-party invoicing app, no monthly subscription. Just your website, Netlify Functions for the backend, and Stripe for payment processing.</p>
+
+ <div class="section">
+ <div class="section-title">How the payment flow works</div>
+ <div class="steps">
+ <div class="step"><span class="step-num"></span><div class="step-body"><strong>You</strong> open the admin view and create an invoice: client name, service description, and amount. The invoice is saved to your database with a unique ID and a status of "unpaid."</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body"><strong>You</strong> copy the invoice link (e.g., <code>yourdomain.com/invoice.html?id=INV-1042</code>) and send it to the client by email or text.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body"><strong>The client</strong> opens the link, sees their invoice with the amount due, and clicks "Pay Now." Your frontend calls a Netlify Function to create a Stripe Payment Intent.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body"><strong>Stripe</strong> handles the card input securely (via Stripe Elements). No card data ever touches your servers. Stripe processes the payment.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body"><strong>On success</strong>, your Netlify confirmation function marks the invoice as paid in Supabase and sends you a notification email via Resend. The client sees a success screen.</div></div>
+ </div>
+ <div class="ai-note">
+ 
+ <div><strong>The entire invoicing system was designed and written by AI.</strong> The HTML invoice page, all three Netlify Functions, the Stripe integration, and the database schema were all generated through conversation with Claude. A bug was also caught during testing - a price calculation function was referencing the wrong dropdown element. Running a code review pass with AI ("review this JavaScript function for bugs, especially in how it reads the form values") identified the error before it could affect real payments.</div>
+ </div>
+ </div>
+
+ <div class="section">
+ <div class="section-title">Netlify Functions - Your backend</div>
+ <p>Netlify Functions are small Node.js scripts that run on Netlify's servers when called by your frontend. They're the right place for any code that uses secret API keys - Stripe's secret key, Supabase's service role key, your email API key. The frontend calls the function URL, the function runs securely, and returns a response.</p>
+ <div class="steps">
+ <div class="step"><span class="step-num"></span><div class="step-body">Create a <code>netlify/functions/</code> folder in your project root. Every <code>.js</code> file in this folder becomes an API endpoint automatically at <code>/.netlify/functions/filename</code>.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Use native Node.js <code>fetch()</code> for all HTTP calls. Avoid npm packages where possible - they add complexity and occasional build failures. Everything needed here (Stripe API, Supabase REST API, Resend API) can be called with plain fetch.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Access your secret environment variables inside functions with <code>process.env.YOUR_VARIABLE_NAME</code>. Set them in Netlify under Site settings → Environment variables → Add a variable.</div></div>
+ </div>
+ <p>You'll need three functions for the payment system:</p>
+ <table class="data-table">
+ <thead><tr><th>Function file</th><th>What it does</th><th>When it's called</th></tr></thead>
+ <tbody>
+ <tr><td><code>create-payment-intent.js</code></td><td>Creates a Stripe Payment Intent and returns the client_secret needed to confirm payment</td><td>Client clicks "Pay Now"</td></tr>
+ <tr><td><code>confirm-payment.js</code></td><td>Verifies payment success, marks invoice paid in Supabase, triggers notification email</td><td>Stripe confirms payment</td></tr>
+ <tr><td><code>get-invoice.js</code></td><td>Fetches invoice details from Supabase for a given invoice ID</td><td>Invoice page loads</td></tr>
+ </tbody>
+ </table>
+ </div>
+
+ <div class="section">
+ <div class="section-title">The create-payment-intent function</div>
+ <div class="code-block"><span class="cmt">// netlify/functions/create-payment-intent.js</span>
+
+exports.handler = <span class="kw">async</span> (event) => {
+ <span class="cmt">// Only allow POST requests</span>
+ <span class="kw">if</span> (event.httpMethod !== <span class="str">'POST'</span>) {
+ <span class="kw">return</span> { statusCode: 405, body: <span class="str">'Method Not Allowed'</span> };
+ }
+
+ <span class="kw">let</span> amount, invoiceId;
+ <span class="kw">try</span> {
+ ({ amount, invoiceId } = JSON.parse(event.body));
+ } <span class="kw">catch</span> {
+ <span class="kw">return</span> { statusCode: 400, body: <span class="str">'Invalid request body'</span> };
+ }
+
+ <span class="cmt">// amount comes in as dollars; Stripe uses cents</span>
+ <span class="kw">const</span> amountCents = Math.round(parseFloat(amount) * 100);
+ <span class="kw">if</span> (isNaN(amountCents) || amountCents &lt;= 0) {
+ <span class="kw">return</span> { statusCode: 400, body: <span class="str">'Invalid amount'</span> };
+ }
+
+ <span class="kw">const</span> response = <span class="kw">await</span> fetch(<span class="str">'https://api.stripe.com/v1/payment_intents'</span>, {
+ method: <span class="str">'POST'</span>,
+ headers: {
+ <span class="str">'Authorization'</span>: `Bearer ${process.env.STRIPE_SECRET_KEY}`,
+ <span class="str">'Content-Type'</span>: <span class="str">'application/x-www-form-urlencoded'</span>
+ },
+ body: <span class="kw">new</span> URLSearchParams({
+ amount: String(amountCents),
+ currency: <span class="str">'usd'</span>,
+ <span class="str">'metadata[invoice_id]'</span>: invoiceId
+ })
+ });
+
+ <span class="kw">const</span> intent = <span class="kw">await</span> response.json();
+
+ <span class="kw">if</span> (intent.error) {
+ <span class="kw">return</span> { statusCode: 500, body: JSON.stringify({ error: intent.error.message }) };
+ }
+
+ <span class="kw">return</span> {
+ statusCode: 200,
+ headers: { <span class="str">'Content-Type'</span>: <span class="str">'application/json'</span> },
+ body: JSON.stringify({ clientSecret: intent.client_secret })
+ };
+};</div>
+ <div class="troubleshoot">
+ <div class="troubleshoot-header"> Common Issues</div>
+ <div class="troubleshoot-body">
+ <div class="trouble-item">
+ <div class="trouble-q">Function returns 500 with "No such api_key"</div>
+ <div class="trouble-a">Your <code>STRIPE_SECRET_KEY</code> environment variable isn't set in Netlify, or was set incorrectly. Go to Netlify → Site configuration → Environment variables. The value should start with <code>sk_test_</code> (test mode) or <code>sk_live_</code> (live mode). Make sure there are no leading/trailing spaces - they're invisible but will cause authentication failures.</div>
+ </div>
+ <div class="trouble-item">
+ <div class="trouble-q">Function works in Netlify's test dashboard but fails when called from the website</div>
+ <div class="trouble-a">CORS (Cross-Origin Resource Sharing) is blocking the request. Your Netlify Function needs to return CORS headers. Add to the return object: <code>headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'Content-Type' }</code>. Also add a handler for OPTIONS preflight requests at the top of the function.</div>
+ </div>
+ <div class="trouble-item">
+ <div class="trouble-q">Amount arrives at Stripe as $0.01 instead of $125.00</div>
+ <div class="trouble-a">Stripe amounts are in the smallest currency unit (cents for USD). $125 must be sent as <code>12500</code>, not <code>125</code> or <code>1.25</code>. The bug often comes from the HTML form: verify the amount value being sent from the frontend is in dollars (the number the user sees), and that you're multiplying by 100 and rounding before sending to Stripe.</div>
+ </div>
+ </div>
+ </div>
+ </div>
+
+ <div class="section">
+ <div class="section-title">Stripe setup</div>
+ <div class="steps">
+ <div class="step"><span class="step-num"></span><div class="step-body">Create a free Stripe account at <strong>stripe.com</strong>. Complete identity verification (required for receiving payouts to your bank).</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">In the Stripe dashboard, make sure the mode toggle in the top-left shows <strong>"Test"</strong> while you're building. You'll switch to live when deploying. Go to Developers → API keys and copy your test publishable key (<code>pk_test_...</code>) and secret key (<code>sk_test_...</code>).</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Add the secret key to Netlify environment variables as <code>STRIPE_SECRET_KEY</code>.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Add Stripe.js to your invoice HTML page. This must load from Stripe's servers - do not download and self-host it:
+ <div class="code-block">&lt;script src="https://js.stripe.com/v3/"&gt;&lt;/script&gt;</div>
+ </div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Initialize Stripe in your page script with the <strong>publishable</strong> key (this one is safe for frontend use): <code>const stripe = Stripe('pk_test_your_key_here');</code></div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Use Stripe Elements for the card input. This renders a secure, hosted card form inside an iframe - no card data ever passes through your code:
+ <div class="code-block"><span class="kw">const</span> elements = stripe.elements();
+<span class="kw">const</span> cardElement = elements.create(<span class="str">'card'</span>);
+cardElement.mount(<span class="str">'#card-element'</span>); <span class="cmt">// mounts into &lt;div id="card-element"&gt;&lt;/div&gt;</span></div>
+ </div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Use test card number <strong>4242 4242 4242 4242</strong> with any future expiry and any 3-digit CVC to test payments in test mode. Stripe has a full list of test cards for different scenarios (declined, insufficient funds, etc.) in their docs.</div></div>
+ </div>
+ <div class="callout danger">
+ 
+ <div><strong>Your Stripe secret key (<code>sk_live_...</code>) must never appear in any file that gets committed to GitHub or served to a browser.</strong> Store it only as a Netlify environment variable. The publishable key (<code>pk_live_...</code>) is designed to be public and can be in your HTML. The secret key is not. If you accidentally expose your live secret key, go to Stripe → Developers → API keys → Roll key immediately.</div>
+ </div>
+ </div>
+</div>
+
+<!-- ════════════════════════════════════════════ MODULE 7 ═════════════════════ -->
+
+<div class="module" id="m2">
+ <div class="module-tag"><span class="dot"></span>Module 02</div>
+ <h2>Automated Email Notifications</h2>
+ <p class="module-lead">Every time a client pays an invoice, you receive an automatic email with the details - client name, amount, invoice ID, and timestamp. This module covers setting up Resend (a free transactional email API), verifying your sending domain, and wiring the notification into your payment confirmation function.</p>
+
+ <div class="section">
+ <div class="section-title">Why Resend, and what the alternatives are</div>
+ <p>Resend is a developer-focused email API with a free tier of 3,000 emails per month and 100 per day. It supports sending from your own domain, which means emails come from <code>hello@yourbusiness.com</code> rather than a generic service address - significantly better for deliverability and professionalism.</p>
+ <p>Alternatives worth knowing about: SendGrid (larger scale, slightly more complex setup), Postmark (excellent deliverability, focused on transactional email), Mailgun (popular with developers). For this use case - a small volume of payment notification emails - Resend is the simplest choice.</p>
+ </div>
+
+ <div class="section">
+ <div class="section-title">Verifying your sending domain</div>
+ <p>To send email from your own domain address, you must prove to email servers worldwide that you're authorized to send from it. This is done via DNS records. Without this, your emails will go to spam or be rejected outright.</p>
+ <div class="steps">
+ <div class="step"><span class="step-num"></span><div class="step-body">Create a Resend account at <strong>resend.com</strong>. Go to <strong>Domains → Add Domain</strong> and enter your domain name (e.g., <code>yourbusiness.com</code>).</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Resend provides 3 DNS records to add. These are:
+ <ul style="margin: 8px 0 0 18px; font-size: 13.5px; color: var(--ink2); line-height: 1.9;">
+ <li><strong>SPF</strong> - A TXT record that lists Resend as an authorized sender for your domain</li>
+ <li><strong>DKIM</strong> - A TXT record with a cryptographic key that signs your outgoing emails, proving they're legitimate</li>
+ <li><strong>DMARC</strong> - A TXT record that tells receiving servers what to do with emails that fail SPF or DKIM (reject, quarantine, or just report)</li>
+ </ul>
+ </div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Log into your domain registrar (where you bought your domain - GoDaddy, Namecheap, Squarespace, Google Domains, etc.) and navigate to DNS settings. Add each record exactly as provided by Resend. The record type, name, and value must be exact.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Click <strong>"Verify"</strong> in Resend. DNS changes propagate globally over time - typically 15 minutes to a few hours, but can occasionally take up to 24-48 hours in edge cases.</div></div>
+ <div class="step"><span class="step-num"></span><div class="step-body">Create an API key: Resend → API Keys → Create API Key. Copy it and add it to Netlify environment variables as <code>RESEND_API_KEY</code>. Also add your email address as <code>OWNER_EMAIL</code>.</div></div>
+ </div>
+ <div class="troubleshoot">
+ <div class="troubleshoot-header"> Common Issues</div>
+ <div class="troubleshoot-body">
+ <div class="trouble-item">
+ <div class="trouble-q">Resend says "DNS records not verified" after 24 hours</div>
+ <div class="trouble-a">One or more records wasn't entered correctly. Common mistake: the DKIM record name should be something like <code>resend._domainkey</code> - some registrars automatically append your domain to the name, resulting in <code>resend._domainkey.yourdomain.com.yourdomain.com</code>. If your registrar auto-appends the domain, enter just <code>resend._domainkey</code> without your domain. Check each record using a tool like <code>mxtoolbox.com</code>.</div>
+ </div>
+ <div class="trouble-item">
+ <div class="trouble-q">Emails send successfully but end up in spam</div>
+ <div class="trouble-a">Most commonly caused by DMARC not being set up, or the DMARC policy being set to <code>none</code> (just monitoring). Make sure all three records (SPF, DKIM, DMARC) are verified in Resend. Also check that your email subject lines don't look like spam (avoid ALL CAPS, excessive punctuation, or words like FREE, URGENT, ACT NOW).</div>
+ </div>
+ <div class="trouble-item">
+ <div class="trouble-q">Resend returns 403 Forbidden when called from Netlify Function</div>
+ <div class="trouble-a">The API key is wrong, not set in Netlify environment variables, or the variable name doesn't match what you're using in code (<code>process.env.RESEND_API_KEY</code>). Environment variables in Netlify require a redeploy to take effect - if you added the variable after the last deploy, trigger a new deploy.</div>
+ </div>
+ </div>
+ </div>
+ <div class="ai-note">
+ 
+ <div><strong>AI explained the DNS records setup.</strong> SPF, DKIM, and DMARC are not intuitive concepts for non-developers. When asked "what exactly is a DKIM record and why does it need to be on my domain?", AI gave a plain-English explanation (private/public key cryptography applied to email authentication) that made the setup process understandable rather than a blind copy-paste exercise.</div>
+ </div>
+ </div>
+
+ <div class="section">
+ <div class="section-title">Sending the notification email</div>
+ <p>This code lives inside your <code>confirm-payment.js</code> Netlify Function, called after Stripe confirms payment success:</p>
+ <div class="code-block"><span class="cmt">// Inside confirm-payment.js - call this after marking invoice as paid</span>
+<span class="kw">async function</span> <span class="fn">sendPaymentNotification</span>(invoiceId, clientName, amount) {
+ <span class="kw">const</span> response = <span class="kw">await</span> fetch(<span class="str">'https://api.resend.com/emails'</span>, {
+ method: <span class="str">'POST'</span>,
+ headers: {
+ <span class="str">'Authorization'</span>: `Bearer ${process.env.RESEND_API_KEY}`,
+ <span class="str">'Content-Type'</span>: <span class="str">'application/json'</span>
+ },
+ body: JSON.stringify({
+ from: `Your Business &lt;hello@yourdomain.com&gt;`,
+ to: process.env.OWNER_EMAIL,
+ subject: `Payment received - ${clientName} - $${amount}`,
+ html: `
+ &lt;div style="font-family: sans-serif; max-width: 560px; margin: 0 auto;"&gt;
+ &lt;h2 style="color: #2a5c45;"&gt; Payment Received&lt;/h2&gt;
+ &lt;table style="width: 100%; border-collapse: collapse;"&gt;
+ &lt;tr&gt;&lt;td style="padding: 8px 0; color: #555;"&gt;Invoice&lt;/td&gt;
+ &lt;td style="padding: 8px 0; font-weight: bold;"&gt;${invoiceId}&lt;/td&gt;&lt;/tr&gt;
+ &lt;tr&gt;&lt;td style="padding: 8px 0; color: #555;"&gt;Client&lt;/td&gt;
+ &lt;td style="padding: 8px 0;"&gt;${clientName}&lt;/td&gt;&lt;/tr&gt;
+ &lt;tr&gt;&lt;td style="padding: 8px 0; color: #555;"&gt;Amount&lt;/td&gt;
+ &lt;td style="padding: 8px 0; font-weight: bold; color: #2a5c45;"&gt;$${amount}&lt;/td&gt;&lt;/tr&gt;
+ &lt;tr&gt;&lt;td style="padding: 8px 0; color: #555;"&gt;Paid at&lt;/td&gt;
+ &lt;td style="padding: 8px 0;"&gt;${new Date().toLocaleString()}&lt;/td&gt;&lt;/tr&gt;
+ &lt;/table&gt;
+ &lt;/div&gt;
+ `
+ })
+ });
+
+ <span class="kw">if</span> (!response.ok) {
+ console.error(<span class="str">'Email failed:'</span>, <span class="kw">await</span> response.text());
+ }
+}</div>
+ </div>
+</div>
+
+<div class="cross-sell">
+  <div class="cross-sell-label">Other Add-ons</div>
+  <h3>More ways to extend your site</h3>
+  <p>Each add-on builds on the core guide and works independently of the others.</p>
+  <div class="addon-grid">
+    <a href="https://applied-intelligence-studio.lemonsqueezy.com/checkout/buy/044a5674-426e-47dc-8086-f75db4cd4e9a" target="_blank" style="text-decoration:none;display:block;">
+    <div class="addon-card">
+      <span class="addon-title">Calendar Sync Automation</span>
+      <span class="addon-desc">Connect your calendar so availability updates automatically. OAuth2, Edge Functions, and cron scheduling.</span>
+      <span class="addon-tag">Add-on 01</span>
+    </div>
+    </a>
+    <a href="https://applied-intelligence-studio.lemonsqueezy.com/checkout/buy/6a601aec-8d2f-45b4-b13b-38d98049e825" target="_blank" style="text-decoration:none;display:block;">
+    <div class="addon-card">
+      <span class="addon-title">Staff Portal &amp; Admin Dashboard</span>
+      <span class="addon-desc">A private mobile-optimized portal for your team and a central admin view. Real-time Firebase updates.</span>
+      <span class="addon-tag">Add-on 03</span>
+    </div>
+    </a>
+    <a href="https://applied-intelligence-studio.lemonsqueezy.com/checkout/buy/ee7b2203-d1d8-4a3d-9582-5b21635821fc" target="_blank" style="text-decoration:none;display:block;">
+    <div class="addon-card">
+      <span class="addon-title">Client Portal with Secure Login</span>
+      <span class="addon-desc">A full client-facing portal with email and password accounts. Connects directly to the invoice system built in this guide.</span>
+      <span class="addon-tag">Add-on 04</span>
+    </div>
+    </a>
+  </div>
+</div>
+</main>
+</div>
+
+</div><!-- end gate-content -->
+
+<div class="footer">
+  Every tool, every step, every error, every fix - documented so you can build it too.
+</div>
+
+<script>
+// ── Configuration ─────────────────────────────────────────────
+// Update VALIDATE_URL to your actual Netlify site URL
+const VALIDATE_URL = '/.netlify/functions/validate-token';
+const RESEND_URL   = '/.netlify/functions/resend-link';
+
+// ── Gate state helpers ────────────────────────────────────────
+function showGateState(state) {
+  document.getElementById('gate-checking').style.display = 'none';
+  document.getElementById('gate-purchase').style.display = 'none';
+  document.getElementById('gate-invalid').style.display  = 'none';
+  document.getElementById(`gate-${state}`).style.display = 'block';
+}
+
+function grantAccess() {
+  document.getElementById('gate-overlay').classList.add('hidden');
+  document.getElementById('gate-content').classList.add('visible');
+  // Persist the token in sessionStorage so validation
+  // doesn't re-run on every anchor link click within the page
+  const token = new URLSearchParams(window.location.search).get('token');
+  if (token) sessionStorage.setItem('guide_token', token);
+}
+
+// ── Main validation flow ──────────────────────────────────────
+async function validateAccess() {
+  // Check sessionStorage first (avoids re-validating within a session)
+  const cachedToken = sessionStorage.getItem('guide_token');
+  const urlToken    = new URLSearchParams(window.location.search).get('token');
+  const token       = urlToken || cachedToken;
+
+  if (!token) {
+    showGateState('purchase');
+    return;
+  }
+
+  try {
+    const res  = await fetch(VALIDATE_URL, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ token }),
+    });
+
+    const data = await res.json();
+
+    if (data.valid) {
+      grantAccess();
+    } else {
+      // Show different UI for "never had access" vs "had access but something's wrong"
+      if (!urlToken && !cachedToken) {
+        showGateState('purchase');
+      } else {
+        document.getElementById('gate-invalid-reason').textContent =
+          data.reason === 'Token expired'  ? 'Your access link has expired.' :
+          data.reason === 'Access revoked' ? 'Your access has been revoked. If you think this is a mistake, please get in touch.' :
+          'This link doesn\'t match our records. Check your original purchase email.';
+        showGateState('invalid');
+      }
+    }
+  } catch (err) {
+    // Network error  -  fail open so buyers aren't locked out by a server hiccup
+    console.error('Validation error:', err);
+    // Show the guide but log the failure
+    grantAccess();
+  }
+}
+
+// ── Resend link ───────────────────────────────────────────────
+async function resendLink(context = 'purchase') {
+  const inputId = context === 'invalid' ? 'gate-email-invalid' : 'gate-email-input';
+  const msgId   = context === 'invalid' ? 'gate-msg-invalid'   : 'gate-msg-resend';
+  const email   = document.getElementById(inputId).value.trim();
+  const msg     = document.getElementById(msgId);
+
+  if (!email || !email.includes('@')) {
+    msg.className = 'gate-msg error';
+    msg.textContent = 'Please enter a valid email address.';
+    return;
+  }
+
+  msg.className = 'gate-msg';
+  msg.textContent = '';
+  document.getElementById(inputId).disabled = true;
+
+  try {
+    const res  = await fetch(RESEND_URL, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ email }),
+    });
+
+    if (res.ok) {
+      msg.className = 'gate-msg success';
+      msg.textContent = 'If that email has a purchase on record, you\'ll get the link within a minute. Check your spam folder if it doesn\'t arrive.';
+    } else {
+      throw new Error('Server error');
+    }
+  } catch {
+    msg.className = 'gate-msg error';
+    msg.textContent = 'Something went wrong. Please try again or get in touch directly.';
+    document.getElementById(inputId).disabled = false;
+  }
+}
+
+// Allow pressing Enter in email fields
+['gate-email-input', 'gate-email-invalid'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('keydown', e => { if (e.key === 'Enter') resendLink(id.includes('invalid') ? 'invalid' : 'purchase'); });
+});
+
+// ── Run on load ───────────────────────────────────────────────
+validateAccess();
+</script>
+
+</body>
+</html>
