@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Applied Intelligence Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<style>
+:root {
+  --bg:      #fafaf8;
+  --bg2:     #f2f1ee;
+  --bg3:     #e8e6e1;
+  --ink:     #141412;
+  --ink2:    #38362f;
+  --ink3:    #78746a;
+  --ink4:    #b0ab9f;
+  --rule:    #dedad3;
+  --accent:  #1c3828;
+  --accent2: #c44b0c;
+  --white:   #ffffff;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg); color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+nav {
+  position: sticky; top: 0; z-index: 200;
+  background: var(--bg); border-bottom: 1px solid var(--rule);
+  padding: 0 48px; height: 60px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600;
+  letter-spacing: -0.01em; color: var(--ink); text-decoration: none;
+  display: flex; align-items: center; gap: 8px;
+}
+.nav-logo-img { height: 28px; width: auto; flex-shrink: 0; }
+.nav-center { display: flex; align-items: center; gap: 4px; }
+.nav-center a {
+  font-size: 13px; color: var(--ink3); text-decoration: none;
+  padding: 6px 14px; border-radius: 4px; transition: background 0.15s, color 0.15s;
+}
+.nav-center a:hover { background: var(--bg2); color: var(--ink); }
+.nav-right { display: flex; align-items: center; gap: 16px; }
+.nav-social { display: flex; align-items: center; gap: 10px; }
+.nav-social a { color: var(--ink4); text-decoration: none; display: flex; align-items: center; transition: color 0.15s; }
+.nav-social a:hover { color: var(--ink); }
+.nav-social svg { width: 18px; height: 18px; fill: currentColor; }
+.nav-btn {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  background: var(--accent); color: #e8f0ec;
+  padding: 9px 18px; border-radius: 4px; text-decoration: none;
+  transition: background 0.15s; white-space: nowrap;
+}
+.nav-btn:hover { background: #0f2018; }
+
+.article-wrap {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 64px 48px 120px;
+}
+
+.back-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--ink4); text-decoration: none;
+  margin-bottom: 48px; transition: color 0.15s;
+}
+.back-link:hover { color: var(--ink); }
+
+.article-meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--ink4); margin-bottom: 20px;
+}
+
+.article-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 52px; font-weight: 600; line-height: 1.08;
+  letter-spacing: -0.02em; color: var(--ink);
+  margin-bottom: 40px;
+}
+
+.article-divider {
+  border: none; border-top: 1px solid var(--rule); margin-bottom: 40px;
+}
+
+/* Markdown content styles */
+.article-body { font-size: 17px; line-height: 1.75; color: var(--ink2); }
+.article-body h1, .article-body h2, .article-body h3 {
+  font-family: 'Cormorant Garamond', serif; font-weight: 600;
+  color: var(--ink); line-height: 1.2; margin: 40px 0 16px;
+}
+.article-body h1 { font-size: 38px; }
+.article-body h2 { font-size: 30px; }
+.article-body h3 { font-size: 22px; }
+.article-body p { margin-bottom: 24px; }
+.article-body a { color: var(--accent2); text-decoration: underline; text-underline-offset: 3px; }
+.article-body a:hover { color: var(--ink); }
+.article-body strong { font-weight: 600; color: var(--ink); }
+.article-body em { font-style: italic; }
+.article-body ul, .article-body ol { padding-left: 24px; margin-bottom: 24px; }
+.article-body li { margin-bottom: 8px; }
+.article-body blockquote {
+  border-left: 3px solid var(--accent2); padding: 4px 0 4px 20px;
+  margin: 32px 0; color: var(--ink3);
+  font-family: 'Cormorant Garamond', serif; font-size: 22px;
+  font-weight: 300; font-style: italic; line-height: 1.5;
+}
+.article-body code {
+  font-family: 'JetBrains Mono', monospace; font-size: 13px;
+  background: var(--bg2); padding: 2px 6px; border-radius: 3px;
+  color: var(--ink2);
+}
+.article-body pre {
+  background: var(--ink); border-radius: 6px;
+  padding: 20px 24px; overflow-x: auto; margin-bottom: 24px;
+}
+.article-body pre code {
+  background: none; padding: 0; color: #e8e6e1; font-size: 13px;
+}
+.article-body hr { border: none; border-top: 1px solid var(--rule); margin: 40px 0; }
+.article-body img { max-width: 100%; border-radius: 4px; margin: 8px 0; }
+
+.share-section {
+  margin-top: 64px; padding-top: 32px; border-top: 1px solid var(--rule);
+  display: flex; align-items: center; gap: 16px;
+}
+.share-label {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink4);
+}
+.share-btn {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  border: 1px solid var(--rule); background: none;
+  color: var(--ink3); padding: 8px 16px; border-radius: 4px;
+  cursor: pointer; transition: all 0.15s;
+}
+.share-btn:hover { background: var(--bg2); color: var(--ink); }
+.share-btn.copied { color: var(--accent); border-color: var(--accent); }
+
+.state-msg {
+  padding: 80px 0; font-size: 15px; color: var(--ink3); text-align: center;
+}
+
+@media (max-width: 640px) {
+  nav { padding: 0 20px; }
+  .nav-center { display: none; }
+  .article-wrap { padding: 40px 20px 80px; }
+  .article-title { font-size: 34px; }
+  .article-body { font-size: 16px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">
+    <img src="/logo.png" alt="Applied Intelligence Studio" class="nav-logo-img">
+    Applied Intelligence Studio
+  </a>
+  <div class="nav-center">
+    <a href="/#guides">Guides</a>
+    <a href="/blog">Writing</a>
+    <a href="/#about">About</a>
+    <a href="mailto:hello@appliedintelligencestudio.com">Contact</a>
+  </div>
+  <div class="nav-right">
+    <div class="nav-social">
+      <a href="https://instagram.com/appliedintelligencestudio" target="_blank" aria-label="Instagram">
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      </a>
+      <a href="https://tiktok.com/@appliedintelligenceco" target="_blank" aria-label="TikTok">
+        <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.75a4.85 4.85 0 01-1.01-.06z"/></svg>
+      </a>
+    </div>
+    <a href="/#guides" class="nav-btn">Browse Guides</a>
+  </div>
+</nav>
+
+<div class="article-wrap" id="article-wrap">
+  <div class="state-msg" id="loading-msg">Loading…</div>
+</div>
+
+<script>
+async function loadPost() {
+  const slug = window.location.pathname.replace(/^\/blog\/?/, '').split('?')[0];
+  if (!slug) { window.location.href = '/blog'; return; }
+
+  const wrap = document.getElementById('article-wrap');
+
+  try {
+    const res  = await fetch(`/.netlify/functions/get-post?slug=${encodeURIComponent(slug)}`);
+    if (res.status === 404) {
+      wrap.innerHTML = '<div class="state-msg">Post not found. <a href="/blog" style="color:var(--accent2)">Back to writing →</a></div>';
+      return;
+    }
+    const post = await res.json();
+
+    document.title = `${post.title} — Applied Intelligence Studio`;
+    document.querySelector('meta[name="description"]') && (document.querySelector('meta[name="description"]').content = post.excerpt || post.title);
+
+    const date = post.published_at
+      ? new Date(post.published_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+      : '';
+
+    wrap.innerHTML = `
+      <a href="/blog" class="back-link">← All writing</a>
+      ${date ? `<div class="article-meta">${date}</div>` : ''}
+      <h1 class="article-title">${escHtml(post.title)}</h1>
+      <hr class="article-divider">
+      <div class="article-body" id="article-body"></div>
+      <div class="share-section">
+        <span class="share-label">Share</span>
+        <button class="share-btn" id="copy-btn" onclick="copyLink()">Copy link</button>
+      </div>
+    `;
+
+    document.getElementById('article-body').innerHTML = marked.parse(post.content || '');
+  } catch (err) {
+    wrap.innerHTML = '<div class="state-msg">Failed to load post. <a href="/blog" style="color:var(--accent2)">Back to writing →</a></div>';
+  }
+}
+
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(() => {
+    const btn = document.getElementById('copy-btn');
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy link'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+loadPost();
+</script>
+</body>
+</html>

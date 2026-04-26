@@ -31,3 +31,18 @@
   from = "/complete-suite"
   to = "/complete-suite-gated.html"
   status = 302
+
+[[redirects]]
+  from = "/blog"
+  to = "/blog.html"
+  status = 200
+
+[[redirects]]
+  from = "/blog/*"
+  to = "/blog-post.html"
+  status = 200
+
+[[redirects]]
+  from = "/blog-admin"
+  to = "/blog-admin.html"
+  status = 200

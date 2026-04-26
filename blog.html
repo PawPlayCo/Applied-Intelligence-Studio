@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Writing — Applied Intelligence Studio</title>
+<meta name="description" content="Ideas, observations, and notes on working with AI thoughtfully.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:      #fafaf8;
+  --bg2:     #f2f1ee;
+  --bg3:     #e8e6e1;
+  --ink:     #141412;
+  --ink2:    #38362f;
+  --ink3:    #78746a;
+  --ink4:    #b0ab9f;
+  --rule:    #dedad3;
+  --accent:  #1c3828;
+  --accent2: #c44b0c;
+  --white:   #ffffff;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+nav {
+  position: sticky; top: 0; z-index: 200;
+  background: var(--bg); border-bottom: 1px solid var(--rule);
+  padding: 0 48px; height: 60px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600;
+  letter-spacing: -0.01em; color: var(--ink); text-decoration: none;
+  display: flex; align-items: center; gap: 8px;
+}
+.nav-logo-img { height: 28px; width: auto; flex-shrink: 0; }
+.nav-center { display: flex; align-items: center; gap: 4px; }
+.nav-center a {
+  font-size: 13px; font-weight: 400; color: var(--ink3);
+  text-decoration: none; padding: 6px 14px; border-radius: 4px;
+  transition: background 0.15s, color 0.15s;
+}
+.nav-center a:hover { background: var(--bg2); color: var(--ink); }
+.nav-center a.active { color: var(--ink); font-weight: 500; }
+.nav-right { display: flex; align-items: center; gap: 16px; }
+.nav-social { display: flex; align-items: center; gap: 10px; }
+.nav-social a { color: var(--ink4); text-decoration: none; display: flex; align-items: center; transition: color 0.15s; }
+.nav-social a:hover { color: var(--ink); }
+.nav-social svg { width: 18px; height: 18px; fill: currentColor; }
+.nav-btn {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  background: var(--accent); color: #e8f0ec;
+  padding: 9px 18px; border-radius: 4px; text-decoration: none;
+  transition: background 0.15s; white-space: nowrap;
+}
+.nav-btn:hover { background: #0f2018; }
+
+.page-header {
+  padding: 72px 48px 48px;
+  border-bottom: 1px solid var(--rule);
+  max-width: 880px;
+  margin: 0 auto;
+}
+.page-header-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; font-weight: 500; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--ink4);
+  margin-bottom: 16px;
+}
+.page-header h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 56px; font-weight: 300; line-height: 1.05;
+  letter-spacing: -0.02em; color: var(--ink);
+}
+.page-header p {
+  margin-top: 16px; font-size: 16px; color: var(--ink3); line-height: 1.7;
+}
+
+.posts-wrap {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 0 48px 96px;
+}
+
+.post-list { margin-top: 8px; }
+
+.post-item {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 0 40px;
+  padding: 36px 0;
+  border-bottom: 1px solid var(--rule);
+  text-decoration: none;
+  color: inherit;
+  transition: opacity 0.15s;
+}
+.post-item:hover { opacity: 0.7; }
+
+.post-date {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; font-weight: 400; letter-spacing: 0.04em;
+  color: var(--ink4); padding-top: 6px;
+  white-space: nowrap;
+}
+.post-body {}
+.post-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px; font-weight: 600; line-height: 1.2;
+  color: var(--ink); margin-bottom: 10px;
+}
+.post-excerpt {
+  font-size: 14px; color: var(--ink3); line-height: 1.65;
+}
+.post-read {
+  display: inline-block; margin-top: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; font-weight: 500; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--accent2);
+}
+
+.state-msg {
+  padding: 64px 0;
+  font-size: 15px; color: var(--ink3); text-align: center;
+}
+
+@media (max-width: 640px) {
+  nav { padding: 0 20px; }
+  .nav-center { display: none; }
+  .page-header { padding: 48px 20px 36px; }
+  .page-header h1 { font-size: 36px; }
+  .posts-wrap { padding: 0 20px 64px; }
+  .post-item { grid-template-columns: 1fr; gap: 8px; }
+  .post-date { padding-top: 0; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">
+    <img src="/logo.png" alt="Applied Intelligence Studio" class="nav-logo-img">
+    Applied Intelligence Studio
+  </a>
+  <div class="nav-center">
+    <a href="/#guides">Guides</a>
+    <a href="/blog" class="active">Writing</a>
+    <a href="/#about">About</a>
+    <a href="mailto:hello@appliedintelligencestudio.com">Contact</a>
+  </div>
+  <div class="nav-right">
+    <div class="nav-social">
+      <a href="https://instagram.com/appliedintelligencestudio" target="_blank" aria-label="Instagram">
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      </a>
+      <a href="https://tiktok.com/@appliedintelligenceco" target="_blank" aria-label="TikTok">
+        <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.75a4.85 4.85 0 01-1.01-.06z"/></svg>
+      </a>
+    </div>
+    <a href="/#guides" class="nav-btn">Browse Guides</a>
+  </div>
+</nav>
+
+<div style="border-bottom: 1px solid var(--rule);">
+  <div class="page-header">
+    <div class="page-header-eyebrow">Applied Intelligence Studio</div>
+    <h1>Writing</h1>
+    <p>Ideas, observations, and notes on working with AI as a precision tool.</p>
+  </div>
+</div>
+
+<div class="posts-wrap">
+  <div class="post-list" id="post-list">
+    <div class="state-msg" id="loading-msg">Loading…</div>
+  </div>
+</div>
+
+<script>
+async function loadPosts() {
+  const list = document.getElementById('post-list');
+  try {
+    const res  = await fetch('/.netlify/functions/get-posts');
+    const posts = await res.json();
+
+    if (!posts.length) {
+      list.innerHTML = '<div class="state-msg">No posts yet.</div>';
+      return;
+    }
+
+    list.innerHTML = posts.map(p => {
+      const date = p.published_at
+        ? new Date(p.published_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+        : '';
+      return `
+        <a class="post-item" href="/blog/${p.slug}">
+          <div class="post-date">${date}</div>
+          <div class="post-body">
+            <div class="post-title">${escHtml(p.title)}</div>
+            ${p.excerpt ? `<div class="post-excerpt">${escHtml(p.excerpt)}</div>` : ''}
+            <span class="post-read">Read →</span>
+          </div>
+        </a>`;
+    }).join('');
+  } catch (err) {
+    list.innerHTML = '<div class="state-msg">Failed to load posts. Please try again.</div>';
+  }
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+loadPosts();
+</script>
+</body>
+</html>

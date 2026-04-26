@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog Admin — Applied Intelligence Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<style>
+:root {
+  --bg:      #fafaf8;
+  --bg2:     #f2f1ee;
+  --bg3:     #e8e6e1;
+  --ink:     #141412;
+  --ink2:    #38362f;
+  --ink3:    #78746a;
+  --ink4:    #b0ab9f;
+  --rule:    #dedad3;
+  --accent:  #1c3828;
+  --accent2: #c44b0c;
+  --white:   #ffffff;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg); color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+/* ── AUTH GATE ───────────────────────────────────────────── */
+#auth-screen {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+}
+.auth-box {
+  background: var(--white); border: 1px solid var(--rule);
+  border-radius: 8px; padding: 40px 36px; width: 360px;
+}
+.auth-logo {
+  font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 600;
+  color: var(--ink); margin-bottom: 24px;
+  display: flex; align-items: center; gap: 8px;
+}
+.auth-logo-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent2); }
+.auth-box h2 { font-size: 15px; font-weight: 500; margin-bottom: 20px; color: var(--ink2); }
+.auth-input {
+  width: 100%; padding: 10px 14px; font-size: 14px; font-family: 'JetBrains Mono', monospace;
+  border: 1px solid var(--rule); border-radius: 4px; background: var(--bg);
+  color: var(--ink); outline: none; margin-bottom: 12px;
+}
+.auth-input:focus { border-color: var(--ink3); }
+.auth-btn {
+  width: 100%; padding: 11px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
+  background: var(--accent); color: #e8f0ec; border: none; border-radius: 4px;
+  cursor: pointer; transition: background 0.15s;
+}
+.auth-btn:hover { background: #0f2018; }
+.auth-error { font-size: 13px; color: var(--accent2); margin-top: 10px; display: none; }
+
+/* ── MAIN ADMIN UI ───────────────────────────────────────── */
+#admin-ui { display: none; }
+
+.admin-nav {
+  height: 56px; background: var(--ink); color: #e8e6e1;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 32px; position: sticky; top: 0; z-index: 100;
+}
+.admin-nav-logo {
+  font-family: 'Cormorant Garamond', serif; font-size: 17px; font-weight: 600;
+  color: #e8e6e1; text-decoration: none;
+  display: flex; align-items: center; gap: 8px;
+}
+.admin-nav-logo span { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #78746a; margin-left: 4px; }
+.admin-nav-actions { display: flex; gap: 10px; }
+.nav-link-out {
+  font-size: 12px; color: #78746a; text-decoration: none; padding: 6px 12px;
+  border-radius: 4px; transition: color 0.15s;
+}
+.nav-link-out:hover { color: #e8e6e1; }
+
+.admin-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: calc(100vh - 56px);
+}
+
+/* ── EDITOR PANE ─────────────────────────────────────────── */
+.editor-pane {
+  border-right: 1px solid var(--rule);
+  padding: 32px;
+  overflow-y: auto;
+}
+
+.editor-pane h2 {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink4);
+  margin-bottom: 24px;
+}
+
+.field { margin-bottom: 18px; }
+.field label {
+  display: block; font-size: 11px; font-weight: 500; letter-spacing: 0.05em;
+  text-transform: uppercase; color: var(--ink4); margin-bottom: 6px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.field input, .field textarea {
+  width: 100%; padding: 10px 14px; font-size: 14px;
+  font-family: 'DM Sans', sans-serif;
+  border: 1px solid var(--rule); border-radius: 4px;
+  background: var(--white); color: var(--ink);
+  outline: none; transition: border-color 0.15s;
+  resize: vertical;
+}
+.field input:focus, .field textarea:focus { border-color: var(--ink3); }
+.field textarea { line-height: 1.6; }
+#f-content { min-height: 400px; font-family: 'JetBrains Mono', monospace; font-size: 13px; }
+#f-excerpt { min-height: 72px; }
+
+.slug-hint {
+  font-size: 11px; color: var(--ink4); margin-top: 5px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.editor-actions {
+  display: flex; gap: 10px; align-items: center; margin-top: 24px; flex-wrap: wrap;
+}
+.btn-publish {
+  padding: 10px 22px; font-size: 13px; font-weight: 500;
+  background: var(--accent); color: #e8f0ec;
+  border: none; border-radius: 4px; cursor: pointer; transition: background 0.15s;
+}
+.btn-publish:hover { background: #0f2018; }
+.btn-draft {
+  padding: 10px 22px; font-size: 13px; font-weight: 500;
+  background: none; color: var(--ink2);
+  border: 1px solid var(--rule); border-radius: 4px; cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-draft:hover { background: var(--bg2); }
+.btn-new {
+  padding: 10px 22px; font-size: 13px; font-weight: 500;
+  background: none; color: var(--ink4);
+  border: 1px solid var(--rule); border-radius: 4px; cursor: pointer;
+  transition: all 0.15s; margin-left: auto;
+}
+.btn-new:hover { background: var(--bg2); color: var(--ink); }
+
+.save-status {
+  font-size: 12px; color: var(--ink4); margin-top: 12px; min-height: 18px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.save-status.ok  { color: #1f5c38; }
+.save-status.err { color: var(--accent2); }
+
+/* ── PREVIEW PANE ────────────────────────────────────────── */
+.preview-pane {
+  padding: 40px 48px;
+  overflow-y: auto;
+  background: var(--bg);
+}
+.preview-label {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink4);
+  margin-bottom: 32px;
+}
+.preview-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 42px; font-weight: 600; line-height: 1.1;
+  letter-spacing: -0.02em; color: var(--ink); margin-bottom: 32px;
+  min-height: 50px;
+}
+.preview-body { font-size: 16px; line-height: 1.75; color: var(--ink2); }
+.preview-body h1, .preview-body h2, .preview-body h3 {
+  font-family: 'Cormorant Garamond', serif; font-weight: 600;
+  color: var(--ink); line-height: 1.2; margin: 32px 0 14px;
+}
+.preview-body h1 { font-size: 34px; }
+.preview-body h2 { font-size: 26px; }
+.preview-body h3 { font-size: 20px; }
+.preview-body p { margin-bottom: 20px; }
+.preview-body a { color: var(--accent2); }
+.preview-body strong { font-weight: 600; color: var(--ink); }
+.preview-body ul, .preview-body ol { padding-left: 22px; margin-bottom: 20px; }
+.preview-body li { margin-bottom: 6px; }
+.preview-body blockquote {
+  border-left: 3px solid var(--accent2); padding: 4px 0 4px 18px; margin: 28px 0;
+  font-family: 'Cormorant Garamond', serif; font-size: 20px; font-style: italic;
+  color: var(--ink3); line-height: 1.5;
+}
+.preview-body code {
+  font-family: 'JetBrains Mono', monospace; font-size: 12px;
+  background: var(--bg2); padding: 2px 5px; border-radius: 3px;
+}
+.preview-body pre {
+  background: var(--ink); border-radius: 5px; padding: 16px 20px;
+  overflow-x: auto; margin-bottom: 20px;
+}
+.preview-body pre code { background: none; color: #e8e6e1; padding: 0; }
+
+/* ── POST LIST ───────────────────────────────────────────── */
+.post-list-section {
+  grid-column: 1 / -1;
+  border-top: 1px solid var(--rule);
+  padding: 32px;
+}
+.post-list-section h2 {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink4);
+  margin-bottom: 20px;
+}
+.post-table {
+  width: 100%; border-collapse: collapse;
+}
+.post-table th {
+  font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 500;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink4);
+  text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--rule);
+}
+.post-table td { padding: 12px 12px; border-bottom: 1px solid var(--rule); font-size: 13px; vertical-align: middle; }
+.post-table tr:last-child td { border-bottom: none; }
+.post-table tr:hover td { background: var(--bg2); cursor: pointer; }
+.post-status {
+  display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 10px;
+  letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 3px;
+}
+.post-status.published { background: #e8f0ec; color: #1c3828; }
+.post-status.draft     { background: var(--bg2); color: var(--ink4); }
+.post-table-action {
+  font-size: 12px; color: var(--accent2); background: none; border: none;
+  cursor: pointer; padding: 4px 8px; border-radius: 3px; transition: background 0.15s;
+  font-family: 'DM Sans', sans-serif;
+}
+.post-table-action:hover { background: #fef2f0; }
+.post-table-action.del { color: #b00; }
+.post-table-action.del:hover { background: #fff0f0; }
+.no-posts { font-size: 14px; color: var(--ink4); padding: 20px 12px; }
+</style>
+</head>
+<body>
+
+<!-- AUTH GATE -->
+<div id="auth-screen">
+  <div class="auth-box">
+    <div class="auth-logo">
+      <span class="auth-logo-dot"></span>
+      Applied Intelligence Studio
+    </div>
+    <h2>Blog Admin</h2>
+    <input type="password" id="admin-password" class="auth-input" placeholder="Admin password" autocomplete="current-password">
+    <button class="auth-btn" onclick="login()">Sign in</button>
+    <div class="auth-error" id="auth-error">Incorrect password.</div>
+  </div>
+</div>
+
+<!-- ADMIN UI -->
+<div id="admin-ui">
+  <div class="admin-nav">
+    <a href="/" class="admin-nav-logo">
+      Applied Intelligence Studio
+      <span>Admin</span>
+    </a>
+    <div class="admin-nav-actions">
+      <a href="/blog" target="_blank" class="nav-link-out">View blog →</a>
+    </div>
+  </div>
+
+  <div class="admin-body">
+    <!-- EDITOR -->
+    <div class="editor-pane">
+      <h2 id="editor-heading">New post</h2>
+
+      <div class="field">
+        <label>Title</label>
+        <input type="text" id="f-title" placeholder="Post title" oninput="onTitleInput()">
+      </div>
+      <div class="field">
+        <label>Slug</label>
+        <input type="text" id="f-slug" placeholder="post-url-slug" oninput="slugEdited=true">
+        <div class="slug-hint" id="slug-hint"></div>
+      </div>
+      <div class="field">
+        <label>Excerpt <span style="font-weight:300;text-transform:none;letter-spacing:0">(optional, shown in listing)</span></label>
+        <textarea id="f-excerpt" placeholder="A short description of the post…"></textarea>
+      </div>
+      <div class="field">
+        <label>Content <span style="font-weight:300;text-transform:none;letter-spacing:0">(Markdown)</span></label>
+        <textarea id="f-content" placeholder="Write in Markdown…" oninput="updatePreview()"></textarea>
+      </div>
+
+      <div class="editor-actions">
+        <button class="btn-publish" onclick="savePost(true)">Publish</button>
+        <button class="btn-draft"   onclick="savePost(false)">Save draft</button>
+        <button class="btn-new"     onclick="newPost()">+ New post</button>
+      </div>
+      <div class="save-status" id="save-status"></div>
+    </div>
+
+    <!-- PREVIEW -->
+    <div class="preview-pane">
+      <div class="preview-label">Preview</div>
+      <div class="preview-title" id="preview-title">Post title</div>
+      <div class="preview-body"  id="preview-body"></div>
+    </div>
+
+    <!-- POST LIST -->
+    <div class="post-list-section">
+      <h2>All posts</h2>
+      <table class="post-table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Slug</th>
+            <th>Status</th>
+            <th>Date</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="post-table-body">
+          <tr><td colspan="5" class="no-posts">Loading…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+let adminSecret = '';
+let slugEdited  = false;
+let editingSlug = null;
+
+// ── Auth ─────────────────────────────────────────────────────
+const stored = sessionStorage.getItem('admin_secret');
+if (stored) tryAuth(stored);
+
+async function login() {
+  const pw = document.getElementById('admin-password').value;
+  if (!pw) return;
+  await tryAuth(pw);
+}
+
+document.getElementById('admin-password').addEventListener('keydown', e => {
+  if (e.key === 'Enter') login();
+});
+
+async function tryAuth(secret) {
+  const res = await fetch('/.netlify/functions/get-posts', {
+    headers: { 'X-Admin-Secret': secret },
+  });
+  if (res.ok) {
+    adminSecret = secret;
+    sessionStorage.setItem('admin_secret', secret);
+    document.getElementById('auth-screen').style.display = 'none';
+    document.getElementById('admin-ui').style.display    = 'block';
+    const posts = await res.json();
+    renderPostList(posts);
+  } else {
+    document.getElementById('auth-error').style.display = 'block';
+  }
+}
+
+// ── Preview ───────────────────────────────────────────────────
+function updatePreview() {
+  const content = document.getElementById('f-content').value;
+  document.getElementById('preview-body').innerHTML = content ? marked.parse(content) : '';
+}
+
+function onTitleInput() {
+  const title = document.getElementById('f-title').value;
+  document.getElementById('preview-title').textContent = title || 'Post title';
+  if (!slugEdited) {
+    document.getElementById('f-slug').value = toSlug(title);
+    updateSlugHint();
+  }
+}
+
+function updateSlugHint() {
+  const slug = document.getElementById('f-slug').value;
+  document.getElementById('slug-hint').textContent = slug
+    ? `appliedintelligence.netlify.app/blog/${slug}`
+    : '';
+}
+
+document.getElementById('f-slug').addEventListener('input', updateSlugHint);
+
+function toSlug(str) {
+  return str.toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .trim().replace(/\s+/g, '-')
+    .replace(/-+/g, '-');
+}
+
+// ── Save ──────────────────────────────────────────────────────
+async function savePost(publish) {
+  const title   = document.getElementById('f-title').value.trim();
+  const slug    = document.getElementById('f-slug').value.trim();
+  const excerpt = document.getElementById('f-excerpt').value.trim();
+  const content = document.getElementById('f-content').value.trim();
+  const status  = document.getElementById('save-status');
+
+  if (!title || !slug || !content) {
+    status.className = 'save-status err';
+    status.textContent = 'Title, slug, and content are required.';
+    return;
+  }
+
+  status.className   = 'save-status';
+  status.textContent = 'Saving…';
+
+  const res = await fetch('/.netlify/functions/save-post', {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json', 'X-Admin-Secret': adminSecret },
+    body:    JSON.stringify({ slug, title, excerpt, content, published: publish }),
+  });
+
+  const data = await res.json();
+  if (data.ok) {
+    status.className   = 'save-status ok';
+    status.textContent = publish ? 'Published.' : 'Draft saved.';
+    editingSlug = slug;
+    slugEdited  = true;
+    loadPostList();
+  } else {
+    status.className   = 'save-status err';
+    status.textContent = data.error || 'Save failed.';
+  }
+}
+
+// ── Post list ─────────────────────────────────────────────────
+async function loadPostList() {
+  const res   = await fetch('/.netlify/functions/get-posts', { headers: { 'X-Admin-Secret': adminSecret } });
+  const posts = await res.json();
+  renderPostList(posts);
+}
+
+function renderPostList(posts) {
+  const tbody = document.getElementById('post-table-body');
+  if (!posts.length) {
+    tbody.innerHTML = '<tr><td colspan="5" class="no-posts">No posts yet.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = posts.map(p => {
+    const date = p.published_at
+      ? new Date(p.published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+      : '—';
+    const statusLabel = p.published
+      ? '<span class="post-status published">Published</span>'
+      : '<span class="post-status draft">Draft</span>';
+    return `
+      <tr onclick="editPost('${escAttr(p.slug)}', event)">
+        <td><strong>${escHtml(p.title)}</strong></td>
+        <td style="color:var(--ink4);font-family:'JetBrains Mono',monospace;font-size:12px">${escHtml(p.slug)}</td>
+        <td>${statusLabel}</td>
+        <td style="color:var(--ink4)">${date}</td>
+        <td style="text-align:right;white-space:nowrap">
+          <button class="post-table-action" onclick="viewPost('${escAttr(p.slug)}',event)">View</button>
+          <button class="post-table-action del" onclick="deletePost('${escAttr(p.slug)}',event)">Delete</button>
+        </td>
+      </tr>`;
+  }).join('');
+}
+
+async function editPost(slug, e) {
+  if (e.target.tagName === 'BUTTON') return;
+  const res  = await fetch(`/.netlify/functions/get-post?slug=${encodeURIComponent(slug)}`, {
+    headers: { 'X-Admin-Secret': adminSecret },
+  });
+  const post = await res.json();
+
+  document.getElementById('f-title').value   = post.title;
+  document.getElementById('f-slug').value    = post.slug;
+  document.getElementById('f-excerpt').value = post.excerpt || '';
+  document.getElementById('f-content').value = post.content;
+  document.getElementById('preview-title').textContent = post.title;
+  document.getElementById('editor-heading').textContent = 'Edit post';
+  editingSlug = post.slug;
+  slugEdited  = true;
+
+  updatePreview();
+  updateSlugHint();
+  document.getElementById('save-status').textContent = '';
+  document.querySelector('.editor-pane').scrollIntoView({ behavior: 'smooth' });
+}
+
+function viewPost(slug, e) {
+  e.stopPropagation();
+  window.open(`/blog/${slug}`, '_blank');
+}
+
+async function deletePost(slug, e) {
+  e.stopPropagation();
+  if (!confirm(`Delete "${slug}"? This cannot be undone.`)) return;
+
+  const res = await fetch(`/.netlify/functions/save-post?slug=${encodeURIComponent(slug)}`, {
+    method:  'DELETE',
+    headers: { 'X-Admin-Secret': adminSecret },
+  });
+  const data = await res.json();
+  if (data.ok) {
+    if (editingSlug === slug) newPost();
+    loadPostList();
+  } else {
+    alert('Delete failed.');
+  }
+}
+
+function newPost() {
+  document.getElementById('f-title').value   = '';
+  document.getElementById('f-slug').value    = '';
+  document.getElementById('f-excerpt').value = '';
+  document.getElementById('f-content').value = '';
+  document.getElementById('preview-title').textContent = 'Post title';
+  document.getElementById('preview-body').innerHTML    = '';
+  document.getElementById('editor-heading').textContent = 'New post';
+  document.getElementById('save-status').textContent  = '';
+  document.getElementById('slug-hint').textContent    = '';
+  editingSlug = null;
+  slugEdited  = false;
+}
+
+function escHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function escAttr(s) { return String(s).replace(/'/g,"\\'"); }
+</script>
+</body>
+</html>
