@@ -70,8 +70,9 @@ exports.handler = async (event) => {
   // Route to the correct guide based on which product was purchased.
   // Add a VARIANT_[id]_URL env var in Netlify for each product variant.
   // Falls back to GUIDE_URL if no specific mapping exists.
-  const guideUrl = (variantId && process.env[`VARIANT_${variantId}_URL`])
+  const guideUrl  = (variantId && process.env[`VARIANT_${variantId}_URL`])
     || process.env.GUIDE_URL;
+  const guidePath = new URL(guideUrl).pathname;
 
   console.log(`Order ${orderId} — variant ${variantId} — routing to ${guideUrl}`);
 
@@ -117,6 +118,7 @@ exports.handler = async (event) => {
     token,
     email,
     order_id:   orderId,
+    guide_path: guidePath,
     expires_at: expiresAt,
   });
 

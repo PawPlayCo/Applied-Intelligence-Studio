@@ -77,7 +77,7 @@ exports.handler = async (event) => {
 
   // ── 2. Look up token in Supabase ──────────────────────────
   const res = await fetch(
-    `${process.env.SUPABASE_URL}/rest/v1/access_tokens?token=eq.${encodeURIComponent(token)}&select=email,revoked,expires_at`,
+    `${process.env.SUPABASE_URL}/rest/v1/access_tokens?token=eq.${encodeURIComponent(token)}&select=email,revoked,expires_at,guide_path`,
     {
       headers: {
         'apikey':        process.env.SUPABASE_SERVICE_KEY,
@@ -97,7 +97,7 @@ exports.handler = async (event) => {
     return { statusCode: 401, headers: cors, body: JSON.stringify({ valid: false, reason: 'Token not found' }) };
   }
 
-  const { email, revoked, expires_at } = rows[0];
+  const { email, revoked, expires_at, guide_path } = rows[0];
 
   // ── 3. Check revocation ───────────────────────────────────
   if (revoked) {
@@ -129,6 +129,6 @@ exports.handler = async (event) => {
   return {
     statusCode: 200,
     headers: cors,
-    body: JSON.stringify({ valid: true, email }),
+    body: JSON.stringify({ valid: true, email, guidePath: guide_path }),
   };
 };
