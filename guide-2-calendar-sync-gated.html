@@ -890,7 +890,6 @@ pre code {
 <body>
 
 <!-- GATE OVERLAY -->
-═══════════════════════════════════════════════════════════ -->
 <div id="gate-overlay">
   <div class="gate-box">
     <div class="gate-logo">Build Your Business Website</div>
@@ -955,7 +954,6 @@ pre code {
 
 <!-- ══════════════════════════════════════════════════════════
      GUIDE CONTENT  -  hidden until token validates
-═══════════════════════════════════════════════════════════ -->
 
 <!-- GUIDE CONTENT -->
 <div id="gate-content">
@@ -982,15 +980,15 @@ pre code {
   <div class="sidebar-section">
     <div class="sidebar-title">Core Guide</div>
     <nav>
-    <a href="#">Main Website Build</a>
+    <a href="#" data-guide-path="/guide">Main Website Build</a>
     </nav>
   </div>
   <div class="sidebar-section">
     <div class="sidebar-title">Other Add-ons</div>
     <nav>
-    <a href="#"><span class="num">+2</span> Invoice &amp; Payments</a>
-    <a href="#"><span class="num">+3</span> Staff Portal</a>
-    <a href="#"><span class="num">+4</span> Client Portal</a>
+    <a href="#" data-guide-path="/guide-3"><span class="num">+2</span> Invoice &amp; Payments</a>
+    <a href="#" data-guide-path="/guide-4"><span class="num">+3</span> Staff Portal</a>
+    <a href="#" data-guide-path="/guide-5"><span class="num">+4</span> Client Portal</a>
     </nav>
   </div>
   <div class="sidebar-section">
@@ -1214,21 +1212,21 @@ select * from cron.job;</div>
   <h3>More ways to extend your site</h3>
   <p>Each add-on builds on the core guide and works independently of the others.</p>
   <div class="addon-grid">
-    <a href="https://applied-intelligence-studio.lemonsqueezy.com/checkout/buy/464b2937-5697-49b3-930c-951a5392fea5" target="_blank" style="text-decoration:none;display:block;">
+    <a href="https://applied-intelligence-studio.lemonsqueezy.com/checkout/buy/464b2937-5697-49b3-930c-951a5392fea5" data-guide-path="/guide-3" target="_blank" style="text-decoration:none;display:block;">
     <div class="addon-card">
       <span class="addon-title">Online Invoice &amp; Payments</span>
       <span class="addon-desc">Create invoices clients pay online with a credit card. Stripe, Netlify Functions, and email notifications.</span>
       <span class="addon-tag">Add-on 02</span>
     </div>
     </a>
-    <a href="https://applied-intelligence-studio.lemonsqueezy.com/checkout/buy/6a601aec-8d2f-45b4-b13b-38d98049e825" target="_blank" style="text-decoration:none;display:block;">
+    <a href="https://applied-intelligence-studio.lemonsqueezy.com/checkout/buy/6a601aec-8d2f-45b4-b13b-38d98049e825" data-guide-path="/guide-4" target="_blank" style="text-decoration:none;display:block;">
     <div class="addon-card">
       <span class="addon-title">Staff Portal &amp; Admin Dashboard</span>
       <span class="addon-desc">A private mobile-optimized portal for your team and a central admin view. Real-time Firebase updates.</span>
       <span class="addon-tag">Add-on 03</span>
     </div>
     </a>
-    <a href="https://applied-intelligence-studio.lemonsqueezy.com/checkout/buy/ee7b2203-d1d8-4a3d-9582-5b21635821fc" target="_blank" style="text-decoration:none;display:block;">
+    <a href="https://applied-intelligence-studio.lemonsqueezy.com/checkout/buy/ee7b2203-d1d8-4a3d-9582-5b21635821fc" data-guide-path="/guide-5" target="_blank" style="text-decoration:none;display:block;">
     <div class="addon-card">
       <span class="addon-title">Client Portal with Secure Login</span>
       <span class="addon-desc">A full client-facing portal with email and password accounts. Invoices, session history, and documents.</span>
@@ -1264,10 +1262,21 @@ function showGateState(state) {
 function grantAccess() {
   document.getElementById('gate-overlay').classList.add('hidden');
   document.getElementById('gate-content').classList.add('visible');
-  // Persist the token in sessionStorage so validation
-  // doesn't re-run on every anchor link click within the page
-  const token = new URLSearchParams(window.location.search).get('token');
+
+  const params = new URLSearchParams(window.location.search);
+  const token  = params.get('token');
+  const suite  = params.get('suite') === '1';
+
   if (token) sessionStorage.setItem('guide_token', token);
+  if (suite) sessionStorage.setItem('guide_suite', '1');
+
+  const isSuite = suite || sessionStorage.getItem('guide_suite') === '1';
+  if (isSuite && token) {
+    document.querySelectorAll('a[data-guide-path]').forEach(el => {
+      el.href = el.dataset.guidePath + '?token=' + token + '&suite=1';
+      el.removeAttribute('target');
+    });
+  }
 }
 
 // ── Main validation flow ──────────────────────────────────────

@@ -191,17 +191,15 @@ function buildSingleGuideEmail(firstName, accessLink) {
 
 function buildCompleteSuiteEmail(firstName, token, baseUrl) {
   const guides = [
-    { label: 'Core Guide — Build Your Business Website', path: '/guide',   suite: true },
-    { label: 'Add-on 01 — Calendar Sync Automation',    path: '/guide-2', suite: false },
-    { label: 'Add-on 02 — Invoice & Payments',          path: '/guide-3', suite: false },
-    { label: 'Add-on 03 — Staff Portal',                path: '/guide-4', suite: false },
-    { label: 'Add-on 04 — Client Portal',               path: '/guide-5', suite: false },
+    { label: 'Core Guide — Build Your Business Website', path: '/guide'   },
+    { label: 'Add-on 01 — Calendar Sync Automation',    path: '/guide-2' },
+    { label: 'Add-on 02 — Invoice & Payments',          path: '/guide-3' },
+    { label: 'Add-on 03 — Staff Portal',                path: '/guide-4' },
+    { label: 'Add-on 04 — Client Portal',               path: '/guide-5' },
   ];
 
   const linkRows = guides.map(g => {
-    const url = g.suite
-      ? `${baseUrl}${g.path}?token=${token}&suite=1`
-      : `${baseUrl}${g.path}?token=${token}`;
+    const url = `${baseUrl}${g.path}?token=${token}&suite=1`;
     return `
     <tr>
       <td style="padding: 10px 0; border-bottom: 1px solid #f0ede8;">
