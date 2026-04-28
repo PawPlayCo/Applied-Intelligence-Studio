@@ -446,6 +446,79 @@ nav {
   transform: translate(2px, -2px);
 }
 
+/* ── COURSES GRID ────────────────────────────────────────────── */
+.courses-section {
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 52px;
+}
+
+.courses-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-left: 1px solid var(--rule);
+  margin-top: 0;
+}
+
+.course-card {
+  border-right: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  padding: 28px 24px;
+  text-decoration: none;
+  display: block;
+  transition: background 0.15s;
+  position: relative;
+}
+
+.course-card:hover { background: var(--bg2); }
+
+.course-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink4);
+  margin-bottom: 10px;
+}
+
+.course-card h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.2;
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+
+.course-card p {
+  font-size: 13px;
+  color: var(--ink3);
+  line-height: 1.65;
+  font-weight: 300;
+}
+
+.course-price {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--ink4);
+  margin-top: 14px;
+}
+
+.course-arrow {
+  position: absolute;
+  bottom: 24px;
+  right: 20px;
+  font-size: 16px;
+  color: var(--rule);
+  transition: color 0.15s, transform 0.15s;
+}
+
+.course-card:hover .course-arrow {
+  color: var(--ink3);
+  transform: translate(2px, -2px);
+}
+
 /* ── PHILOSOPHY STRIP ───────────────────────────────────────── */
 .philosophy-strip {
   border-bottom: 1px solid var(--rule);
@@ -762,6 +835,7 @@ footer {
   .section-wrap { padding: 0 24px; }
 
   .guides-grid { grid-template-columns: 1fr 1fr; }
+  .courses-grid { grid-template-columns: 1fr 1fr; }
   .guide-card-featured { grid-template-columns: 1fr; }
   .guide-featured-right { border-top: 1px solid rgba(255,255,255,0.08); }
 
@@ -789,6 +863,7 @@ footer {
   .section-header { padding: 36px 0 24px; }
 
   .guides-grid { grid-template-columns: 1fr; }
+  .courses-grid { grid-template-columns: 1fr; }
   .blog-grid { grid-template-columns: 1fr; }
   .social-cards { grid-template-columns: 1fr; }
 
@@ -941,6 +1016,55 @@ footer {
     </div>
   </div>
 </section>
+
+<!-- COURSES (hidden until courses are published) -->
+<section class="courses-section" id="courses" style="display:none;">
+  <div class="section-wrap">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-num">02</span>
+        <h2 class="section-title">Courses</h2>
+      </div>
+    </div>
+  </div>
+  <div class="section-wrap" style="padding-top:0;">
+    <div class="courses-grid" id="home-courses-grid"></div>
+  </div>
+</section>
+
+<script>
+(async () => {
+  try {
+    const res     = await fetch('/.netlify/functions/get-courses');
+    if (!res.ok) return;
+    const courses = await res.json();
+    if (!courses.length) return;
+
+    const section = document.getElementById('courses');
+    const grid    = document.getElementById('home-courses-grid');
+
+    grid.innerHTML = courses.map(c => `
+      <a href="${safeAttr(c.checkout_url || '#')}" class="course-card" target="_blank">
+        ${c.tag         ? `<div class="course-tag">${safeHtml(c.tag)}</div>` : ''}
+        <h3>${safeHtml(c.title)}</h3>
+        ${c.description ? `<p>${safeHtml(c.description)}</p>` : ''}
+        ${c.price       ? `<div class="course-price">${safeHtml(c.price)}</div>` : ''}
+        <span class="course-arrow">↗</span>
+      </a>`).join('');
+
+    section.style.display = '';
+
+    // Bump philosophy/blog/about section numbers
+    const philNum = document.querySelector('#about .section-num');
+    if (philNum) philNum.textContent = '03';
+    const blogNum = document.querySelector('#blog .section-num');
+    if (blogNum) blogNum.textContent = '04';
+  } catch {}
+})();
+
+function safeHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function safeAttr(s) { const u = String(s); return u.startsWith('http')||u.startsWith('/') ? u : '#'; }
+</script>
 
 <!-- PHILOSOPHY -->
 <section id="about" style="border-bottom: 1px solid var(--rule);">

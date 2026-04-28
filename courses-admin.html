@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Courses Admin — Applied Intelligence Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:      #fafaf8;
+  --bg2:     #f2f1ee;
+  --bg3:     #e8e6e1;
+  --ink:     #141412;
+  --ink2:    #38362f;
+  --ink3:    #78746a;
+  --ink4:    #b0ab9f;
+  --rule:    #dedad3;
+  --accent:  #1c3828;
+  --accent2: #c44b0c;
+  --white:   #ffffff;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg); color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+/* ── AUTH GATE ───────────────────────────────────────────── */
+#auth-screen {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+}
+.auth-box {
+  background: var(--white); border: 1px solid var(--rule);
+  border-radius: 8px; padding: 40px 36px; width: 360px;
+}
+.auth-logo {
+  font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 600;
+  color: var(--ink); margin-bottom: 24px;
+  display: flex; align-items: center; gap: 8px;
+}
+.auth-logo-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent2); flex-shrink: 0; }
+.auth-box h2 { font-size: 15px; font-weight: 500; margin-bottom: 20px; color: var(--ink2); }
+.auth-input {
+  width: 100%; padding: 10px 14px; font-size: 14px; font-family: 'JetBrains Mono', monospace;
+  border: 1px solid var(--rule); border-radius: 4px; background: var(--bg);
+  color: var(--ink); outline: none; margin-bottom: 12px;
+}
+.auth-input:focus { border-color: var(--ink3); }
+.auth-btn {
+  width: 100%; padding: 11px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
+  background: var(--accent); color: #e8f0ec; border: none; border-radius: 4px;
+  cursor: pointer; transition: background 0.15s;
+}
+.auth-btn:hover { background: #0f2018; }
+.auth-error { font-size: 13px; color: var(--accent2); margin-top: 10px; display: none; }
+
+/* ── MAIN ADMIN UI ───────────────────────────────────────── */
+#admin-ui { display: none; }
+
+.admin-nav {
+  height: 56px; background: var(--ink); color: #e8e6e1;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 32px; position: sticky; top: 0; z-index: 100;
+}
+.admin-nav-logo {
+  font-family: 'Cormorant Garamond', serif; font-size: 17px; font-weight: 600;
+  color: #e8e6e1; text-decoration: none;
+  display: flex; align-items: center; gap: 8px;
+}
+.admin-nav-logo span {
+  font-family: 'JetBrains Mono', monospace; font-size: 10px;
+  letter-spacing: 0.1em; text-transform: uppercase; color: #78746a; margin-left: 4px;
+}
+.admin-nav-actions { display: flex; gap: 10px; }
+.nav-link-out {
+  font-size: 12px; color: #78746a; text-decoration: none; padding: 6px 12px;
+  border-radius: 4px; transition: color 0.15s;
+}
+.nav-link-out:hover { color: #e8e6e1; }
+
+.admin-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: calc(100vh - 56px);
+}
+
+/* ── EDITOR PANE ─────────────────────────────────────────── */
+.editor-pane {
+  border-right: 1px solid var(--rule);
+  padding: 32px;
+  overflow-y: auto;
+}
+.editor-pane h2 {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink4);
+  margin-bottom: 24px;
+}
+
+.field { margin-bottom: 16px; }
+.field label {
+  display: block; font-size: 11px; font-weight: 500; letter-spacing: 0.05em;
+  text-transform: uppercase; color: var(--ink4); margin-bottom: 6px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.field input, .field textarea, .field select {
+  width: 100%; padding: 10px 14px; font-size: 14px;
+  font-family: 'DM Sans', sans-serif;
+  border: 1px solid var(--rule); border-radius: 4px;
+  background: var(--white); color: var(--ink);
+  outline: none; transition: border-color 0.15s;
+  resize: vertical;
+}
+.field input:focus, .field textarea:focus, .field select:focus { border-color: var(--ink3); }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+.field-row .field { margin-bottom: 0; }
+
+#f-description { min-height: 90px; }
+#f-excerpt { min-height: 64px; }
+
+.slug-hint {
+  font-size: 11px; color: var(--ink4); margin-top: 5px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.field-checkbox {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 16px; cursor: pointer;
+}
+.field-checkbox input[type="checkbox"] {
+  width: 16px; height: 16px; cursor: pointer;
+}
+.field-checkbox label {
+  font-size: 13px; color: var(--ink2); cursor: pointer; margin-bottom: 0;
+  font-family: 'DM Sans', sans-serif; font-weight: 400;
+  text-transform: none; letter-spacing: 0;
+}
+
+.editor-actions {
+  display: flex; gap: 10px; align-items: center; margin-top: 24px; flex-wrap: wrap;
+}
+.btn-publish {
+  padding: 10px 22px; font-size: 13px; font-weight: 500;
+  background: var(--accent); color: #e8f0ec;
+  border: none; border-radius: 4px; cursor: pointer; transition: background 0.15s;
+}
+.btn-publish:hover { background: #0f2018; }
+.btn-draft {
+  padding: 10px 22px; font-size: 13px; font-weight: 500;
+  background: none; color: var(--ink2);
+  border: 1px solid var(--rule); border-radius: 4px; cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-draft:hover { background: var(--bg2); }
+.btn-new {
+  padding: 10px 22px; font-size: 13px; font-weight: 500;
+  background: none; color: var(--ink4);
+  border: 1px solid var(--rule); border-radius: 4px; cursor: pointer;
+  transition: all 0.15s; margin-left: auto;
+}
+.btn-new:hover { background: var(--bg2); color: var(--ink); }
+
+.save-status {
+  font-size: 12px; color: var(--ink4); margin-top: 12px; min-height: 18px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.save-status.ok  { color: #1f5c38; }
+.save-status.err { color: var(--accent2); }
+
+/* ── PREVIEW PANE ────────────────────────────────────────── */
+.preview-pane {
+  padding: 40px 48px;
+  overflow-y: auto;
+  background: var(--bg2);
+}
+.preview-label {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink4);
+  margin-bottom: 28px;
+}
+.preview-card {
+  background: var(--white);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 28px 24px;
+  position: relative;
+  max-width: 400px;
+}
+.preview-card-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--ink4); margin-bottom: 10px;
+}
+.preview-card-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px; font-weight: 600; color: var(--ink);
+  line-height: 1.2; margin-bottom: 8px; letter-spacing: -0.01em;
+  min-height: 28px;
+}
+.preview-card-desc {
+  font-size: 13px; color: var(--ink3); line-height: 1.65; font-weight: 300;
+  min-height: 20px;
+}
+.preview-card-price {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; letter-spacing: 0.08em; color: var(--ink4); margin-top: 14px;
+}
+.preview-card-arrow {
+  position: absolute; bottom: 20px; right: 18px;
+  font-size: 16px; color: var(--rule);
+}
+
+.preview-note {
+  margin-top: 20px;
+  font-size: 12px; color: var(--ink4); line-height: 1.6;
+}
+.preview-note strong { color: var(--ink3); font-weight: 500; }
+
+/* ── COURSE LIST ─────────────────────────────────────────── */
+.course-list-section {
+  grid-column: 1 / -1;
+  border-top: 1px solid var(--rule);
+  padding: 32px;
+}
+.course-list-section h2 {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink4);
+  margin-bottom: 20px;
+}
+.course-table { width: 100%; border-collapse: collapse; }
+.course-table th {
+  font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 500;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink4);
+  text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--rule);
+}
+.course-table td { padding: 12px 12px; border-bottom: 1px solid var(--rule); font-size: 13px; vertical-align: middle; }
+.course-table tr:last-child td { border-bottom: none; }
+.course-table tr:hover td { background: var(--bg2); cursor: pointer; }
+.course-status {
+  display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 10px;
+  letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 3px;
+}
+.course-status.published { background: #e8f0ec; color: #1c3828; }
+.course-status.draft     { background: var(--bg2); color: var(--ink4); }
+.course-table-action {
+  font-size: 12px; color: var(--accent2); background: none; border: none;
+  cursor: pointer; padding: 4px 8px; border-radius: 3px; transition: background 0.15s;
+  font-family: 'DM Sans', sans-serif;
+}
+.course-table-action:hover { background: #fef2f0; }
+.course-table-action.del { color: #b00; }
+.course-table-action.del:hover { background: #fff0f0; }
+.no-courses { font-size: 14px; color: var(--ink4); padding: 20px 12px; }
+</style>
+</head>
+<body>
+
+<!-- AUTH GATE -->
+<div id="auth-screen">
+  <div class="auth-box">
+    <div class="auth-logo">
+      <span class="auth-logo-dot"></span>
+      Applied Intelligence Studio
+    </div>
+    <h2>Courses Admin</h2>
+    <input type="password" id="admin-password" class="auth-input" placeholder="Admin password" autocomplete="current-password">
+    <button class="auth-btn" onclick="login()">Sign in</button>
+    <div class="auth-error" id="auth-error">Incorrect password.</div>
+  </div>
+</div>
+
+<!-- ADMIN UI -->
+<div id="admin-ui">
+  <div class="admin-nav">
+    <a href="/" class="admin-nav-logo">
+      Applied Intelligence Studio
+      <span>Courses Admin</span>
+    </a>
+    <div class="admin-nav-actions">
+      <a href="/blog-admin" class="nav-link-out">Blog admin →</a>
+      <a href="/" target="_blank" class="nav-link-out">View site →</a>
+    </div>
+  </div>
+
+  <div class="admin-body">
+    <!-- EDITOR -->
+    <div class="editor-pane">
+      <h2 id="editor-heading">New course</h2>
+
+      <div class="field">
+        <label>Title</label>
+        <input type="text" id="f-title" placeholder="Course title" oninput="onTitleInput()">
+      </div>
+
+      <div class="field">
+        <label>Slug</label>
+        <input type="text" id="f-slug" placeholder="course-url-slug" oninput="slugEdited=true; updateSlugHint()">
+        <div class="slug-hint" id="slug-hint"></div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Tag <span style="font-weight:300;text-transform:none;letter-spacing:0">(label on card)</span></label>
+          <input type="text" id="f-tag" placeholder="e.g. New Course" oninput="updatePreview()">
+        </div>
+        <div class="field">
+          <label>Price</label>
+          <input type="text" id="f-price" placeholder="e.g. $29.99" oninput="updatePreview()">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Checkout URL <span style="font-weight:300;text-transform:none;letter-spacing:0">(Lemon Squeezy link)</span></label>
+        <input type="url" id="f-checkout-url" placeholder="https://...lemonsqueezy.com/checkout/buy/...">
+      </div>
+
+      <div class="field">
+        <label>Course path <span style="font-weight:300;text-transform:none;letter-spacing:0">(optional — path to gated content page)</span></label>
+        <input type="text" id="f-course-path" placeholder="e.g. /cut-the-subscriptions">
+      </div>
+
+      <div class="field">
+        <label>Description <span style="font-weight:300;text-transform:none;letter-spacing:0">(shown on card)</span></label>
+        <textarea id="f-description" placeholder="A short description of what's included…" oninput="updatePreview()"></textarea>
+      </div>
+
+      <div class="field">
+        <label>Excerpt <span style="font-weight:300;text-transform:none;letter-spacing:0">(optional, for meta/blog-style listing)</span></label>
+        <textarea id="f-excerpt" placeholder="One-line summary…"></textarea>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Display order <span style="font-weight:300;text-transform:none;letter-spacing:0">(lower = first)</span></label>
+          <input type="number" id="f-order" placeholder="0" value="0" min="0">
+        </div>
+        <div class="field" style="display:flex;align-items:flex-end;padding-bottom:2px;">
+          <label class="field-checkbox" style="margin-bottom:0">
+            <input type="checkbox" id="f-featured">
+            <span style="font-size:13px;color:var(--ink2)">Mark as featured</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="editor-actions">
+        <button class="btn-publish" onclick="saveCourse(true)">Publish</button>
+        <button class="btn-draft"   onclick="saveCourse(false)">Save draft</button>
+        <button class="btn-new"     onclick="newCourse()">+ New course</button>
+      </div>
+      <div class="save-status" id="save-status"></div>
+    </div>
+
+    <!-- PREVIEW -->
+    <div class="preview-pane">
+      <div class="preview-label">Card preview</div>
+      <div class="preview-card">
+        <div class="preview-card-tag"  id="preview-tag"></div>
+        <div class="preview-card-title" id="preview-title">Course title</div>
+        <div class="preview-card-desc"  id="preview-desc"></div>
+        <div class="preview-card-price" id="preview-price"></div>
+        <span class="preview-card-arrow">↗</span>
+      </div>
+      <div class="preview-note" style="margin-top:24px;">
+        <strong>Tip:</strong> The card will link to your Lemon Squeezy checkout URL. If you also set a Course path, buyers who already have a token will be directed there instead via the sidebar on the guide pages.
+      </div>
+    </div>
+
+    <!-- COURSE LIST -->
+    <div class="course-list-section">
+      <h2>All courses</h2>
+      <table class="course-table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Tag</th>
+            <th>Price</th>
+            <th>Order</th>
+            <th>Status</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="course-table-body">
+          <tr><td colspan="6" class="no-courses">Loading…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+let adminSecret = '';
+let slugEdited  = false;
+let editingId   = null;
+
+// ── Auth ─────────────────────────────────────────────────────
+const stored = sessionStorage.getItem('admin_secret');
+if (stored) tryAuth(stored);
+
+async function login() {
+  const pw = document.getElementById('admin-password').value;
+  if (!pw) return;
+  await tryAuth(pw);
+}
+
+document.getElementById('admin-password').addEventListener('keydown', e => {
+  if (e.key === 'Enter') login();
+});
+
+async function tryAuth(secret) {
+  const res = await fetch('/.netlify/functions/get-posts', {
+    headers: { 'X-Admin-Secret': secret },
+  });
+  if (res.ok) {
+    adminSecret = secret;
+    sessionStorage.setItem('admin_secret', secret);
+    document.getElementById('auth-screen').style.display = 'none';
+    document.getElementById('admin-ui').style.display    = 'block';
+    loadCourseList();
+  } else {
+    document.getElementById('auth-error').style.display = 'block';
+  }
+}
+
+// ── Preview ───────────────────────────────────────────────────
+function onTitleInput() {
+  const title = document.getElementById('f-title').value;
+  document.getElementById('preview-title').textContent = title || 'Course title';
+  if (!slugEdited) {
+    document.getElementById('f-slug').value = toSlug(title);
+    updateSlugHint();
+  }
+}
+
+function updatePreview() {
+  document.getElementById('preview-tag').textContent   = document.getElementById('f-tag').value;
+  document.getElementById('preview-desc').textContent  = document.getElementById('f-description').value;
+  document.getElementById('preview-price').textContent = document.getElementById('f-price').value;
+}
+
+function updateSlugHint() {
+  const slug = document.getElementById('f-slug').value;
+  document.getElementById('slug-hint').textContent = slug ? `/${slug}` : '';
+}
+
+function toSlug(str) {
+  return str.toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .trim().replace(/\s+/g, '-')
+    .replace(/-+/g, '-');
+}
+
+// ── Save ──────────────────────────────────────────────────────
+async function saveCourse(publish) {
+  const title       = document.getElementById('f-title').value.trim();
+  const slug        = document.getElementById('f-slug').value.trim();
+  const tag         = document.getElementById('f-tag').value.trim();
+  const price       = document.getElementById('f-price').value.trim();
+  const checkoutUrl = document.getElementById('f-checkout-url').value.trim();
+  const coursePath  = document.getElementById('f-course-path').value.trim();
+  const description = document.getElementById('f-description').value.trim();
+  const excerpt     = document.getElementById('f-excerpt').value.trim();
+  const order       = document.getElementById('f-order').value;
+  const featured    = document.getElementById('f-featured').checked;
+  const status      = document.getElementById('save-status');
+
+  if (!title || !slug) {
+    status.className   = 'save-status err';
+    status.textContent = 'Title and slug are required.';
+    return;
+  }
+
+  status.className   = 'save-status';
+  status.textContent = 'Saving…';
+
+  const payload = {
+    title, slug, tag, price,
+    checkout_url:  checkoutUrl,
+    course_path:   coursePath,
+    description,
+    excerpt,
+    featured,
+    published:     publish,
+    display_order: Number(order) || 0,
+  };
+  if (editingId) payload.id = editingId;
+
+  const res  = await fetch('/.netlify/functions/save-course', {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json', 'X-Admin-Secret': adminSecret },
+    body:    JSON.stringify(payload),
+  });
+  const data = await res.json();
+
+  if (data.ok) {
+    status.className   = 'save-status ok';
+    status.textContent = publish ? 'Published.' : 'Draft saved.';
+    if (!editingId) editingId = data.id;
+    slugEdited = true;
+    loadCourseList();
+  } else {
+    status.className   = 'save-status err';
+    status.textContent = data.error || 'Save failed.';
+  }
+}
+
+// ── Course list ───────────────────────────────────────────────
+async function loadCourseList() {
+  const res     = await fetch('/.netlify/functions/get-courses', { headers: { 'X-Admin-Secret': adminSecret } });
+  if (!res.ok) {
+    document.getElementById('course-table-body').innerHTML =
+      '<tr><td colspan="6" class="no-courses">Could not load courses. Make sure the Supabase table exists.</td></tr>';
+    return;
+  }
+  const courses = await res.json();
+  renderCourseList(courses);
+}
+
+function renderCourseList(courses) {
+  const tbody = document.getElementById('course-table-body');
+  if (!courses.length) {
+    tbody.innerHTML = '<tr><td colspan="6" class="no-courses">No courses yet. Add your first one above.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = courses.map(c => {
+    const statusLabel = c.published
+      ? '<span class="course-status published">Published</span>'
+      : '<span class="course-status draft">Draft</span>';
+    return `
+      <tr onclick="editCourse(${JSON.stringify(c).replace(/</g,'\\u003c')}, event)">
+        <td><strong>${escHtml(c.title)}</strong></td>
+        <td style="color:var(--ink4);font-size:12px">${escHtml(c.tag || '—')}</td>
+        <td style="font-family:'JetBrains Mono',monospace;font-size:12px">${escHtml(c.price || '—')}</td>
+        <td style="color:var(--ink4);font-size:12px">${c.display_order}</td>
+        <td>${statusLabel}</td>
+        <td style="text-align:right;white-space:nowrap">
+          <button class="course-table-action del" onclick="deleteCourse('${escAttr(c.id)}','${escAttr(c.title)}',event)">Delete</button>
+        </td>
+      </tr>`;
+  }).join('');
+}
+
+function editCourse(c, e) {
+  if (e.target.tagName === 'BUTTON') return;
+  document.getElementById('f-title').value        = c.title;
+  document.getElementById('f-slug').value         = c.slug;
+  document.getElementById('f-tag').value          = c.tag || '';
+  document.getElementById('f-price').value        = c.price || '';
+  document.getElementById('f-checkout-url').value = c.checkout_url || '';
+  document.getElementById('f-course-path').value  = c.course_path || '';
+  document.getElementById('f-description').value  = c.description || '';
+  document.getElementById('f-excerpt').value      = c.excerpt || '';
+  document.getElementById('f-order').value        = c.display_order || 0;
+  document.getElementById('f-featured').checked   = !!c.featured;
+  document.getElementById('editor-heading').textContent = 'Edit course';
+  document.getElementById('save-status').textContent    = '';
+  editingId  = c.id;
+  slugEdited = true;
+  updatePreview();
+  updateSlugHint();
+  document.getElementById('preview-title').textContent = c.title;
+  document.querySelector('.editor-pane').scrollIntoView({ behavior: 'smooth' });
+}
+
+async function deleteCourse(id, title, e) {
+  e.stopPropagation();
+  if (!confirm(`Delete "${title}"? This cannot be undone.`)) return;
+
+  const res  = await fetch(`/.netlify/functions/save-course?id=${encodeURIComponent(id)}`, {
+    method:  'DELETE',
+    headers: { 'X-Admin-Secret': adminSecret },
+  });
+  const data = await res.json();
+  if (data.ok) {
+    if (editingId === id) newCourse();
+    loadCourseList();
+  } else {
+    alert('Delete failed.');
+  }
+}
+
+function newCourse() {
+  document.getElementById('f-title').value        = '';
+  document.getElementById('f-slug').value         = '';
+  document.getElementById('f-tag').value          = '';
+  document.getElementById('f-price').value        = '';
+  document.getElementById('f-checkout-url').value = '';
+  document.getElementById('f-course-path').value  = '';
+  document.getElementById('f-description').value  = '';
+  document.getElementById('f-excerpt').value      = '';
+  document.getElementById('f-order').value        = '0';
+  document.getElementById('f-featured').checked   = false;
+  document.getElementById('preview-title').textContent = 'Course title';
+  document.getElementById('preview-tag').textContent   = '';
+  document.getElementById('preview-desc').textContent  = '';
+  document.getElementById('preview-price').textContent = '';
+  document.getElementById('editor-heading').textContent = 'New course';
+  document.getElementById('save-status').textContent    = '';
+  document.getElementById('slug-hint').textContent      = '';
+  editingId  = null;
+  slugEdited = false;
+}
+
+function escHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function escAttr(s) { return String(s).replace(/'/g,"\\'"); }
+</script>
+</body>
+</html>
