@@ -28,6 +28,11 @@
   status = 302
 
 [[redirects]]
+  from = "/lean-business-stack"
+  to = "/lean-business-stack-gated.html"
+  status = 302
+
+[[redirects]]
   from = "/complete-suite"
   to = "/complete-suite-gated.html"
   status = 302

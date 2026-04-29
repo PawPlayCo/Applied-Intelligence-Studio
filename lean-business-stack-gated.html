@@ -1,0 +1,1536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Build Your Lean Business Stack - Applied Intelligence Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+
+/* ── DESIGN TOKENS ──────────────────────────────────────────── */
+:root {
+  --bg:          #f7f7f5;
+  --bg2:         #efefec;
+  --bg3:         #e5e5e1;
+  --border:      #d8d8d3;
+  --border2:     #c8c8c2;
+  --text:        #18181b;
+  --text2:       #3f3f46;
+  --text3:       #71717a;
+  --text4:       #a1a1aa;
+  --accent:      #1e3a5f;
+  --accent-mid:  #2d5a8e;
+  --accent-soft: #e8eef6;
+  --code-fg:     #1e3a5f;
+  --code-bg:     #eef2f8;
+  --code-border: #c8d4e8;
+  --tip-bg:      #f0f7f2;
+  --tip-border:  #2d7a4f;
+  --tip-text:    #1a5c38;
+  --warn-bg:     #fdf8ee;
+  --warn-border: #c8960a;
+  --warn-text:   #6b4f08;
+  --danger-bg:   #fdf2f2;
+  --danger-border: #b83232;
+  --danger-text: #7a1f1f;
+  --note-bg:     #f0f4ff;
+  --note-border: #3a5cbf;
+  --note-text:   #1f3a8c;
+  --ai-bg:       #f4f3ff;
+  --ai-border:   #7c6fdf;
+  --ai-text:     #3d3480;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.75;
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── COVER ──────────────────────────────────────────────────── */
+.cover {
+  background: #111827;
+  color: #f9fafb;
+  padding: 80px 64px 72px;
+}
+
+.cover-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #6b7280;
+  margin-bottom: 22px;
+  font-weight: 400;
+}
+
+.cover h1 {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 48px;
+  line-height: 1.13;
+  margin-bottom: 22px;
+  max-width: 700px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.cover h1 em {
+  color: #93c5fd;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.cover-lead {
+  font-size: 16px;
+  color: #9ca3af;
+  max-width: 620px;
+  line-height: 1.75;
+  margin-bottom: 40px;
+  font-weight: 300;
+}
+
+.cover-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 28px;
+  border-top: 1px solid #1f2937;
+}
+
+.meta-tag {
+  background: #1f2937;
+  border: 1px solid #374151;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: #9ca3af;
+  letter-spacing: 0.02em;
+}
+
+/* ── PAGE LAYOUT ────────────────────────────────────────────── */
+.page {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ── SIDEBAR ────────────────────────────────────────────────── */
+.sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  padding: 36px 20px 36px 32px;
+  border-right: 1px solid var(--border);
+  background: var(--bg);
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+  flex-shrink: 0;
+}
+
+.sidebar-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text4);
+  font-weight: 500;
+  margin-bottom: 10px;
+  padding-left: 10px;
+}
+
+.sidebar nav a {
+  display: block;
+  padding: 6px 10px;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text3);
+  text-decoration: none;
+  border-radius: 5px;
+  line-height: 1.45;
+  transition: background 0.1s, color 0.1s;
+}
+
+.sidebar nav a:hover { background: var(--bg2); color: var(--text); }
+
+.sidebar nav a .num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  color: var(--text4);
+  margin-right: 7px;
+}
+
+.sidebar-section {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+
+/* ── MAIN ───────────────────────────────────────────────────── */
+.main {
+  padding: 52px 60px 96px;
+  min-width: 0;
+  max-width: 780px;
+}
+
+/* ── INTRO NOTE ─────────────────────────────────────────────── */
+.ai-intro {
+  background: var(--ai-bg);
+  border-left: 3px solid var(--ai-border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  margin-bottom: 52px;
+  color: var(--ai-text);
+  font-size: 13.5px;
+  line-height: 1.72;
+}
+
+.ai-intro strong { color: var(--ai-text); font-weight: 600; }
+
+/* ── MODULE ─────────────────────────────────────────────────── */
+.module {
+  margin-bottom: 72px;
+  padding-bottom: 72px;
+  border-bottom: 1px solid var(--border);
+}
+
+.module:last-child { border-bottom: none; margin-bottom: 0; }
+
+.module-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text4);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.module-tag .dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+.module-tag .dot.green  { background: #2d7a4f; }
+.module-tag .dot.blue   { background: #1e4a8a; }
+.module-tag .dot.purple { background: #6b4fa0; }
+.module-tag .dot.amber  { background: #c8960a; }
+.module-tag .dot.red    { background: #b83232; }
+
+.module h2 {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 32px;
+  line-height: 1.22;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+.module-lead {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 15px;
+  color: var(--text3);
+  line-height: 1.75;
+  margin-bottom: 36px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--border);
+  font-style: italic;
+}
+
+/* ── SECTION ────────────────────────────────────────────────── */
+.section { margin-bottom: 40px; }
+
+.section-title {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border2);
+  letter-spacing: -0.005em;
+}
+
+.section p {
+  font-size: 14.5px;
+  color: var(--text2);
+  line-height: 1.8;
+  margin-bottom: 14px;
+}
+
+.section p:last-child { margin-bottom: 0; }
+
+/* ── STEPS ──────────────────────────────────────────────────── */
+.steps { counter-reset: step; margin: 16px 0; }
+
+.step {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 12px;
+  align-items: flex-start;
+}
+
+.step-num {
+  counter-increment: step;
+  background: var(--accent);
+  color: #fff;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  min-width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.step-body { font-size: 14px; color: var(--text2); line-height: 1.75; }
+.step-body strong { color: var(--text); font-weight: 600; }
+
+/* ── CODE ───────────────────────────────────────────────────── */
+pre, .code-block {
+  background: #1a1f2e;
+  color: #d4daf0;
+  border-radius: 6px;
+  padding: 18px 20px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12.5px;
+  line-height: 1.72;
+  overflow-x: auto;
+  margin: 16px 0;
+}
+
+code {
+  background: var(--code-bg);
+  border: 1px solid var(--code-border);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--code-fg);
+}
+
+pre code { background: none; border: none; padding: 0; color: inherit; font-size: inherit; }
+
+.cmt { color: #6a7a90; }
+.kw  { color: #c9956c; }
+.str { color: #7ec09a; }
+.fn  { color: #82aacc; }
+
+/* ── CALLOUTS ───────────────────────────────────────────────── */
+.callout {
+  border-radius: 5px;
+  padding: 13px 16px;
+  margin: 14px 0;
+  font-size: 13.5px;
+  line-height: 1.72;
+  display: block;
+}
+
+.callout strong { font-weight: 600; }
+.callout.tip    { background: var(--tip-bg);    border-left: 3px solid var(--tip-border);    color: var(--tip-text); }
+.callout.warn   { background: var(--warn-bg);   border-left: 3px solid var(--warn-border);   color: var(--warn-text); }
+.callout.danger { background: var(--danger-bg); border-left: 3px solid var(--danger-border); color: var(--danger-text); }
+.callout.note   { background: var(--note-bg);   border-left: 3px solid var(--note-border);   color: var(--note-text); }
+
+/* ── AI NOTE ────────────────────────────────────────────────── */
+.ai-note {
+  background: var(--ai-bg);
+  border-left: 3px solid var(--ai-border);
+  border-radius: 5px;
+  padding: 13px 16px;
+  margin: 14px 0;
+  color: var(--ai-text);
+  font-size: 13.5px;
+  line-height: 1.72;
+  display: block;
+}
+.ai-note strong { color: var(--ai-text); font-weight: 600; }
+
+/* ── TROUBLESHOOT ───────────────────────────────────────────── */
+.troubleshoot {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  margin: 18px 0;
+  overflow: hidden;
+}
+
+.troubleshoot-header {
+  background: var(--bg3);
+  border-bottom: 1px solid var(--border);
+  padding: 9px 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text3);
+}
+
+.troubleshoot-body { padding: 14px 16px; }
+
+.trouble-item {
+  margin-bottom: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.trouble-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+
+.trouble-q {
+  font-weight: 600;
+  font-size: 13.5px;
+  color: var(--text);
+  margin-bottom: 5px;
+  padding-left: 14px;
+  position: relative;
+}
+
+.trouble-q::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 7px;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent-mid);
+}
+
+.trouble-a {
+  font-size: 13.5px;
+  color: var(--text3);
+  line-height: 1.72;
+  padding-left: 14px;
+}
+
+/* ── CONCEPT GRID ───────────────────────────────────────────── */
+.concept-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 16px 0;
+}
+
+.concept-box {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 14px 16px;
+}
+
+.concept-box .label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text4);
+  margin-bottom: 5px;
+}
+
+.concept-box .val { font-size: 13.5px; color: var(--text2); line-height: 1.65; }
+
+/* ── TABLE ──────────────────────────────────────────────────── */
+.data-table { width: 100%; border-collapse: collapse; font-size: 13.5px; margin: 16px 0; }
+
+.data-table th {
+  text-align: left;
+  padding: 9px 14px;
+  background: var(--bg3);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text3);
+  border-bottom: 1px solid var(--border2);
+}
+
+.data-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text2);
+  vertical-align: top;
+  line-height: 1.65;
+}
+
+.data-table tr:last-child td { border-bottom: none; }
+
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  font-weight: 500;
+}
+.badge.free { background: var(--tip-bg); color: var(--tip-text); border: 1px solid var(--tip-border); }
+.badge.paid { background: var(--warn-bg); color: var(--warn-text); border: 1px solid var(--warn-border); }
+
+/* ── FOOTER ─────────────────────────────────────────────────── */
+.footer {
+  background: #111827;
+  color: #374151;
+  text-align: center;
+  padding: 32px 40px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+}
+
+/* ── RESPONSIVE ─────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .page { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
+  .main { padding: 32px 28px 72px; max-width: 100%; }
+  .cover { padding: 52px 28px 48px; }
+  .cover h1 { font-size: 32px; }
+  .module h2 { font-size: 26px; }
+  .concept-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 540px) {
+  .cover { padding: 36px 18px 36px; }
+  .cover h1 { font-size: 26px; line-height: 1.2; }
+  .main { padding: 24px 16px 60px; }
+  .module h2 { font-size: 22px; }
+  .section-title { font-size: 17px; }
+  pre, .code-block { font-size: 11px; padding: 14px; }
+  .data-table { display: block; overflow-x: auto; }
+  .data-table th, .data-table td { font-size: 12.5px; padding: 8px 10px; }
+}
+
+
+  /* ── GATE OVERLAY ── */
+  #gate-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: #faf8f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  #gate-overlay.hidden { display: none; }
+
+  .gate-box {
+    max-width: 480px;
+    width: 100%;
+    padding: 24px;
+    text-align: center;
+  }
+
+  .gate-logo {
+    font-family: 'Lora', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #1c1917;
+    margin-bottom: 40px;
+    letter-spacing: -0.01em;
+  }
+
+  .gate-card {
+    background: white;
+    border: 1px solid #ddd9d2;
+    border-radius: 10px;
+    padding: 40px 36px;
+  }
+
+  .gate-icon {
+    font-size: 32px;
+    margin-bottom: 16px;
+  }
+
+  .gate-title {
+    font-family: 'Lora', serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: #1c1917;
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+
+  .gate-body {
+    font-size: 14px;
+    color: #6b6560;
+    line-height: 1.7;
+    margin-bottom: 28px;
+  }
+
+  .gate-btn {
+    display: inline-block;
+    background: #b8430a;
+    color: white;
+    text-decoration: none;
+    padding: 13px 28px;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 14.5px;
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    transition: background 0.15s;
+    margin-bottom: 12px;
+  }
+
+  .gate-btn:hover { background: #9a360a; }
+
+  .gate-resend {
+    background: none;
+    border: 1px solid #ddd9d2;
+    color: #6b6560;
+    font-size: 13.5px;
+  }
+
+  .gate-resend:hover { background: #f3f0eb; }
+
+  .gate-input {
+    width: 100%;
+    border: 1px solid #ddd9d2;
+    border-radius: 5px;
+    padding: 11px 14px;
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    color: #1c1917;
+    margin-bottom: 10px;
+    outline: none;
+  }
+
+  .gate-input:focus { border-color: #b8430a; box-shadow: 0 0 0 3px rgba(184,67,10,0.08); }
+
+  .gate-msg {
+    font-size: 13px;
+    padding: 10px 14px;
+    border-radius: 5px;
+    margin-bottom: 14px;
+    display: none;
+  }
+
+  .gate-msg.error { background: #fef2f0; color: #8c1a10; border: 1px solid #c0392b; display: block; }
+  .gate-msg.success { background: #f0f7f2; color: #1f5c38; border: 1px solid #3a8c5c; display: block; }
+
+  .gate-spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    vertical-align: middle;
+    margin-right: 6px;
+  }
+
+  .gate-divider {
+    border: none;
+    border-top: 1px solid #e8e4de;
+    margin: 22px 0;
+    position: relative;
+  }
+
+  .gate-divider::after {
+    content: 'or';
+    position: absolute;
+    top: -9px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    padding: 0 10px;
+    font-size: 12px;
+    color: #9c9690;
+  }
+
+  .gate-fine {
+    font-size: 12px;
+    color: #9c9690;
+    margin-top: 16px;
+    line-height: 1.6;
+  }
+
+  .gate-fine a { color: #b8430a; }
+
+  #gate-content { display: none; }
+
+</style>
+</head>
+<body>
+
+<!-- GATE OVERLAY -->
+<div id="gate-overlay">
+  <div class="gate-box">
+    <div class="gate-logo">Build Your Business Suite</div>
+
+    <!-- STATE: checking token -->
+    <div id="gate-checking" class="gate-card">
+      <div class="gate-icon">⏳</div>
+      <div class="gate-title">Checking your access…</div>
+      <p class="gate-body">Just a moment.</p>
+    </div>
+
+    <!-- STATE: no token / invalid  -  purchase prompt -->
+    <div id="gate-purchase" class="gate-card" style="display:none;">
+      <div class="gate-icon">📖</div>
+      <div class="gate-title">Get the complete course guide</div>
+      <p class="gate-body">
+        Every tool, every step, every fix  -  the full build documented so you can replicate it.
+        One-time purchase. Lifetime access.
+      </p>
+      <a href="https://applied-intelligence-studio.lemonsqueezy.com/checkout/buy/5dc4a48e-a5ac-4e2c-ab3a-ffd311f3d467" class="gate-btn" id="buy-btn">
+        Get Access - $49.99
+      </a>
+      <hr class="gate-divider">
+      <p style="font-size:13px;color:#6b6560;margin-bottom:10px;">Already purchased? Enter your email to resend your link.</p>
+      <div id="gate-msg-resend" class="gate-msg"></div>
+      <input type="email" id="gate-email-input" class="gate-input" placeholder="your@email.com" />
+      <button class="gate-btn gate-resend" onclick="resendLink()">Resend my access link</button>
+      <p class="gate-fine">Questions? <a href="mailto:hello@yourdomain.com">Get in touch</a></p>
+    </div>
+
+    <!-- STATE: invalid/revoked  -  specific message -->
+    <div id="gate-invalid" class="gate-card" style="display:none;">
+      <div class="gate-icon">🔒</div>
+      <div class="gate-title">This link isn't valid</div>
+      <p class="gate-body" id="gate-invalid-reason">
+        This access link may have expired or been revoked. Check your purchase email for your original link,
+        or enter your email below to have it resent.
+      </p>
+      <div id="gate-msg-invalid" class="gate-msg"></div>
+      <input type="email" id="gate-email-invalid" class="gate-input" placeholder="your@email.com" />
+      <button class="gate-btn gate-resend" onclick="resendLink('invalid')">Resend my access link</button>
+      <hr class="gate-divider">
+      <a href="https://applied-intelligence-studio.lemonsqueezy.com/checkout/buy/5dc4a48e-a5ac-4e2c-ab3a-ffd311f3d467" class="gate-btn">Purchase access</a>
+    </div>
+
+  </div>
+</div>
+
+<!-- GUIDE CONTENT -->
+<div id="gate-content">
+
+
+<div class="cover">
+  <div class="cover-eyebrow">Complete Setup Guide · Stop Overpaying, Start Running Lean</div>
+  <h1>Build Your <em>Lean Business Stack</em><br>From Scratch</h1>
+  <p class="cover-lead">You already know which tools to pick. This guide teaches you how to actually set them up correctly, once, so they run your business instead of draining it. Every module covers a real tool, with real setup steps, the real issues you'll hit, and how to fix them. No paid subscriptions required until you've outgrown a free tier.</p>
+  <div class="cover-meta">
+    <span class="meta-tag">Claude / ChatGPT (free)</span>
+    <span class="meta-tag">Brevo email</span>
+    <span class="meta-tag">Make automation</span>
+    <span class="meta-tag">HubSpot CRM</span>
+    <span class="meta-tag">Notion workspace</span>
+    <span class="meta-tag">Calendly / TidyCal</span>
+    <span class="meta-tag">Subscription audit</span>
+    <span class="meta-tag">$0 starting cost</span>
+  </div>
+</div>
+
+<div class="page">
+
+<aside class="sidebar">
+  <div class="sidebar-title">Modules</div>
+  <nav>
+    <a href="#m0"><span class="num">00</span> Before You Start</a>
+    <a href="#m1"><span class="num">01</span> Your AI Assistant</a>
+    <a href="#m2"><span class="num">02</span> Email Marketing</a>
+    <a href="#m3"><span class="num">03</span> Automation</a>
+    <a href="#m4"><span class="num">04</span> CRM Setup</a>
+    <a href="#m5"><span class="num">05</span> Your Workspace</a>
+    <a href="#m6"><span class="num">06</span> Scheduling</a>
+    <a href="#m7"><span class="num">07</span> Subscription Audit</a>
+    <a href="#m8"><span class="num">08</span> Your Running Stack</a>
+  </nav>
+  <div class="sidebar-section">
+    <div class="sidebar-title">Tools used</div>
+    <nav>
+      <a href="https://claude.ai" target="_blank">claude.ai</a>
+      <a href="https://brevo.com" target="_blank">brevo.com</a>
+      <a href="https://make.com" target="_blank">make.com</a>
+      <a href="https://hubspot.com/crm" target="_blank">hubspot.com/crm</a>
+      <a href="https://notion.so" target="_blank">notion.so</a>
+      <a href="https://tidycal.com" target="_blank">tidycal.com</a>
+    </nav>
+  </div>
+</aside>
+
+<main class="main">
+
+<div class="ai-intro">
+  <strong>How to use this guide.</strong> Each module is a real setup walkthrough, not a product overview. You will create accounts, configure settings, and connect tools to each other. Work through the modules in order on your first pass; each one builds on the last. If you get stuck on a specific step, paste the exact error or screenshot into Claude or ChatGPT and ask it to explain what's happening. That loop of try, hit an issue, ask for help, and fix it is the whole skill this guide is building.
+</div>
+
+<!-- ══════════════════════════════════ MODULE 0 ══════════════════════════════ -->
+<div class="module" id="m0">
+  <div class="module-tag"><span class="dot"></span>Module 00</div>
+  <h2>Before You Start</h2>
+  <p class="module-lead">Two things to do before touching any tool. Skip this module and you'll rebuild things you've already set up. Do it and you'll know exactly what you're keeping, what you're replacing, and what you're throwing away.</p>
+
+  <div class="section">
+    <div class="section-title">The subscription audit: what are you actually paying for?</div>
+    <p>Before adding anything, you need a complete picture of what you're currently paying. Most people are surprised by how much they find when they actually look.</p>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body">Open your bank or credit card statement and filter for the last 60 days. Write down every recurring software or app charge: name, amount, and billing frequency. Don't skip anything. That $6.99/month note-taking app counts.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">For each item, answer honestly: <strong>Did I use this more than 3 times in the last 30 days?</strong> Not "do I intend to use it" or "it might be useful." Did you actually open it and use it. Circle the ones where the answer is no.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">Of the ones you do use, ask: <strong>does another tool I'm already paying for do this?</strong> Email clients, note apps, and project management tools are the worst offenders. You may be paying for three things that do the same job.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">Don't cancel anything yet. By the end of this guide you'll know exactly what to replace with something free. Cancel then, with a clear alternative already set up. Not now, when you'd just be cutting something without a replacement.</div></div>
+    </div>
+    <div class="callout tip"><strong>Annual subscriptions are especially easy to forget.</strong> Check your email for receipts with "annual renewal" or "yearly plan" in the subject. These hit once a year and disappear from your mental accounting, but they add up fast.</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">What you're building by the end of this guide</div>
+    <div class="concept-grid">
+      <div class="concept-box">
+        <div class="label">AI Assistant</div>
+        <div class="val">One primary tool for writing, research, and daily questions. Configured and used with intention. Not a dozen tabs open at once.</div>
+      </div>
+      <div class="concept-box">
+        <div class="label">Email Marketing</div>
+        <div class="val">Brevo set up with your domain, a working welcome sequence, and a contact form connected to your list.</div>
+      </div>
+      <div class="concept-box">
+        <div class="label">Automation</div>
+        <div class="val">At least one Make scenario running: a real workflow that removes a task you currently do by hand.</div>
+      </div>
+      <div class="concept-box">
+        <div class="label">CRM</div>
+        <div class="val">HubSpot configured for your specific business, with your pipeline stages, contact properties, and at least 5 real contacts imported.</div>
+      </div>
+      <div class="concept-box">
+        <div class="label">Workspace</div>
+        <div class="val">Notion set up as your actual operating system. Not a blank page. SOPs, a client tracker, and a weekly task view.</div>
+      </div>
+      <div class="concept-box">
+        <div class="label">Scheduling</div>
+        <div class="val">TidyCal or Calendly live and embedded on your site or in your email signature, so clients can book without emailing back and forth.</div>
+      </div>
+    </div>
+    <div class="callout note"><strong>The goal is not more tools.</strong> The goal is fewer, better-configured tools that actually run in the background while you work. Everything in this guide either costs nothing or has a one-time price. No subscription treadmill.</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════ MODULE 1 ══════════════════════════════ -->
+<div class="module" id="m1">
+  <div class="module-tag"><span class="dot"></span>Module 01</div>
+  <h2>Your AI Assistant</h2>
+  <p class="module-lead">Most people use writing assistants wrong. They open a new chat for every question, never give context, and wonder why the output feels generic. This module covers how to set up Claude as a proper business tool, not a novelty, including how to give it your brand voice so you stop rewriting everything it produces.</p>
+
+  <div class="section">
+    <div class="section-title">Why one primary AI, not three</div>
+    <p>Every major writing assistant, Claude, ChatGPT, Gemini, will tell you it's the best at everything. They're all wrong. Each has real strengths. But the productivity trap is using all of them simultaneously, because you spend more time deciding which tool to open than actually using any of them.</p>
+    <p>Pick one and go deep on it. Learn its patterns, its limits, and how to prompt it well. You will get dramatically better results from one well-used tool than from three used casually.</p>
+    <div class="callout tip"><strong>The free tier rule:</strong> Both Claude and ChatGPT have free tiers that are genuinely useful, not crippled versions. Run the free tier of your primary tool for 30 days before paying. You'll know by then whether the daily message limits are actually blocking you.</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Setting up Claude for your business</div>
+    <p>Claude's Projects feature (available on free and Pro tiers) lets you store persistent context, your business description, writing style, and instructions, so you don't re-explain yourself every conversation.</p>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body">Go to <strong>claude.ai</strong> and create a free account. Use the email you check daily. Claude sends important security and account notifications there.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">In the left sidebar, click <strong>Projects → New Project</strong>. Name it after your business. This is a persistent workspace where Claude remembers your context across every conversation inside it.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">Click <strong>Project Instructions</strong> and write a description of your business. Include: what you do, who your clients are, your tone of voice, and any words or phrases you always use or never use. This is what makes AI output actually sound like you.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">Upload any reference documents you want Claude to know: a services list, your pricing, a sample of your best writing, your FAQ. Claude will reference these without you having to paste them every time.</div></div>
+    </div>
+
+    <div class="callout warn"><strong>Context is everything.</strong> "Write me an email about my new service" produces generic output. "Write an email to an existing client who last booked three months ago, announcing my new monthly retainer option. Keep it under 150 words, conversational, no corporate language" produces something usable. The more specific you are, the less you rewrite.</div>
+
+    <div class="ai-note"><strong>A sample project instruction that works:</strong> "You are helping run [Business Name], a [type of business] based in [location] serving [client type]. My writing tone is [direct / warm / professional / casual, pick yours]. I never use jargon, buzzwords, or phrases like 'leverage', 'synergy', or 'circle back'. When I ask you to write something, give me one version, not three options. If something I ask is unclear, ask one clarifying question before writing."</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Tasks AI actually saves time on</div>
+    <p>Not everything benefits from AI. The tasks where it genuinely saves hours are specific.</p>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>First drafts of anything:</strong> Emails, proposals, social captions, FAQ answers, service descriptions. Get a rough draft in 30 seconds and edit from there. Starting from a blank page is the expensive part. A good writing tool eliminates it.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Repurposing content:</strong> Turn a long email into 3 social posts. Turn a client FAQ conversation into a blog draft. Turn a service description into a DM script. One piece of content, multiple formats, 10 minutes instead of 2 hours.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Explaining things you don't understand:</strong> DNS records, automation logic, contract terms, tax forms. Ask Claude to explain anything in plain English, at the level of detail you need. This guide does this. Any term you don't recognize, ask.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Editing and proofreading:</strong> Paste anything you've written and ask: "Make this clearer. Keep my voice. Don't change the meaning." More useful than Grammarly for anything longer than a paragraph.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Creating templates:</strong> Ask once: "Create a client onboarding email template for my business that I can fill in with the client's name, service, and start date." Save the output. Use it 100 times.</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Tasks where AI wastes your time</div>
+    <p>Knowing where AI underperforms saves you from the frustrating loop of re-prompting and rewriting output that was never going to be right.</p>
+    <div class="concept-grid">
+      <div class="concept-box">
+        <div class="label">Don't use AI for</div>
+        <div class="val">Decisions that require your actual business judgment. Pricing your services. Deciding which client to take on. Reading a contract for legal risk. These tools can inform the decision, but they cannot make it for you.</div>
+      </div>
+      <div class="concept-box">
+        <div class="label">Don't trust AI for</div>
+        <div class="val">Specific facts, current prices, live data, or legal/tax specifics. Always verify anything with legal or financial consequences with a real source. AI can be wrong with complete confidence.</div>
+      </div>
+    </div>
+
+    <div class="troubleshoot">
+      <div class="troubleshoot-header">Common Issues</div>
+      <div class="troubleshoot-body">
+        <div class="trouble-item">
+          <div class="trouble-q">AI output sounds generic and not like me</div>
+          <div class="trouble-a">This is a prompting problem, not a model problem. You haven't given enough voice context. Go back to your Project Instructions and add 3 to 5 examples of your actual writing. The more sample text Claude has, the better it mirrors your style. You can also add: "Here is an example of writing I like: [paste a real email you wrote]."</div>
+        </div>
+        <div class="trouble-item">
+          <div class="trouble-q">Claude hits its daily message limit before I'm done</div>
+          <div class="trouble-a">This means you're using it enough that the free tier is genuinely limiting your work, which is exactly the right signal to upgrade to Pro ($20/mo). Before doing so, batch your tasks. Instead of 10 separate conversations, write everything you need in one session. Also consider whether some tasks could be done with ChatGPT's free tier while Claude resets.</div>
+        </div>
+        <div class="trouble-item">
+          <div class="trouble-q">I asked Claude something and the answer seems wrong</div>
+          <div class="trouble-a">Trust your instinct. Claude can be confidently incorrect, especially on specific facts, recent events, or niche technical details. Always verify anything with real consequences. For factual questions, ask Claude to tell you where you could verify the information rather than just taking the answer at face value.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════ MODULE 2 ══════════════════════════════ -->
+<div class="module" id="m2">
+  <div class="module-tag"><span class="dot green"></span>Module 02</div>
+  <h2>Email Marketing with Brevo</h2>
+  <p class="module-lead">Brevo gives you the most generous free tier in email marketing: unlimited contacts, 300 emails per day, and transactional email included. It takes about an hour to go from account creation to your first campaign live. This module covers everything: account setup, domain verification, your first list, a welcome sequence, and connecting your contact form.</p>
+
+  <div class="section">
+    <div class="section-title">Creating your Brevo account</div>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body">Go to <strong>brevo.com</strong> and click "Sign up free." Use your business email address, not a personal Gmail, because you'll be sending from this domain and it needs to match your sending domain setup later.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">Verify your email. You'll land on the Brevo dashboard. Before doing anything else, go to <strong>My Profile → Plan & Billing</strong> and confirm you're on the Free plan. Don't click any upgrade prompts yet  -  the free tier is where you start.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">Go to <strong>Senders & IP → Senders</strong> and add your sending address. This is the "From" address your subscribers will see. Use something like <code>hello@yourdomain.com</code> or <code>name@yourdomain.com</code>  -  not a free email provider.</div></div>
+    </div>
+    <div class="callout danger"><strong>Do not skip domain verification.</strong> Sending from an unverified domain gets your emails routed to spam. It will look like Brevo isn't working when the real problem is deliverability. Domain verification takes 10 to 15 minutes and completely solves this.</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Verifying your sending domain</div>
+    <p>Domain verification proves to email servers worldwide that you're authorized to send email from your domain. Without it, your emails hit spam. It involves adding three DNS records to your domain. It sounds technical, but it's adding three rows to a table in your domain registrar's control panel.</p>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body">In Brevo, go to <strong>Senders & IP → Domains → Add a domain</strong>. Enter your domain name (e.g., <code>yourbusiness.com</code>) and click Authenticate.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">Brevo shows you three DNS records to add: a <strong>DKIM record</strong> (proves emails came from you), an <strong>SPF record</strong> (lists servers authorized to send from your domain), and a <strong>DMARC record</strong> (tells receiving servers what to do with emails that fail those checks). Copy all three.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">Log into wherever you registered your domain: GoDaddy, Namecheap, Google Domains, Cloudflare, etc. Find the DNS settings (sometimes called DNS Management, DNS Records, or Advanced DNS). Add each record Brevo gave you. The "Name" field is the host, the "Value" field is the content.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">Return to Brevo and click <strong>Verify & Authenticate</strong>. DNS changes typically propagate within 15 to 30 minutes. If Brevo says it can't verify yet, wait an hour and try again.</div></div>
+    </div>
+    <div class="troubleshoot">
+      <div class="troubleshoot-header">Common Issues</div>
+      <div class="troubleshoot-body">
+        <div class="trouble-item">
+          <div class="trouble-q">Brevo says domain is unverified after I added the records</div>
+          <div class="trouble-a">DNS propagation is not instant. Wait at least 30 minutes before retrying. If it's still failing after 2 hours, check that you pasted the record values exactly. Extra spaces or missing characters will cause verification to fail silently. Some registrars also add your domain name automatically to the "Name" field, resulting in a duplicate like <code>brevo._domainkey.yourdomain.com.yourdomain.com</code>. If your registrar does this, enter only the subdomain part in the Name field.</div>
+        </div>
+        <div class="trouble-item">
+          <div class="trouble-q">I already have an SPF record for Google Workspace / another provider</div>
+          <div class="trouble-a">You can only have one SPF record per domain. Don't add a second one. Instead, merge them. If your existing record is <code>v=spf1 include:_spf.google.com ~all</code>, change it to <code>v=spf1 include:_spf.google.com include:spf.brevo.com ~all</code>. Ask Claude to help you merge your specific records if you're unsure.</div>
+        </div>
+        <div class="trouble-item">
+          <div class="trouble-q">I don't have a custom domain, I'm using Gmail</div>
+          <div class="trouble-a">Brevo requires a custom domain for sending. If you don't have one yet, register one. Domains cost about $12/year on Namecheap or Google Domains. This is one of the few costs in this guide that isn't free and isn't optional. A custom domain also makes every email you send look significantly more professional.</div>
+        </div>
+      </div>
+    </div>
+    <div class="ai-note"><strong>AI prompt that explains any DNS issue:</strong> "I'm trying to add DNS records to my domain registrar to verify it with Brevo. Here is the record Brevo gave me: [paste record]. Here is what I see in my registrar's DNS panel: [describe the fields]. Tell me exactly what to type in each field." This works for any registrar.</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Creating your first contact list</div>
+    <p>A list in Brevo is a group of contacts. You'll need at least one before you can send a campaign or set up automation. Create separate lists for different types of contacts, current clients, leads, newsletter subscribers, so you can send relevant emails to each group.</p>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body">Go to <strong>Contacts → Lists → Create a list</strong>. Name it clearly: "Newsletter Subscribers," "Current Clients," or "Leads." Avoid vague names like "List 1"  -  you'll have several lists eventually and won't remember what each one is.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">Import any contacts you already have. Go to <strong>Contacts → Import contacts</strong>. You can upload a CSV file from your current email client, CRM, or just a spreadsheet. Minimum columns needed: email address. Optional but useful: first name, last name, phone.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">Map your CSV columns to Brevo's contact attributes during import. First name maps to <code>FIRSTNAME</code>, last name to <code>LASTNAME</code>. If you have custom data (e.g., "Service Type"), create a custom attribute under <strong>Contacts → Contact Attributes</strong> first, then it'll appear in the mapping step.</div></div>
+    </div>
+    <div class="callout warn"><strong>Only import contacts who have given you permission to email them.</strong> Importing a purchased list, a scraped list, or contacts who never opted in will get your account suspended and your domain blacklisted. This is not a Brevo policy technicality. It's how email deliverability works globally. Only import people who have specifically agreed to receive email from you.</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Building a welcome sequence</div>
+    <p>A welcome sequence is a series of automated emails that go out to every new subscriber, triggered by them joining your list. It's the highest-impact automation you can build because it goes to people at the exact moment they're most interested in what you do.</p>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body">Go to <strong>Automation → Create a workflow</strong>. Select "Welcome message" as the starting template. This gives you a single email triggered when a contact is added to a list  -  the right starting point.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">Set the trigger: "Contact is added to list" → select your subscriber list. This automation fires every time someone new joins that list.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">Create the first email. Use the drag-and-drop editor to build it. Keep it simple: welcome them, remind them what they signed up for, and tell them what's coming. This is not a sales email. It's a handshake.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">Add a second email with a 3-day delay. This one can go deeper. Share something useful, link to your most helpful content, or tell your business story. By email two, they've had time to forget they signed up, so briefly reintroduce yourself.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">Add a third email 7 days after signup. This is your soft offer. Introduce your services, a special offer for new subscribers, or a clear call to action. By now they've had two useful emails from you, which earns the ask.</div></div>
+    </div>
+    <div class="ai-note"><strong>AI prompt for each welcome email:</strong> "Write a welcome email for my business: [describe what you do]. This is email [1/2/3] in a welcome sequence. The goal is [introduce myself / share something useful / make a soft offer]. My tone is [conversational/professional]. Keep it under 200 words. No subject line needed. I'll write that separately."</div>
+
+    <div class="troubleshoot">
+      <div class="troubleshoot-header">Common Issues</div>
+      <div class="troubleshoot-body">
+        <div class="trouble-item">
+          <div class="trouble-q">Automation isn't sending when I test it</div>
+          <div class="trouble-a">Check that the workflow is activated. There's a toggle at the top right of the workflow editor. Draft workflows don't send. Also check that your test contact was added to the correct list, not a different list.</div>
+        </div>
+        <div class="trouble-item">
+          <div class="trouble-q">Emails are going to spam during testing</div>
+          <div class="trouble-a">If domain verification is complete, the next most common cause is spam trigger words in the email content itself: words like "Free," "Guaranteed," "Act Now," "Limited Time," and especially using ALL CAPS or multiple exclamation marks. Run your subject line through a free spam checker (Mail-tester.com is good) before activating.</div>
+        </div>
+        <div class="trouble-item">
+          <div class="trouble-q">The drag-and-drop editor isn't loading</div>
+          <div class="trouble-a">Try a different browser. Brevo's editor occasionally has issues in Safari. Chrome or Firefox work most reliably. If it still doesn't load, clear your browser cache or try an incognito window.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Connecting your contact form</div>
+    <p>Any contact or signup form on your website should automatically add the person to your Brevo list. There are two ways to do this: Brevo's native embed form, or an API call from your form's submit handler.</p>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Option A  -  Brevo embed form (simplest):</strong> Go to <strong>Email Campaigns → Subscription Forms → Create a form</strong>. Design it, select the list to subscribe people to, and copy the embed code. Paste it into your website HTML wherever you want the form to appear.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Option B  -  API from your existing form:</strong> If you already have a contact form on your site and want new contacts added to Brevo automatically, use Brevo's Contacts API. Get your API key from <strong>My Profile → SMTP & API → API Keys</strong>. Then add a fetch call to your form's submit handler.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">Test it: submit your own email via the form and verify the contact appears in Brevo under the correct list within 60 seconds. Then check that the welcome sequence fires. You should receive the first welcome email within a few minutes.</div></div>
+    </div>
+    <div class="code-block"><span class="cmt">// Add to Brevo list when form is submitted</span>
+<span class="kw">async function</span> <span class="fn">addToBrevo</span>(email, firstName) {
+  <span class="kw">const</span> res = <span class="kw">await</span> fetch(<span class="str">'https://api.brevo.com/v3/contacts'</span>, {
+    method: <span class="str">'POST'</span>,
+    headers: {
+      <span class="str">'api-key'</span>: <span class="str">'YOUR_BREVO_API_KEY'</span>, <span class="cmt">// use an env variable in production</span>
+      <span class="str">'Content-Type'</span>: <span class="str">'application/json'</span>
+    },
+    body: JSON.stringify({
+      email: email,
+      attributes: { FIRSTNAME: firstName },
+      listIds: [3], <span class="cmt">// replace 3 with your actual list ID</span>
+      updateEnabled: <span class="kw">true</span>   <span class="cmt">// updates the contact if they already exist</span>
+    })
+  });
+  <span class="kw">return</span> res.ok;
+}</div>
+    <div class="callout note"><strong>Finding your list ID:</strong> In Brevo, go to Contacts → Lists. Click on the list you want. The list ID is the number in the URL: <code>app.brevo.com/contact/list/<strong>3</strong></code>. Use that number in the <code>listIds</code> array above.</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════ MODULE 3 ══════════════════════════════ -->
+<div class="module" id="m3">
+  <div class="module-tag"><span class="dot blue"></span>Module 03</div>
+  <h2>Automation with Make</h2>
+  <p class="module-lead">Automation is not a feature. It's time you get back. This module teaches you how Make works, how to build your first real scenario, and the three automations that save most small businesses the most hours. You do not need to know how to code. You do need to think clearly about what triggers what.</p>
+
+  <div class="section">
+    <div class="section-title">How Make works: the mental model</div>
+    <p>Every automation in Make is a scenario, a sequence of steps where one thing triggers another. There are two types of steps:</p>
+    <div class="concept-grid">
+      <div class="concept-box">
+        <div class="label">Trigger</div>
+        <div class="val">The event that starts the scenario. Examples: a form is submitted, a new row is added to a spreadsheet, an email arrives with a specific label, a Stripe payment is confirmed.</div>
+      </div>
+      <div class="concept-box">
+        <div class="label">Action</div>
+        <div class="val">What happens as a result. Examples: send an email, add a row to a spreadsheet, create a contact in HubSpot, send a Slack message, add a tag in Brevo.</div>
+      </div>
+    </div>
+    <p>A scenario is always: <em>when [trigger], do [action]</em>. The power comes from chaining multiple actions: when a form is submitted → add contact to Brevo → create contact in HubSpot → send yourself a notification email. Three things done automatically instead of one thing done manually.</p>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Creating your Make account</div>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body">Go to <strong>make.com</strong> and sign up free. The free plan gives 1,000 operations per month and 2 active scenarios, enough to build and test everything in this module before deciding whether to upgrade.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">When you log in, you land on the Scenarios page. Click <strong>Create a new scenario</strong>. You'll see a blank canvas with a large plus button in the center. This is where you add your first module (Make calls each step a "module").</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">Click the plus to add your first module. This is your trigger. In the search box, type the name of the app or service that will trigger the scenario. For your first build, search for <strong>Webhooks</strong>. This is the most versatile trigger and lets you send data to Make from any form or app.</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Your first automation: form submission → email notification</div>
+    <p>The simplest and most immediately useful automation: when someone submits a contact form on your website, you get an email notification with their details. Currently, you either check your email manually or miss inquiries for hours. This runs in the background forever.</p>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body">Create a new scenario. Add a <strong>Webhooks → Custom webhook</strong> trigger. Make generates a unique URL. Copy it  -  this is the address your website form will send data to.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">Click <strong>Save</strong>, then click the webhook module and hit <strong>Run once</strong>. Make is now listening for a test submission. Go to your website contact form and submit it with test data (use your own name and email). Make captures the structure of the incoming data.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">Now add an action: click the <strong>+</strong> after the webhook module. Search for <strong>Email → Send an email</strong>. Fill in the To field (your email), Subject (something like "New inquiry from {{name}}"), and Body (map in the fields from the webhook data  -  name, email, message).</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">Turn the scenario on using the toggle at the bottom left of the canvas. Submit the form again on your website. Within seconds you should receive the email notification with the form data filled in.</div></div>
+    </div>
+
+    <div class="callout tip"><strong>Once you have the webhook working, you can add more actions to the same scenario.</strong> After the email notification, add another module: create a contact in HubSpot with the same data. One form submission → notification email + CRM contact, both automatically. This is where Make earns its place.</div>
+
+    <div class="troubleshoot">
+      <div class="troubleshoot-header">Common Issues</div>
+      <div class="troubleshoot-body">
+        <div class="trouble-item">
+          <div class="trouble-q">Make ran the scenario but no email arrived</div>
+          <div class="trouble-a">Check the scenario execution log by clicking the clock icon at the bottom of the canvas to see recent runs. If the run shows a green checkmark but no email, the email went to spam. Check spam first. If the run shows an error (red icon), click it to see the error message. Common causes: wrong email address in the To field, or the Email module needs you to connect an email account.</div>
+        </div>
+        <div class="trouble-item">
+          <div class="trouble-q">The webhook isn't capturing my form data</div>
+          <div class="trouble-a">Your form needs to POST to the webhook URL. Check the form submit handler in your HTML. The fetch call needs the method set to POST and the body needs to be JSON with your form fields. Make sure Content-Type is set to application/json. If you're using a third-party form builder, check whether it supports webhook or Zapier integrations. Most do.</div>
+        </div>
+        <div class="trouble-item">
+          <div class="trouble-q">Scenario keeps turning off by itself</div>
+          <div class="trouble-a">This usually means the scenario errored during a live run. Make pauses scenarios after consecutive errors to prevent infinite failure loops. Fix the error (check the execution log for what failed), then manually re-enable the scenario.</div>
+        </div>
+        <div class="trouble-item">
+          <div class="trouble-q">I've used up my 1,000 free operations</div>
+          <div class="trouble-a">Each step in a scenario counts as one operation. A 3-step scenario uses 3 operations per run. Upgrade to Core ($9/mo) for 10,000 operations, which covers most small businesses indefinitely. Alternatively, audit which scenarios are running most frequently and consolidate steps where possible.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Three more automations worth building</div>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>New client → onboarding email sequence:</strong> Trigger: new contact added to a HubSpot list tagged "New Client." Action: send a series of emails via Brevo (welcome, what to expect, how to reach you). Removes the manual step of sending onboarding info every time.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Calendly booking → CRM contact:</strong> Trigger: new Calendly booking confirmed. Action: check if contact already exists in HubSpot, create it if not, log the meeting as an activity. Your CRM stays current without any manual data entry after calls.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Weekly digest email to yourself:</strong> Trigger: Schedule module, every Monday at 8am. Action: pull stats from your tools (HubSpot contacts added this week, Brevo subscribers gained) and email yourself a summary. Keeps you informed without logging into each platform separately.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════ MODULE 4 ══════════════════════════════ -->
+<div class="module" id="m4">
+  <div class="module-tag"><span class="dot amber"></span>Module 04</div>
+  <h2>CRM Setup with HubSpot</h2>
+  <p class="module-lead">HubSpot's free CRM is the most powerful free tool in this entire guide. It also has the highest risk of being set up wrong and abandoned. Most people create an account, import a list, and then never open it again because nothing is configured for how their business actually works. This module is about building a CRM you'll actually use.</p>
+
+  <div class="section">
+    <div class="section-title">What a CRM is actually for</div>
+    <p>CRM stands for Customer Relationship Management, which sounds corporate and irrelevant. What it actually means: a system that tells you, at any moment, the status of every relationship that matters to your business. Who are your current clients? Who's in conversation but hasn't signed yet? Who went quiet two months ago that you should follow up with?</p>
+    <p>Without a CRM, this information lives in your head, your inbox, and scattered notes. Which means important things fall through the cracks. Not because you're disorganized, but because you're running everything from memory. The CRM offloads that cognitive load.</p>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Creating your HubSpot account</div>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body">Go to <strong>hubspot.com/crm</strong> and click "Get HubSpot free." Create an account with your business email. When it asks about your company size and role, answer honestly. HubSpot uses this to set up your workspace. Don't lie to get a different tier; the free tier is what you want.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">HubSpot will offer you a product tour. Take it. It's 5 minutes and shows you where everything is. Skip the upgrade prompts. You'll see orange banners throughout the interface suggesting paid features. Ignore them entirely for now. Everything you need for this module is free.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">Go to <strong>Settings (gear icon) → Account Defaults</strong> and set your company name, currency, time zone, and fiscal year. These settings affect how dates and amounts display across the CRM  -  getting them right now saves confusion later.</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Configuring your pipeline for your actual business</div>
+    <p>HubSpot's default pipeline stages are: Appointment Scheduled → Qualified to Buy → Presentation Scheduled → Decision Maker Bought-In → Contract Sent → Closed Won / Closed Lost. These stages are designed for a B2B sales team, not a service business. Replace them entirely.</p>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body">Go to <strong>CRM → Deals → Manage pipelines</strong>. Click on the default pipeline to edit it. Rename each stage to reflect your actual process. A service business pipeline typically looks more like: Inquiry Received → Proposal Sent → Deposit Paid → Project Active → Complete / Lost.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">Delete any stages that don't apply to your workflow. You can always add more later. Four or five meaningful stages beat eight vague ones.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">For each stage, set a probability percentage. HubSpot uses this to forecast revenue. Inquiry Received might be 10%, Deposit Paid might be 90%. These don't need to be precise; they just need to reflect rough likelihood.</div></div>
+    </div>
+    <div class="callout tip"><strong>Build the pipeline for the business you have today, not the business you plan to have.</strong> Over-engineering a CRM pipeline before you have consistent deal volume leads to a system that's too complex to maintain. Start simple. You can always add stages.</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Importing your existing contacts</div>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body">Go to <strong>Contacts → Import → Start an import → File from computer</strong>. Prepare a CSV with at minimum: First Name, Last Name, Email. Additional useful columns: Phone, Company, Notes, Last Service Date.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">On the mapping screen, HubSpot guesses which column maps to which property. Verify every mapping. HubSpot often guesses wrong on custom columns. If a column doesn't match a HubSpot property, create a new custom contact property on the fly.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">After import, go to <strong>Contacts</strong> and verify your contacts appear with correct data. Click on one or two to check that all fields populated correctly. It's much faster to fix import errors immediately than after you've started using the CRM.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">Create a deal for each active client. Go to <strong>Deals → Create deal</strong>. Associate the deal with the contact, set the stage (where they are right now in your pipeline), and add any relevant notes. This takes 2 minutes per client and is the foundation everything else is built on.</div></div>
+    </div>
+    <div class="troubleshoot">
+      <div class="troubleshoot-header">Common Issues</div>
+      <div class="troubleshoot-body">
+        <div class="trouble-item">
+          <div class="trouble-q">Contacts imported but deals didn't come with them</div>
+          <div class="trouble-a">Deals and contacts are separate objects in HubSpot. Importing contacts doesn't create deals. You either need to create deals manually (practical for under 20 clients) or use a second import file specifically for deals. Go to Deals → Import to import deals separately, then associate them with contacts during the import mapping step.</div>
+        </div>
+        <div class="trouble-item">
+          <div class="trouble-q">HubSpot keeps asking me to connect my email inbox</div>
+          <div class="trouble-a">Email connection is a paid feature. The prompts are aggressive but dismissable. Click "Maybe later" or "Skip" on any inbox connection prompt  -  you don't need it. You can still log emails manually from a contact's record by clicking Log activity → Email.</div>
+        </div>
+        <div class="trouble-item">
+          <div class="trouble-q">Duplicate contacts after import</div>
+          <div class="trouble-a">HubSpot deduplicates by email address. If you have duplicates, the most common cause is contacts with slightly different email formats (extra space, different capitalization). Go to Contacts → Actions → Manage duplicates. HubSpot has a built-in duplicate merging tool that walks you through each set of duplicates and lets you choose which record to keep.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Three HubSpot habits that make the CRM actually useful</div>
+    <p>A CRM is only as useful as the data in it. These three habits take under 5 minutes a day and are what separates a CRM that tells you things from one that just sits there.</p>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Log every significant conversation.</strong> After a call or meeting with a client or prospect, spend 90 seconds writing a note in HubSpot. Not a transcript. Just one or two sentences about what was discussed and what the next step is. This is your memory for future-you.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Move deals through the pipeline in real time.</strong> When a proposal goes out, move the deal to "Proposal Sent." When a deposit comes in, move it to "Active." The pipeline is only useful if it reflects reality. A deal stuck in "Inquiry Received" for three months is just noise.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Use the Tasks feature for follow-ups.</strong> After any conversation where you said "I'll follow up next week", create a Task in HubSpot assigned to yourself with a due date. When you open HubSpot each morning, your task list tells you exactly who to contact. No more "I meant to follow up with that person" guilt.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════ MODULE 5 ══════════════════════════════ -->
+<div class="module" id="m5">
+  <div class="module-tag"><span class="dot purple"></span>Module 05</div>
+  <h2>Your Workspace with Notion</h2>
+  <p class="module-lead">Most people open Notion, see a blank page, and close it. The tool looks intimidating until you understand that it's just a flexible container. It's whatever you build inside it. This module gives you an actual starting structure for a solo service business, not a blank slate.</p>
+
+  <div class="section">
+    <div class="section-title">What Notion replaces</div>
+    <p>Before setting up Notion, audit what you're currently using for internal work. Notion realistically replaces all of these, but only if you actually migrate your content to it rather than running both in parallel.</p>
+    <div class="concept-grid">
+      <div class="concept-box">
+        <div class="label">Replaces</div>
+        <div class="val">Google Docs for SOPs and internal documents. Trello or Asana for task tracking. Evernote or Apple Notes for business notes. Airtable or spreadsheets for lightweight client tracking. Any to-do app you're paying for.</div>
+      </div>
+      <div class="concept-box">
+        <div class="label">Does not replace</div>
+        <div class="val">Your CRM (HubSpot handles client relationships better). Email marketing (Brevo). Dedicated invoicing tools. Anything that needs to be shared publicly with clients. Notion pages can be shared but aren't designed as client-facing portals.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Creating your Notion account and workspace</div>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body">Go to <strong>notion.so</strong> and create a free account. Use your business email. When Notion asks what you're using it for, select "For myself". This sets up a personal workspace, not a team workspace. You can add team members later if needed.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">Notion starts you with some default pages. Delete them. They're templates for Notion's use case, not yours. Right-click each one in the sidebar and select Delete.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">Create four top-level pages to start. In the sidebar, click the + next to "Private" to create a new page. Name them: <strong>Operations</strong>, <strong>Clients</strong>, <strong>Projects</strong>, and <strong>Notes</strong>. These become the folders that everything else lives inside.</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Building your Operations hub</div>
+    <p>Operations is where your SOPs, templates, and business reference information lives. Every repeatable process in your business should have a written SOP. Not because you'll forget how to do it, but because it forces you to think about the process clearly and makes delegation possible later.</p>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body">Inside the Operations page, create sub-pages for each major area: <strong>Client Onboarding</strong>, <strong>Service Delivery</strong>, <strong>Admin & Finance</strong>, <strong>Templates</strong>. You don't need to fill all of these immediately. Create the structure first.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">Write your first SOP. Pick the process you do most often, maybe your new client onboarding checklist or your service delivery steps. Write it out as a numbered list in Notion. Don't aim for perfect; aim for documented. A rough SOP beats relying on memory every time.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">In the Templates section, create a page for each email or document you send repeatedly: welcome emails, proposal structure, follow-up messages. Paste in your best existing version. Update it when you find a better approach. Over time this becomes your personal playbook.</div></div>
+    </div>
+    <div class="ai-note"><strong>AI prompt for writing SOPs:</strong> "Help me write an SOP for my [process name] process. Here's how I currently do it: [describe in rough terms]. Format it as numbered steps. Flag anywhere the process could be automated or delegated. Keep it practical. It's for my own reference, not for corporate documentation."</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Building your client tracker</div>
+    <p>The Clients page should be a database, not just a list of text. Notion databases let you filter, sort, and view your client information in different ways. A database page shows a different side of the same data depending on how you're looking at it.</p>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body">Open your Clients page. Type <code>/database</code> and select <strong>Database - Full page</strong>. This creates a table. Each row is a client. Each column is a property.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">Add these columns: <strong>Status</strong> (select type, options: Active / Paused / Past / Lead), <strong>Service</strong> (text), <strong>Start Date</strong> (date), <strong>Next Followup</strong> (date), <strong>Email</strong> (email type), <strong>Notes</strong> (text). Rename the default "Name" column to "Client Name."</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">Add a filter view. Click <strong>+ Add a view</strong> → Board. Set the grouping to "Status." Now you can see your clients arranged by status  -  like a visual pipeline. Switch between Table (all data) and Board (visual status) depending on what you need.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">Add each current client as a row. Click into each client's row to open their full page. This becomes their internal file. Paste in any relevant notes, documents, or history. This is your client record, separate from HubSpot which tracks the sales and relationship side.</div></div>
+    </div>
+    <div class="callout note"><strong>Notion and HubSpot serve different purposes.</strong> HubSpot tracks the relationship: conversations, emails, sales activity. Notion stores project delivery: what you're doing for the client, notes from sessions, documents, checklists. They're complementary, not duplicates.</div>
+
+    <div class="troubleshoot">
+      <div class="troubleshoot-header">Common Issues</div>
+      <div class="troubleshoot-body">
+        <div class="trouble-item">
+          <div class="trouble-q">The database is getting messy, rows everywhere with no structure</div>
+          <div class="trouble-a">Add a Status filter to hide Archived and Past rows from the default view. In the database, click Filter → Add a filter → Status → is not → Past/Archived. Save this as the default view. You can always click "Show all" when you need the full history. Databases get hard to use when they show everything at once; filters keep the working view clean.</div>
+        </div>
+        <div class="trouble-item">
+          <div class="trouble-q">I can't figure out how to link pages or create sub-items</div>
+          <div class="trouble-a">Type <code>@</code> anywhere in Notion to link to another page. Type <code>/</code> to see all the block types you can add. For sub-items inside a database row, open the row by clicking the open icon (↗) at the right of the row. The full page that opens can contain any Notion blocks: text, checklists, databases, files, anything.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════ MODULE 6 ══════════════════════════════ -->
+<div class="module" id="m6">
+  <div class="module-tag"><span class="dot red"></span>Module 06</div>
+  <h2>Scheduling with TidyCal</h2>
+  <p class="module-lead">The back-and-forth of scheduling, "Does Tuesday work?" "Tuesday's busy, how about Thursday?" "Thursday afternoon?", is the most expensive free activity in most small businesses. A scheduling link eliminates it completely. This module gets TidyCal set up and embedded where clients can actually find and use it.</p>
+
+  <div class="section">
+    <div class="section-title">Why TidyCal over Calendly</div>
+    <p>Both tools work well. The reason this guide recommends TidyCal is simple: it charges $29 once rather than $10 to $16 every month. Run the numbers: $29 vs $120/year. TidyCal pays for itself in three months and then costs nothing forever. The feature set is comparable for most service businesses. If you already have Calendly and the free tier covers your needs, you don't need to switch.</p>
+    <div class="callout tip"><strong>If you have a complex multi-staff scheduling setup</strong> or need features specific to Calendly's paid tiers (like round-robin routing or Salesforce integration), Calendly may be worth its price for your specific use case. The $29 TidyCal lifetime deal is the better choice for most solo service businesses.</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Setting up TidyCal</div>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body">Go to <strong>tidycal.com</strong> and create a free account. The free tier is worth starting with to verify the tool works for your needs before paying. The $29 lifetime upgrade is available anytime from your account settings.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">Connect your calendar. TidyCal works with Google Calendar, Outlook, and Apple Calendar. Go to <strong>Integrations → Calendar connections</strong> and connect your primary calendar. TidyCal reads your existing events to know when you're busy  -  it never adds or modifies events in your calendar without your permission.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">Set your availability. Go to <strong>Availability</strong> and define the days and hours you're open to bookings. Be realistic. Set times you'll actually show up for, not aspirational availability. Leave buffer time between appointments; TidyCal doesn't add automatic buffers unless you configure them.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">Create your first booking type. Go to <strong>Booking types → New booking type</strong>. Name it, set the duration, add a description, and configure the confirmation and reminder emails. If you're on the paid plan, you can add payment via Stripe so clients pay when they book.</div></div>
+    </div>
+    <div class="troubleshoot">
+      <div class="troubleshoot-header">Common Issues</div>
+      <div class="troubleshoot-body">
+        <div class="trouble-item">
+          <div class="trouble-q">My calendar is connected but TidyCal shows all times as available</div>
+          <div class="trouble-a">TidyCal reads "busy" events from your calendar. Events marked as "Free" in Google Calendar won't block time in TidyCal. Open Google Calendar, click on events you want to block, and change their status from "Free" to "Busy." Also check that TidyCal is reading from the correct calendar if you have multiple calendars on the same account.</div>
+        </div>
+        <div class="trouble-item">
+          <div class="trouble-q">Clients can book times outside my working hours</div>
+          <div class="trouble-a">Go back to Availability settings and double-check your hours for each day. TidyCal can sometimes reset availability when you first connect a calendar. Also verify the timezone in your TidyCal settings matches your actual timezone. A mismatch shows the wrong times to clients and creates confusion about when appointments actually are.</div>
+        </div>
+        <div class="trouble-item">
+          <div class="trouble-q">Confirmation emails aren't arriving after booking</div>
+          <div class="trouble-a">Check the booking type settings  -  confirmation emails are off by default in some configurations. Go to your booking type → Edit → Email notifications and make sure both "Confirmation to booker" and "Notification to me" are enabled. Also check your spam folder for the first few bookings to verify deliverability.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Putting your booking link where clients can find it</div>
+    <p>A scheduling tool no one can find doesn't help anyone. Your booking link should be visible everywhere a potential client might be looking for you.</p>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Email signature:</strong> Add a line to your email signature: "Book a call: [your TidyCal link]". This is the highest-impact placement. Every email you send becomes a passive invitation to schedule.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Website:</strong> Add a "Book Now" button anywhere on your site that links directly to your TidyCal booking page. If you want it embedded (so clients don't leave your site), use TidyCal's embed code under <strong>Booking type → Share → Embed</strong>.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Social media bios:</strong> Add the booking link to your Instagram bio, LinkedIn profile, and any other platform where potential clients discover you. One link that does one thing: books an appointment.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>After a cold outreach:</strong> When you send a follow-up message or DM, end with: "Happy to jump on a quick call. Here's a link to grab time: [link]." Removes the scheduling friction from the most friction-heavy moment in the sales process.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════ MODULE 7 ══════════════════════════════ -->
+<div class="module" id="m7">
+  <div class="module-tag"><span class="dot"></span>Module 07</div>
+  <h2>The Cancellation Audit</h2>
+  <p class="module-lead">You've now built everything you need. This module is the cleanup. Go through every subscription you identified in Module 0 and deciding, with a clear alternative in place, what to cancel, what to downgrade, and what to keep.</p>
+
+  <div class="section">
+    <div class="section-title">The decision framework</div>
+    <p>For each subscription, there are only four possible outcomes. Apply them in order:</p>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Cancel immediately:</strong> You didn't use it more than 3 times last month, and this guide provides a free alternative that's now set up. There is no reason to keep paying. Cancel today, not "soon."</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Downgrade to free:</strong> You use the tool, but only features that exist on the free tier. Log into the account, find the plan settings, and downgrade. You lose nothing except the monthly charge.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Keep and justify:</strong> You actively use paid features that genuinely save you time or generate revenue. Write down the specific feature and why it earns its cost. If you can't name the feature, that's a signal to reconsider.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Set a 30-day review:</strong> You're not sure. Keep it for 30 days but set a calendar reminder to decide. Uncertainty is not a reason to keep paying indefinitely. It's a reason to gather more data.</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Cancellation reference: what this guide replaces</div>
+    <table class="data-table">
+      <thead><tr><th>If you're paying for…</th><th>Cancel / replace with</th><th>Migration effort</th></tr></thead>
+      <tbody>
+        <tr><td>A second AI subscription (ChatGPT Plus AND Claude Pro)</td><td>Keep the one you use daily. Free tier for the other.</td><td>None</td></tr>
+        <tr><td>Grammarly Premium</td><td>Claude (ask it to edit any text)</td><td>None</td></tr>
+        <tr><td>Jasper or any dedicated writing tool</td><td>Claude Pro: better output, half the price</td><td>None</td></tr>
+        <tr><td>Mailchimp paid tier</td><td>Brevo (migrate via CSV export → import)</td><td>1 to 2 hours</td></tr>
+        <tr><td>Constant Contact, ActiveCampaign (basic usage)</td><td>Brevo (export contacts, rebuild sequences)</td><td>2 to 4 hours</td></tr>
+        <tr><td>Zapier Starter or Professional</td><td>Make (rebuild scenarios, takes an afternoon)</td><td>Half a day</td></tr>
+        <tr><td>Pipedrive, Copper, or a paid CRM</td><td>HubSpot free (export contacts as CSV, import)</td><td>1 to 3 hours</td></tr>
+        <tr><td>Evernote, Notion Plus (if upgrading was premature)</td><td>Notion free (unlimited pages)</td><td>None</td></tr>
+        <tr><td>Trello Gold / Asana Premium (solo user)</td><td>Notion free task database</td><td>1 hour</td></tr>
+        <tr><td>Calendly Standard / Acuity</td><td>TidyCal $29 once or Calendly free tier</td><td>30 minutes</td></tr>
+        <tr><td>Loom paid</td><td>Tella free tier</td><td>None</td></tr>
+        <tr><td>Typeform paid</td><td>Tally (free, comparable features)</td><td>Rebuild forms (1 to 2 hours)</td></tr>
+        <tr><td>Linktree Pro</td><td>Carrd ($9/year) or a free HTML page on Netlify</td><td>1 hour</td></tr>
+        <tr><td>Hootsuite / Buffer paid</td><td>Buffer or Later free tier</td><td>None</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout warn"><strong>Before cancelling email or CRM platforms:</strong> Always export your data first. Every platform has an export function  -  usually under Settings → Data or Account → Export. Export before you cancel, not after. Once you cancel, you may lose access to your data immediately.</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">How to migrate from Mailchimp to Brevo</div>
+    <p>This is the most common migration, so it gets its own walkthrough.</p>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body">In Mailchimp, go to <strong>Audience → All contacts → Export audience</strong>. Download the CSV. Open it and verify it contains email, first name, last name, and any custom fields you care about.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">If you have multiple Mailchimp lists (audiences), export each one separately. Name each CSV by the list it came from. You'll import them into separate Brevo lists.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">Export your automations, not the contacts, but the email content. In each automation, copy the email content somewhere (a Notion page works). You'll rebuild these in Brevo. Having the original content saves rewriting from scratch.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">In Brevo, import each CSV to its corresponding list (Module 2 covered this). Rebuild your welcome sequence using the copied content. Test with your own email before activating.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body">Run both platforms in parallel for 2 weeks. Send campaigns from Brevo only, but don't cancel Mailchimp yet. Verify deliverability, open rates, and that automations are firing correctly. After 2 weeks with no issues, cancel Mailchimp.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════ MODULE 8 ══════════════════════════════ -->
+<div class="module" id="m8">
+  <div class="module-tag"><span class="dot green"></span>Module 08</div>
+  <h2>Your Running Stack</h2>
+  <p class="module-lead">You've built everything. This final module is about making sure it actually stays running, and knowing what to do when something breaks, which it will.</p>
+
+  <div class="section">
+    <div class="section-title">Your complete stack checklist</div>
+    <table class="data-table">
+      <thead><tr><th>Tool</th><th>What to verify it's working</th><th>Cost</th></tr></thead>
+      <tbody>
+        <tr><td>Claude / ChatGPT</td><td>Project set up with your business context. Used it at least once this week.</td><td><span class="badge free">Free tier</span></td></tr>
+        <tr><td>Brevo</td><td>Domain verified (green checkmark). Welcome sequence active. Test contact receives emails.</td><td><span class="badge free">Free tier</span></td></tr>
+        <tr><td>Make</td><td>At least one scenario active. Execution log shows successful recent runs.</td><td><span class="badge free">Free tier</span></td></tr>
+        <tr><td>HubSpot CRM</td><td>Pipeline configured for your stages. At least 5 real contacts imported. One deal per active client.</td><td><span class="badge free">Free forever</span></td></tr>
+        <tr><td>Notion</td><td>Operations, Clients, Projects, Notes pages created. Client tracker has real entries.</td><td><span class="badge free">Free forever</span></td></tr>
+        <tr><td>TidyCal</td><td>Calendar connected. Availability set. Booking link tested and working.</td><td><span class="badge paid">$29 once</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Ongoing maintenance: what to check monthly</div>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Make execution logs:</strong> Once a month, open Make and check the execution log for any scenarios with repeated errors. Scenarios don't always notify you when they fail. Errors can accumulate silently. Fix any red entries before they become bigger problems.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Brevo sending limits:</strong> Check your sending stats in Brevo → Statistics. If you're getting close to 300 emails/day consistently, that's the signal to move to the $9/mo Starter plan before you hit the wall mid-campaign.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>HubSpot pipeline review:</strong> Spend 20 minutes once a month reviewing every open deal. Move stale deals forward, mark lost ones as Closed Lost, and create tasks for any follow-ups that slipped through. A pipeline that doesn't get reviewed drifts into useless noise.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Your credit card statement:</strong> The subscription audit isn't a one-time exercise. Software creep is real. New tools get added, free trials convert, annual renewals hit. Review every recurring software charge quarterly. The question stays the same: did I use this more than 3 times last month?</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">When to upgrade each tool</div>
+    <p>Don't upgrade anything until a specific free-tier limitation is actually blocking your work. Not might block it, actually blocking it today.</p>
+    <table class="data-table">
+      <thead><tr><th>Tool</th><th>Upgrade when…</th><th>Upgrade cost</th></tr></thead>
+      <tbody>
+        <tr><td>Claude</td><td>You're hitting daily message limits on tasks that are directly revenue-generating</td><td>$20/mo Pro</td></tr>
+        <tr><td>Brevo</td><td>You're consistently hitting the 300 emails/day limit, or need advanced automation</td><td>From $9/mo</td></tr>
+        <tr><td>Make</td><td>You're regularly hitting 1,000 ops/month or need more than 2 active scenarios</td><td>$9/mo Core</td></tr>
+        <tr><td>HubSpot</td><td>You need email sequences, advanced reporting, or team features. Rare for solo businesses.</td><td>$20+/mo (high)</td></tr>
+        <tr><td>Notion</td><td>You need file uploads larger than 5MB or 90-day version history</td><td>$10/mo Plus</td></tr>
+        <tr><td>TidyCal</td><td>Already upgraded ($29 once). Nothing further to pay.</td><td>$0</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-title">The honest summary</div>
+    <div class="concept-grid">
+      <div class="concept-box">
+        <div class="label">What you've built</div>
+        <div class="val">A complete business operating stack: email marketing, automation, CRM, workspace, and scheduling, configured for your specific business and running for $0/month (plus $29 once for TidyCal).</div>
+      </div>
+      <div class="concept-box">
+        <div class="label">What you've avoided</div>
+        <div class="val">The typical over-subscribed setup: $150 to $200/month in overlapping tools where half go unused and the other half are never configured past their defaults.</div>
+      </div>
+      <div class="concept-box">
+        <div class="label">What makes this work long-term</div>
+        <div class="val">The habits, not the tools. Logging notes in HubSpot after every call. Moving deals through the pipeline in real time. Checking the Make execution log monthly. These take minutes and are what separates a stack that runs your business from one that just exists on your credit card statement.</div>
+      </div>
+      <div class="concept-box">
+        <div class="label">What to do next</div>
+        <div class="val">Run this stack for 90 days before adding anything new. Let it prove itself. Most businesses that stay lean do it not by being disciplined about spending, but by being disciplined about adding.</div>
+      </div>
+    </div>
+    <div class="callout tip" style="margin-top:20px;"><strong>The biggest mistake after finishing this guide:</strong> Adding four more tools because they seem useful. Resist. The value of a lean stack is that you actually know how all of it works, where data flows, and what to check when something breaks. Every new tool you add is a new surface area you're responsible for maintaining.</div>
+  </div>
+</div>
+
+</main>
+</div>
+
+<div class="footer">
+  Every tool in this guide has a free tier. Build the whole stack before spending a dollar. Upgrade only what's actually blocking you.
+</div>
+
+
+
+</div><!-- end gate-content -->
+
+<script>
+// ── Configuration ─────────────────────────────────────────────
+// Update VALIDATE_URL to your actual Netlify site URL
+const VALIDATE_URL = '/.netlify/functions/validate-token';
+const RESEND_URL   = '/.netlify/functions/resend-link';
+
+// ── Gate state helpers ────────────────────────────────────────
+function showGateState(state) {
+  document.getElementById('gate-checking').style.display = 'none';
+  document.getElementById('gate-purchase').style.display = 'none';
+  document.getElementById('gate-invalid').style.display  = 'none';
+  document.getElementById(`gate-${state}`).style.display = 'block';
+}
+
+function grantAccess() {
+  document.getElementById('gate-overlay').classList.add('hidden');
+  document.getElementById('gate-content').classList.add('visible');
+  // Persist the token in sessionStorage so validation
+  // doesn't re-run on every anchor link click within the page
+  const token = new URLSearchParams(window.location.search).get('token');
+  if (token) sessionStorage.setItem('guide_token', token);
+}
+
+// ── Main validation flow ──────────────────────────────────────
+async function validateAccess() {
+  // Check sessionStorage first (avoids re-validating within a session)
+  const cachedToken = sessionStorage.getItem('guide_token');
+  const urlToken    = new URLSearchParams(window.location.search).get('token');
+  const token       = urlToken || cachedToken;
+
+  if (!token) {
+    showGateState('purchase');
+    return;
+  }
+
+  try {
+    const res  = await fetch(VALIDATE_URL, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ token }),
+    });
+
+    const data = await res.json();
+
+    if (data.valid) {
+      grantAccess();
+    } else {
+      // Show different UI for "never had access" vs "had access but something's wrong"
+      if (!urlToken && !cachedToken) {
+        showGateState('purchase');
+      } else {
+        document.getElementById('gate-invalid-reason').textContent =
+          data.reason === 'Token expired'  ? 'Your access link has expired.' :
+          data.reason === 'Access revoked' ? 'Your access has been revoked. If you think this is a mistake, please get in touch.' :
+          'This link doesn\'t match our records. Check your original purchase email.';
+        showGateState('invalid');
+      }
+    }
+  } catch (err) {
+    // Network error  -  fail open so buyers aren't locked out by a server hiccup
+    console.error('Validation error:', err);
+    // Show the guide but log the failure
+    grantAccess();
+  }
+}
+
+// ── Resend link ───────────────────────────────────────────────
+async function resendLink(context = 'purchase') {
+  const inputId = context === 'invalid' ? 'gate-email-invalid' : 'gate-email-input';
+  const msgId   = context === 'invalid' ? 'gate-msg-invalid'   : 'gate-msg-resend';
+  const email   = document.getElementById(inputId).value.trim();
+  const msg     = document.getElementById(msgId);
+
+  if (!email || !email.includes('@')) {
+    msg.className = 'gate-msg error';
+    msg.textContent = 'Please enter a valid email address.';
+    return;
+  }
+
+  msg.className = 'gate-msg';
+  msg.textContent = '';
+  document.getElementById(inputId).disabled = true;
+
+  try {
+    const res  = await fetch(RESEND_URL, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ email }),
+    });
+
+    if (res.ok) {
+      msg.className = 'gate-msg success';
+      msg.textContent = 'If that email has a purchase on record, you\'ll get the link within a minute. Check your spam folder if it doesn\'t arrive.';
+    } else {
+      throw new Error('Server error');
+    }
+  } catch {
+    msg.className = 'gate-msg error';
+    msg.textContent = 'Something went wrong. Please try again or get in touch directly.';
+    document.getElementById(inputId).disabled = false;
+  }
+}
+
+// Allow pressing Enter in email fields
+['gate-email-input', 'gate-email-invalid'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('keydown', e => { if (e.key === 'Enter') resendLink(id.includes('invalid') ? 'invalid' : 'purchase'); });
+});
+
+// ── Run on load ───────────────────────────────────────────────
+validateAccess();
+</script>
+
+</body>
+</html>
