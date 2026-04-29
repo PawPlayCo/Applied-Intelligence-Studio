@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terms & Conditions — Applied Intelligence Studio</title>
+<meta name="description" content="Terms and conditions for Applied Intelligence Studio products, guides, and services.">
+<link rel="icon" type="image/png" href="/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+
+:root {
+  --bg:        #fafaf8;
+  --bg2:       #f2f1ee;
+  --bg3:       #e8e6e1;
+  --ink:       #141412;
+  --ink2:      #38362f;
+  --ink3:      #78746a;
+  --ink4:      #b0ab9f;
+  --rule:      #dedad3;
+  --accent:    #1c3828;
+  --accent2:   #c44b0c;
+  --white:     #ffffff;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ── NAV ── */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  background: var(--bg);
+  border-bottom: 1px solid var(--rule);
+  padding: 0 48px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-logo-img {
+  height: 28px;
+  width: auto;
+  flex-shrink: 0;
+}
+
+.nav-center {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.nav-center a {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--ink3);
+  text-decoration: none;
+  padding: 6px 14px;
+  border-radius: 4px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.nav-center a:hover {
+  background: var(--bg2);
+  color: var(--ink);
+}
+
+.nav-btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--accent);
+  color: #e8f0ec;
+  padding: 9px 18px;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+
+.nav-btn:hover { background: #0f2018; }
+
+/* ── PAGE HEADER ── */
+.page-header {
+  border-bottom: 1px solid var(--rule);
+  padding: 56px 48px 48px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.page-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink4);
+  margin-bottom: 20px;
+}
+
+.page-header h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 52px;
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 16px;
+}
+
+.page-header h1 strong {
+  font-weight: 700;
+}
+
+.page-meta {
+  font-size: 13px;
+  color: var(--ink4);
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.04em;
+}
+
+/* ── LAYOUT ── */
+.terms-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 48px;
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 64px;
+  align-items: start;
+  padding-top: 56px;
+  padding-bottom: 80px;
+}
+
+/* ── SIDEBAR TOC ── */
+.terms-toc {
+  position: sticky;
+  top: 80px;
+}
+
+.toc-heading {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink4);
+  margin-bottom: 16px;
+}
+
+.toc-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.toc-list a {
+  font-size: 13px;
+  color: var(--ink3);
+  text-decoration: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  display: block;
+  line-height: 1.4;
+  transition: background 0.15s, color 0.15s;
+}
+
+.toc-list a:hover {
+  background: var(--bg2);
+  color: var(--ink);
+}
+
+/* ── CONTENT ── */
+.terms-content {
+  min-width: 0;
+}
+
+.terms-section {
+  margin-bottom: 52px;
+  padding-bottom: 52px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.terms-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.section-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink4);
+  margin-bottom: 10px;
+}
+
+.terms-section h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+.terms-section p {
+  font-size: 14.5px;
+  font-weight: 300;
+  color: var(--ink2);
+  line-height: 1.85;
+  margin-bottom: 16px;
+}
+
+.terms-section p:last-child {
+  margin-bottom: 0;
+}
+
+.terms-section ul {
+  list-style: none;
+  margin: 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.terms-section ul li {
+  font-size: 14.5px;
+  font-weight: 300;
+  color: var(--ink2);
+  line-height: 1.75;
+  padding-left: 20px;
+  position: relative;
+}
+
+.terms-section ul li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--ink4);
+  font-size: 12px;
+  top: 3px;
+}
+
+.terms-section a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.terms-section a:hover {
+  color: var(--accent2);
+}
+
+.highlight-box {
+  background: var(--bg2);
+  border-left: 3px solid var(--accent);
+  padding: 20px 24px;
+  border-radius: 0 4px 4px 0;
+  margin: 20px 0;
+}
+
+.highlight-box p {
+  font-size: 14px;
+  color: var(--ink2);
+  margin-bottom: 0;
+}
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--rule);
+  padding: 32px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.footer-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-logo-dot {
+  width: 7px;
+  height: 7px;
+  background: var(--accent);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.footer-links {
+  list-style: none;
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
+  font-size: 13px;
+  color: var(--ink3);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.footer-links a:hover { color: var(--ink); }
+
+.footer-copy {
+  font-size: 12px;
+  color: var(--ink4);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  nav { padding: 0 20px; }
+  .nav-center { display: none; }
+
+  .page-header { padding: 40px 20px 36px; }
+  .page-header h1 { font-size: 36px; }
+
+  .terms-wrap {
+    grid-template-columns: 1fr;
+    padding: 36px 20px 60px;
+    gap: 40px;
+  }
+
+  .terms-toc { position: static; }
+
+  footer { padding: 28px 20px; flex-direction: column; align-items: flex-start; gap: 16px; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-logo">
+    <img src="/logo.png" alt="" class="nav-logo-img">
+    Applied Intelligence Studio
+  </a>
+  <div class="nav-center">
+    <a href="/#guides">Guides</a>
+    <a href="/#about">About</a>
+    <a href="/#blog">Writing</a>
+  </div>
+  <a href="/#guides" class="nav-btn">Get the Guides</a>
+</nav>
+
+<!-- PAGE HEADER -->
+<div style="border-bottom: 1px solid var(--rule);">
+  <div class="page-header">
+    <div class="page-eyebrow">Legal</div>
+    <h1>Terms &amp; <strong>Conditions</strong></h1>
+    <div class="page-meta">Last updated: January 2026</div>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="terms-wrap">
+
+  <!-- SIDEBAR -->
+  <aside class="terms-toc">
+    <div class="toc-heading">On this page</div>
+    <ul class="toc-list">
+      <li><a href="#acceptance">1. Acceptance</a></li>
+      <li><a href="#products">2. Products &amp; Purchases</a></li>
+      <li><a href="#refunds">3. Refund Policy</a></li>
+      <li><a href="#ip">4. Intellectual Property</a></li>
+      <li><a href="#disclaimer">5. Disclaimer</a></li>
+      <li><a href="#liability">6. Limitation of Liability</a></li>
+      <li><a href="#privacy">7. Privacy</a></li>
+      <li><a href="#changes">8. Changes to Terms</a></li>
+      <li><a href="#contact">9. Contact</a></li>
+    </ul>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="terms-content">
+
+    <div class="terms-section" id="acceptance">
+      <div class="section-num">01</div>
+      <h2>Acceptance of Terms</h2>
+      <p>By accessing or using the Applied Intelligence Studio website (appliedintelligencestudio.courses) or purchasing any of our products, you agree to be bound by these Terms and Conditions. If you do not agree to these terms, please do not use our site or purchase our products.</p>
+      <p>These terms apply to all visitors, customers, and anyone who accesses or uses our services.</p>
+    </div>
+
+    <div class="terms-section" id="products">
+      <div class="section-num">02</div>
+      <h2>Products &amp; Purchases</h2>
+      <p>Applied Intelligence Studio sells digital products including guides, templates, and educational resources. By completing a purchase, you agree to the following:</p>
+      <ul>
+        <li>All sales are processed securely through Lemon Squeezy. Applied Intelligence Studio does not store your payment details.</li>
+        <li>Upon successful payment, you will receive immediate access to your purchased digital product via a download link or email.</li>
+        <li>Prices are listed in USD and are subject to change without notice. Price changes do not affect orders already completed.</li>
+        <li>You must be at least 18 years of age, or have parental consent, to make a purchase.</li>
+        <li>You are purchasing a personal, non-transferable licence to use the product for your own individual or business use.</li>
+      </ul>
+    </div>
+
+    <div class="terms-section" id="refunds">
+      <div class="section-num">03</div>
+      <h2>Refund Policy</h2>
+      <p>Because our products are delivered digitally and are immediately accessible upon purchase, we generally do not offer refunds once a product has been downloaded or accessed.</p>
+      <div class="highlight-box">
+        <p>If you experience a technical issue that prevents you from accessing your purchase, contact us at <a href="mailto:info@appliedintelligencestudio.courses">info@appliedintelligencestudio.courses</a> within 7 days and we will work to resolve it or issue a refund at our discretion.</p>
+      </div>
+      <p>We stand behind the quality of our products. If you believe there is a significant issue with the content you received, please reach out and we will review it on a case-by-case basis.</p>
+    </div>
+
+    <div class="terms-section" id="ip">
+      <div class="section-num">04</div>
+      <h2>Intellectual Property</h2>
+      <p>All content on this website and within our products, including text, graphics, guides, templates, code examples, and course material, is the intellectual property of Applied Intelligence Studio and is protected by applicable copyright laws.</p>
+      <ul>
+        <li>You may use purchased materials for your own personal or business purposes.</li>
+        <li>You may not resell, redistribute, share, copy, or publicly reproduce any part of our products without express written permission.</li>
+        <li>You may not use our content to create derivative products intended for sale or distribution.</li>
+        <li>Sharing download links or product files with others who have not purchased is strictly prohibited.</li>
+      </ul>
+      <p>Violations may result in legal action and termination of your licence to use the product.</p>
+    </div>
+
+    <div class="terms-section" id="disclaimer">
+      <div class="section-num">05</div>
+      <h2>Disclaimer</h2>
+      <p>Our guides and resources are educational in nature and reflect the knowledge and opinions of Applied Intelligence Studio at the time of publication. They are provided for informational purposes only.</p>
+      <p>We make no guarantees about specific outcomes, results, or earnings from using our products. The AI landscape changes rapidly while we aim to keep our content current, some information may become outdated after purchase.</p>
+      <p>Nothing in our products constitutes legal, financial, or professional advice. Always consult qualified professionals before making significant business or technical decisions.</p>
+    </div>
+
+    <div class="terms-section" id="liability">
+      <div class="section-num">06</div>
+      <h2>Limitation of Liability</h2>
+      <p>To the fullest extent permitted by law, Applied Intelligence Studio shall not be liable for any indirect, incidental, special, or consequential damages arising from your use of, or inability to use our website, products, or services.</p>
+      <p>Our total liability to you for any claim arising out of or related to these terms or your purchase shall not exceed the amount you paid for the product in question.</p>
+    </div>
+
+    <div class="terms-section" id="privacy">
+      <div class="section-num">07</div>
+      <h2>Privacy</h2>
+      <p>We respect your privacy. When you purchase a product or subscribe to updates, we collect only the information necessary to fulfil your order and communicate with you.</p>
+      <ul>
+        <li>We do not sell your personal data to third parties.</li>
+        <li>Payment processing is handled by Lemon Squeezy please review their privacy policy for details on how transaction data is handled.</li>
+        <li>We may use your email to send order confirmations, product updates, and occasional newsletters. You can unsubscribe at any time.</li>
+      </ul>
+      <p>By using our site, you consent to the collection and use of information as described above.</p>
+    </div>
+
+    <div class="terms-section" id="changes">
+      <div class="section-num">08</div>
+      <h2>Changes to These Terms</h2>
+      <p>We reserve the right to update these Terms and Conditions at any time. Changes will be posted on this page with an updated date. Your continued use of the site or products after any changes constitutes acceptance of the new terms.</p>
+      <p>We encourage you to review this page periodically to stay informed.</p>
+    </div>
+
+    <div class="terms-section" id="contact">
+      <div class="section-num">09</div>
+      <h2>Contact</h2>
+      <p>If you have any questions about these Terms and Conditions, please get in touch:</p>
+      <p><a href="mailto:info@appliedintelligencestudio.courses">info@appliedintelligencestudio.courses</a></p>
+      <p>We aim to respond to all enquiries within 2 business days.</p>
+    </div>
+
+  </main>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <a href="/" class="footer-logo">
+    <span class="footer-logo-dot"></span>
+    Applied Intelligence Studio
+  </a>
+  <ul class="footer-links">
+    <li><a href="/#guides">Guides</a></li>
+    <li><a href="/#blog">Writing</a></li>
+    <li><a href="/#about">About</a></li>
+    <li><a href="/terms">Terms</a></li>
+    <li><a href="mailto:info@appliedintelligencestudio.courses">Contact</a></li>
+  </ul>
+  <div class="footer-copy">&copy; 2026 Applied Intelligence Studio</div>
+</footer>
+
+</body>
+</html>
