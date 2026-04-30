@@ -33,6 +33,11 @@
   status = 302
 
 [[redirects]]
+  from = "/canva-engine-course"
+  to = "/canva-engine-course-gated.html"
+  status = 302
+
+[[redirects]]
   from = "/complete-suite"
   to = "/complete-suite-gated.html"
   status = 302
@@ -55,4 +60,14 @@
 [[redirects]]
   from = "/courses-admin"
   to = "/courses-admin.html"
+  status = 200
+
+[[redirects]]
+  from = "/terms"
+  to = "/terms.html"
+  status = 200
+
+[[redirects]]
+  from = "/privacy"
+  to = "/privacy.html"
   status = 200

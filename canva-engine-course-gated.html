@@ -1,0 +1,1539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Professional's Canva Engine - Complete Course</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+
+/* ── DESIGN TOKENS ──────────────────────────────────────────── */
+:root {
+  --bg:          #f7f7f5;
+  --bg2:         #efefec;
+  --bg3:         #e5e5e1;
+  --border:      #d8d8d3;
+  --border2:     #c8c8c2;
+  --text:        #18181b;
+  --text2:       #3f3f46;
+  --text3:       #71717a;
+  --text4:       #a1a1aa;
+  --accent:      #1e3a5f;
+  --accent-mid:  #2d5a8e;
+  --accent-soft: #e8eef6;
+  --code-fg:     #1e3a5f;
+  --code-bg:     #eef2f8;
+  --code-border: #c8d4e8;
+  --tip-bg:      #f0f7f2;
+  --tip-border:  #2d7a4f;
+  --tip-text:    #1a5c38;
+  --warn-bg:     #fdf8ee;
+  --warn-border: #c8960a;
+  --warn-text:   #6b4f08;
+  --danger-bg:   #fdf2f2;
+  --danger-border: #b83232;
+  --danger-text: #7a1f1f;
+  --note-bg:     #f0f4ff;
+  --note-border: #3a5cbf;
+  --note-text:   #1f3a8c;
+  --ai-bg:       #f4f3ff;
+  --ai-border:   #7c6fdf;
+  --ai-text:     #3d3480;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.75;
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── COVER ──────────────────────────────────────────────────── */
+.cover {
+  background: #111827;
+  color: #f9fafb;
+  padding: 80px 64px 72px;
+}
+
+.cover-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #6b7280;
+  margin-bottom: 22px;
+  font-weight: 400;
+}
+
+.cover h1 {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 48px;
+  line-height: 1.13;
+  margin-bottom: 22px;
+  max-width: 700px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.cover h1 em {
+  color: #93c5fd;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.cover-lead {
+  font-size: 16px;
+  color: #9ca3af;
+  max-width: 620px;
+  line-height: 1.75;
+  margin-bottom: 40px;
+  font-weight: 300;
+}
+
+.cover-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 28px;
+  border-top: 1px solid #1f2937;
+}
+
+.meta-tag {
+  background: #1f2937;
+  border: 1px solid #374151;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: #9ca3af;
+  letter-spacing: 0.02em;
+}
+
+/* ── PAGE LAYOUT ────────────────────────────────────────────── */
+.page {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ── SIDEBAR ────────────────────────────────────────────────── */
+.sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  padding: 36px 20px 36px 32px;
+  border-right: 1px solid var(--border);
+  background: var(--bg);
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+  flex-shrink: 0;
+}
+
+.sidebar-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text4);
+  font-weight: 500;
+  margin-bottom: 10px;
+  padding-left: 10px;
+}
+
+.sidebar nav a {
+  display: block;
+  padding: 6px 10px;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text3);
+  text-decoration: none;
+  border-radius: 5px;
+  line-height: 1.45;
+  transition: background 0.1s, color 0.1s;
+}
+
+.sidebar nav a:hover { background: var(--bg2); color: var(--text); }
+
+.sidebar nav a .num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  color: var(--text4);
+  margin-right: 7px;
+}
+
+.sidebar-section {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+
+/* ── MAIN ───────────────────────────────────────────────────── */
+.main {
+  padding: 52px 60px 96px;
+  min-width: 0;
+  max-width: 780px;
+}
+
+/* ── INTRO NOTE ─────────────────────────────────────────────── */
+.ai-intro {
+  background: var(--ai-bg);
+  border-left: 3px solid var(--ai-border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  margin-bottom: 52px;
+  color: var(--ai-text);
+  font-size: 13.5px;
+  line-height: 1.72;
+}
+
+.ai-intro strong { color: var(--ai-text); font-weight: 600; }
+
+/* ── MODULE ─────────────────────────────────────────────────── */
+.module {
+  margin-bottom: 72px;
+  padding-bottom: 72px;
+  border-bottom: 1px solid var(--border);
+}
+
+.module:last-child { border-bottom: none; margin-bottom: 0; }
+
+.module-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text4);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.module-tag .dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+.module-tag .dot.green  { background: #2d7a4f; }
+.module-tag .dot.blue   { background: #1e4a8a; }
+.module-tag .dot.purple { background: #6b4fa0; }
+.module-tag .dot.amber  { background: #c8960a; }
+.module-tag .dot.red    { background: #b83232; }
+
+.module h2 {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 32px;
+  line-height: 1.22;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+.module-lead {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 15px;
+  color: var(--text3);
+  line-height: 1.75;
+  margin-bottom: 36px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--border);
+  font-style: italic;
+}
+
+/* ── SECTION ────────────────────────────────────────────────── */
+.section { margin-bottom: 40px; }
+
+.section-title {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border2);
+  letter-spacing: -0.005em;
+}
+
+.section p {
+  font-size: 14.5px;
+  color: var(--text2);
+  line-height: 1.8;
+  margin-bottom: 14px;
+}
+
+.section p:last-child { margin-bottom: 0; }
+
+/* ── STEPS ──────────────────────────────────────────────────── */
+.steps { counter-reset: step; margin: 16px 0; }
+
+.step {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 12px;
+  align-items: flex-start;
+}
+
+.step-num {
+  counter-increment: step;
+  background: var(--accent);
+  color: #fff;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  min-width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.step-body { font-size: 14px; color: var(--text2); line-height: 1.75; }
+.step-body strong { color: var(--text); font-weight: 600; }
+
+/* ── CODE ───────────────────────────────────────────────────── */
+pre, .code-block {
+  background: #1a1f2e;
+  color: #d4daf0;
+  border-radius: 6px;
+  padding: 18px 20px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12.5px;
+  line-height: 1.72;
+  overflow-x: auto;
+  margin: 16px 0;
+}
+
+code {
+  background: var(--code-bg);
+  border: 1px solid var(--code-border);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--code-fg);
+}
+
+pre code { background: none; border: none; padding: 0; color: inherit; font-size: inherit; }
+
+.cmt { color: #6a7a90; }
+.kw  { color: #c9956c; }
+.str { color: #7ec09a; }
+.fn  { color: #82aacc; }
+
+/* ── CALLOUTS ───────────────────────────────────────────────── */
+.callout {
+  border-radius: 5px;
+  padding: 13px 16px;
+  margin: 14px 0;
+  font-size: 13.5px;
+  line-height: 1.72;
+  display: block;
+}
+
+.callout strong { font-weight: 600; }
+.callout.tip    { background: var(--tip-bg);    border-left: 3px solid var(--tip-border);    color: var(--tip-text); }
+.callout.warn   { background: var(--warn-bg);   border-left: 3px solid var(--warn-border);   color: var(--warn-text); }
+.callout.danger { background: var(--danger-bg); border-left: 3px solid var(--danger-border); color: var(--danger-text); }
+.callout.note   { background: var(--note-bg);   border-left: 3px solid var(--note-border);   color: var(--note-text); }
+
+/* ── AI NOTE ────────────────────────────────────────────────── */
+.ai-note {
+  background: var(--ai-bg);
+  border-left: 3px solid var(--ai-border);
+  border-radius: 5px;
+  padding: 13px 16px;
+  margin: 14px 0;
+  color: var(--ai-text);
+  font-size: 13.5px;
+  line-height: 1.72;
+  display: block;
+}
+.ai-note strong { color: var(--ai-text); font-weight: 600; }
+
+/* ── TROUBLESHOOT ───────────────────────────────────────────── */
+.troubleshoot {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  margin: 18px 0;
+  overflow: hidden;
+}
+
+.troubleshoot-header {
+  background: var(--bg3);
+  border-bottom: 1px solid var(--border);
+  padding: 9px 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text3);
+}
+
+.troubleshoot-body { padding: 14px 16px; }
+
+.trouble-item {
+  margin-bottom: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.trouble-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+
+.trouble-q {
+  font-weight: 600;
+  font-size: 13.5px;
+  color: var(--text);
+  margin-bottom: 5px;
+  padding-left: 14px;
+  position: relative;
+}
+
+.trouble-q::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 7px;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent-mid);
+}
+
+.trouble-a {
+  font-size: 13.5px;
+  color: var(--text3);
+  line-height: 1.72;
+  padding-left: 14px;
+}
+
+/* ── CONCEPT GRID ───────────────────────────────────────────── */
+.concept-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 16px 0;
+}
+
+.concept-box {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 14px 16px;
+}
+
+.concept-box .label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text4);
+  margin-bottom: 5px;
+}
+
+.concept-box .val { font-size: 13.5px; color: var(--text2); line-height: 1.65; }
+
+/* ── TABLE ──────────────────────────────────────────────────── */
+.data-table { width: 100%; border-collapse: collapse; font-size: 13.5px; margin: 16px 0; }
+
+.data-table th {
+  text-align: left;
+  padding: 9px 14px;
+  background: var(--bg3);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text3);
+  border-bottom: 1px solid var(--border2);
+}
+
+.data-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text2);
+  vertical-align: top;
+  line-height: 1.65;
+}
+
+.data-table tr:last-child td { border-bottom: none; }
+
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  font-weight: 500;
+}
+.badge.free { background: var(--tip-bg); color: var(--tip-text); border: 1px solid var(--tip-border); }
+.badge.paid { background: var(--warn-bg); color: var(--warn-text); border: 1px solid var(--warn-border); }
+
+/* ── FOOTER ─────────────────────────────────────────────────── */
+.footer {
+  background: #111827;
+  color: #374151;
+  text-align: center;
+  padding: 32px 40px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+}
+
+/* ── RESPONSIVE ─────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .page { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
+  .main { padding: 32px 28px 72px; max-width: 100%; }
+  .cover { padding: 52px 28px 48px; }
+  .cover h1 { font-size: 32px; }
+  .module h2 { font-size: 26px; }
+  .concept-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 540px) {
+  .cover { padding: 36px 18px 36px; }
+  .cover h1 { font-size: 26px; line-height: 1.2; }
+  .main { padding: 24px 16px 60px; }
+  .module h2 { font-size: 22px; }
+  .section-title { font-size: 17px; }
+  pre, .code-block { font-size: 11px; padding: 14px; }
+  .data-table { display: block; overflow-x: auto; }
+  .data-table th, .data-table td { font-size: 12.5px; padding: 8px 10px; }
+}
+
+
+
+  .prereq {
+    background: var(--note-bg);
+    border-left: 3px solid var(--note-border);
+    border-radius: 5px;
+    padding: 13px 16px;
+    margin-bottom: 32px;
+    color: var(--note-text);
+    font-size: 13.5px;
+    line-height: 1.72;
+  }
+  .prereq strong { font-weight: 600; }
+
+  /* ── GATE OVERLAY ── */
+  #gate-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: #faf8f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  #gate-overlay.hidden { display: none; }
+
+  .gate-box {
+    max-width: 480px;
+    width: 100%;
+    padding: 24px;
+    text-align: center;
+  }
+
+  .gate-logo {
+    font-family: 'Lora', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #1c1917;
+    margin-bottom: 40px;
+    letter-spacing: -0.01em;
+  }
+
+  .gate-card {
+    background: white;
+    border: 1px solid #ddd9d2;
+    border-radius: 10px;
+    padding: 40px 36px;
+  }
+
+  .gate-icon {
+    font-size: 32px;
+    margin-bottom: 16px;
+  }
+
+  .gate-title {
+    font-family: 'Lora', serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: #1c1917;
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+
+  .gate-body {
+    font-size: 14px;
+    color: #6b6560;
+    line-height: 1.7;
+    margin-bottom: 28px;
+  }
+
+  .gate-btn {
+    display: inline-block;
+    background: #b8430a;
+    color: white;
+    text-decoration: none;
+    padding: 13px 28px;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 14.5px;
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    transition: background 0.15s;
+    margin-bottom: 12px;
+  }
+
+  .gate-btn:hover { background: #9a360a; }
+
+  .gate-resend {
+    background: none;
+    border: 1px solid #ddd9d2;
+    color: #6b6560;
+    font-size: 13.5px;
+  }
+
+  .gate-resend:hover { background: #f3f0eb; }
+
+  .gate-input {
+    width: 100%;
+    border: 1px solid #ddd9d2;
+    border-radius: 5px;
+    padding: 11px 14px;
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    color: #1c1917;
+    margin-bottom: 10px;
+    outline: none;
+  }
+
+  .gate-input:focus { border-color: #b8430a; box-shadow: 0 0 0 3px rgba(184,67,10,0.08); }
+
+  .gate-msg {
+    font-size: 13px;
+    padding: 10px 14px;
+    border-radius: 5px;
+    margin-bottom: 14px;
+    display: none;
+  }
+
+  .gate-msg.error { background: #fef2f0; color: #8c1a10; border: 1px solid #c0392b; display: block; }
+  .gate-msg.success { background: #f0f7f2; color: #1f5c38; border: 1px solid #3a8c5c; display: block; }
+
+  .gate-spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    vertical-align: middle;
+    margin-right: 6px;
+  }
+
+  .gate-divider {
+    border: none;
+    border-top: 1px solid #e8e4de;
+    margin: 22px 0;
+    position: relative;
+  }
+
+  .gate-divider::after {
+    content: 'or';
+    position: absolute;
+    top: -9px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    padding: 0 10px;
+    font-size: 12px;
+    color: #9c9690;
+  }
+
+  .gate-fine {
+    font-size: 12px;
+    color: #9c9690;
+    margin-top: 16px;
+    line-height: 1.6;
+  }
+
+  .gate-fine a { color: #b8430a; }
+
+  #gate-content { display: none; }
+
+</style>
+</head>
+<body>
+
+<!-- GATE OVERLAY -->
+<div id="gate-overlay">
+  <div class="gate-box">
+    <div class="gate-logo">Build Your Business Website</div>
+
+    <!-- STATE: checking token -->
+    <div id="gate-checking" class="gate-card">
+      <div class="gate-icon">⏳</div>
+      <div class="gate-title">Checking your access…</div>
+      <p class="gate-body">Just a moment.</p>
+    </div>
+
+    <!-- STATE: no token / invalid  -  purchase prompt -->
+    <div id="gate-purchase" class="gate-card" style="display:none;">
+      <div class="gate-icon">📖</div>
+      <div class="gate-title">Get the complete course guide</div>
+      <p class="gate-body">
+        Every tool, every step, every fix  -  the full build documented so you can replicate it.
+        One-time purchase. Lifetime access.
+      </p>
+      <a href="https://applied-intelligence-studio.lemonsqueezy.com/checkout/buy/edf382f4-9cf3-445f-a53f-c053e0b80300" class="gate-btn" id="buy-btn">
+        Get Access - $29.99
+      </a>
+      <hr class="gate-divider">
+      <p style="font-size:13px;color:#6b6560;margin-bottom:10px;">Already purchased? Enter your email to resend your link.</p>
+      <div id="gate-msg-resend" class="gate-msg"></div>
+      <input type="email" id="gate-email-input" class="gate-input" placeholder="your@email.com" />
+      <button class="gate-btn gate-resend" onclick="resendLink()">Resend my access link</button>
+      <p class="gate-fine">Questions? <a href="mailto:hello@yourdomain.com">Get in touch</a></p>
+    </div>
+
+    <!-- STATE: invalid/revoked  -  specific message -->
+    <div id="gate-invalid" class="gate-card" style="display:none;">
+      <div class="gate-icon">🔒</div>
+      <div class="gate-title">This link isn't valid</div>
+      <p class="gate-body" id="gate-invalid-reason">
+        This access link may have expired or been revoked. Check your purchase email for your original link,
+        or enter your email below to have it resent.
+      </p>
+      <div id="gate-msg-invalid" class="gate-msg"></div>
+      <input type="email" id="gate-email-invalid" class="gate-input" placeholder="your@email.com" />
+      <button class="gate-btn gate-resend" onclick="resendLink('invalid')">Resend my access link</button>
+      <hr class="gate-divider">
+      <a href="https://applied-intelligence-studio.lemonsqueezy.com/checkout/buy/edf382f4-9cf3-445f-a53f-c053e0b80300" class="gate-btn">Purchase access</a>
+    </div>
+
+  </div>
+</div>
+
+<!-- COURSE CONTENT -->
+<div id="gate-content">
+
+<div class="cover">
+  <div class="cover-eyebrow">Complete Course - The Professional's Canva Engine Series</div>
+  <h1>Canva Beyond <em>Templates</em></h1>
+  <p class="cover-lead">The free guide showed you what Canva can do. This course walks you through building every pillar from scratch - real step-by-step instructions, the issues you will actually hit, and exactly how to fix them. Six deep-dive modules covering Canva Sites, Magic Studio AI, Brand Kit, Bulk Create, typography, and colour systems. Built for professionals who want to use Canva as a complete brand and publishing engine, not just a design tool.</p>
+  <div class="cover-meta">
+    <span class="meta-tag">Canva Sites + client portals</span>
+    <span class="meta-tag">Magic Studio AI</span>
+    <span class="meta-tag">Brand Kit setup</span>
+    <span class="meta-tag">Bulk Create workflows</span>
+    <span class="meta-tag">Content Planner</span>
+    <span class="meta-tag">Typography systems</span>
+    <span class="meta-tag">Colour systems</span>
+    <span class="meta-tag">Free + Pro tiers covered</span>
+  </div>
+</div>
+
+<div class="page">
+
+<aside class="sidebar">
+  <div class="sidebar-title">Modules</div>
+  <nav>
+    <a href="#m1"><span class="num">01</span> Your Canva Site</a>
+    <a href="#m2"><span class="num">02</span> AI That Looks Human</a>
+    <a href="#m3"><span class="num">03</span> Brand Kit + Bulk Create</a>
+    <a href="#m4"><span class="num">04</span> The Upgrade Decision</a>
+    <a href="#m5"><span class="num">05</span> Typography That Works</a>
+    <a href="#m6"><span class="num">06</span> Palette to Production</a>
+  </nav>
+  <div class="sidebar-section">
+    <div class="sidebar-title">Tools used</div>
+    <nav>
+      <a href="https://canva.com" target="_blank">canva.com</a>
+      <a href="https://claude.ai" target="_blank">claude.ai</a>
+      <a href="https://webaim.org/resources/contrastchecker" target="_blank">webaim.org (contrast)</a>
+      <a href="https://color.adobe.com" target="_blank">color.adobe.com</a>
+      <a href="https://tally.so" target="_blank">tally.so (forms)</a>
+    </nav>
+  </div>
+</aside>
+
+<main class="main">
+
+<div class="ai-intro">
+  <strong>How to use this course.</strong> Each module is a complete execution walkthrough, not a feature overview. Work through them in order on your first pass - each one builds on the previous. Where you get stuck on a specific step, paste the exact issue or error message into Claude and ask it to explain what is happening and how to fix it. That loop of attempt, hit a wall, ask for help, and fix it is the whole skill this course is building. The AI prompts embedded throughout each module are there for the moments when a step requires content or decisions specific to your business.
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════
+     MODULE 01 - Your Canva Site
+═══════════════════════════════════════════════════════ -->
+<div class="module" id="m1">
+  <div class="module-tag"><span class="dot"></span>Module 01</div>
+  <h2>Your Canva Site</h2>
+  <p class="module-lead">Most professionals discover Canva Sites by accident and underestimate it within thirty seconds. It looks like a design feature bolted onto a design tool. It is not. Canva Sites is a fully hosted, responsive web publishing platform that turns your Canva designs into live pages with navigation, forms, video, and password protection - without a single line of code, a hosting subscription, or a WordPress login. This module walks you through everything: how it actually works, where it fits in a professional workflow, how to build and publish a site that does not look like it was made in Canva, and how to use it for the highest-value use case most professionals never consider.</p>
+
+  <div class="section">
+    <div class="section-title">Understanding what Canva Sites actually is</div>
+    <p>Before touching a template, it is worth understanding what you are working with - because the mental model most people bring to Canva Sites is wrong, and that wrong model leads to bad decisions about structure, layout, and publishing.</p>
+    <p>Canva Sites is not like Squarespace or Wix, where you build a site inside a site-builder interface with drag-and-drop blocks. It is also not like exporting a PDF or image. When you publish a Canva design as a website, Canva converts each page of your design into a live, hosted web page with a real URL, responsive scaling, and clickable elements. The design you built in Canva is the website.</p>
+    <p>This has important implications. Your design skills translate directly to your site quality. A well-designed Canva file becomes a well-designed website. A cluttered, inconsistent file becomes a cluttered, inconsistent website. The quality ceiling is determined by your design, not by a template builder's component library.</p>
+    <p>What Canva Sites supports that most people do not realise:</p>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Sticky navigation menus.</strong> A navigation bar that stays visible as the user scrolls, with anchor links to different sections of the site. This is the single most important feature and the one most people never find. Without it, a multi-page Canva site is a scrolling document. With it, it is a navigable website.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Embedded forms.</strong> You can embed a form from an external service (Typeform, Google Forms, Tally) directly into a Canva Site page. Visitors fill it out without leaving your site. This makes contact forms, client intake forms, and booking requests possible.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Video backgrounds.</strong> You can use a video file as a background for any page section. Used well, a subtle looping video in the hero section is the fastest way to make a Canva Site look like it was built by a developer.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Password protection.</strong> Any published Canva Site can be password protected with a single toggle in the publish settings. The visitor sees a password entry screen before accessing the content. This makes Canva Sites viable for private client portals, team resources, and gated content.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Analytics.</strong> Canva provides basic view count analytics for published sites. Not full Google Analytics, but enough to confirm whether a link is being clicked, how many times a client resource hub has been opened, or whether a landing page is getting traffic.</div></div>
+    </div>
+    <div class="callout tip"><strong>The canva.site URL is not a liability.</strong> Many professionals assume the free canva.site/yourname URL looks unprofessional. In practice, when a client portal or resource hub is shared as a hyperlink with anchor text like "Your Client Portal" rather than the raw URL, nobody reads the domain. The content and design are what clients evaluate. The URL matters only for public-facing marketing pages where brand consistency is the point.</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Choosing the right purpose before starting</div>
+    <p>The most common mistake when starting a Canva Site is opening a template and starting to design before deciding what the site is for. This leads to mid-build restructuring, inconsistent layouts, and designs that look good but do not function correctly for the intended purpose.</p>
+    <p>Define your purpose first. The four most useful professional use cases, and what each requires:</p>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Portfolio site.</strong> Showcases work samples, services, and credentials to potential clients. Requires: a strong hero section with a clear headline, a services or work section with specific examples, an about section with credentials and personality, and a contact method (form embed or email link). Navigation is essential. Mobile optimisation is critical - most portfolio viewers are on phones.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Bio link page.</strong> A single-page hub replacing Linktree or similar tools. Showcases who you are with links to your key destinations: social profiles, booking link, products, latest content. Requires: a clean, fast-loading single-page design with clearly labelled clickable buttons. No navigation needed. Maximum two scrolls of content.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Landing page for a specific offer.</strong> Designed to convert visitors to one specific action: book a call, buy a product, sign up for something. Requires: a single, focused call-to-action. No navigation (navigation gives people an exit from the conversion path). Strong headline, clear benefit statements, social proof or testimonials, and one prominent button that repeats throughout the page.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Client resource hub.</strong> A private, password-protected page shared with individual clients or client groups. Contains onboarding instructions, deliverables, FAQs, and contact details. Requires: clear navigation between sections, password protection enabled, a simple and scannable layout (clients are not browsing for enjoyment - they are looking for something specific). Updated regularly as the project progresses.</div></div>
+    </div>
+    <div class="callout warn"><strong>Do not try to build all four at once.</strong> A site that is simultaneously a portfolio, a landing page, a bio link page, and a client portal will function well as none of them. Build one thing with a clear purpose. You can create multiple separate Canva Sites - free accounts can have multiple published sites, each at its own canva.site URL.</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Building the site: a full step-by-step walkthrough</div>
+    <p>This walkthrough covers a multi-section professional site with navigation - the most capable and most commonly needed format. If you are building a single-page bio link, skip the navigation steps.</p>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Start with a website template - never a blank canvas.</strong> In Canva, click Create a design and search "Website." Do not start from a blank canvas. Even if you redesign every element, a website template gives you the correct frame dimensions, the responsive behaviour built into the structure, and the proportional relationships between sections that make a site feel balanced. Starting blank produces sites that look fine in the editor and wrong when published.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Plan your pages before designing them.</strong> In the Canva editor, the left panel shows your pages. Before adding content, create the right number of blank pages and name each one. For a portfolio site: Home, Services, Work, About, Contact. For a client hub: Welcome, Getting Started, Deliverables, FAQ. Naming them now means the navigation menu will populate correctly with the right labels.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Design the hero section of Page 1 first.</strong> The hero is the first thing a visitor sees and determines whether they stay or leave. It needs to communicate in under 5 seconds: who this is, what they do, and what the visitor should do next. A clear headline (what you do), a one-line subheadline (who it is for), and a single button (what to do next). Resist the temptation to add more. More elements in the hero create decision paralysis, not engagement.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Build each subsequent page consistently.</strong> Use the same fonts, the same colour palette, and the same spacing system across every page. The fastest way to do this: design Page 1 completely, then duplicate it and replace the content for each subsequent page. This preserves all your design decisions and only requires content changes.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Enable the navigation menu.</strong> Click the globe icon in the top toolbar to open website settings. Toggle the navigation menu on. Canva will populate the menu with your page names automatically. Reorder pages in the left panel if the navigation order needs to change. Set the navigation style (minimal, pill, underline) to match your design aesthetic.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Add interactive elements.</strong> Go through every button and text element that should be clickable and add a link. In Canva, select the element, click the link icon in the toolbar, and enter the destination URL or select a page within the site for internal navigation. Test every link before publishing - broken links on a professional site are noticed immediately.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Embed any required forms.</strong> If you need a contact form or client intake form, build it in Tally (free), Google Forms, or Typeform first. Get the embed code. In Canva, add an Embed element to the relevant page and paste the embed URL. Resize and reposition the embed within your design. Preview the published version to confirm the form renders correctly - embedded elements sometimes display differently in the editor versus the live site.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Check the mobile view for every page.</strong> Click the phone icon in the top toolbar to toggle mobile preview. Go through every page. Common issues to fix: text that is too large for mobile and wraps awkwardly, images that scale down to illegibility, buttons that are too small to tap comfortably (minimum 44px height on mobile), and sections with too much padding that push content far below the fold. Fix each issue in the mobile view before proceeding.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Publish.</strong> Click Share → Publish as website. Choose a URL slug (the part after canva.site/). Use your name or business name. Keep it short and memorable. If you are on Pro, connect your custom domain from this screen. Toggle password protection on if this is a private site. Click Publish. Your site is live immediately.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Test the live site from a real browser and a real phone.</strong> Open the published URL in Chrome, Safari, and Firefox if possible. Open it on your phone. Click every link. Submit a test form entry. View it in landscape and portrait. The editor preview and the live site occasionally behave differently. Find and fix any discrepancies before sharing the URL with clients or posting it publicly.</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Building a client resource hub in depth</div>
+    <p>The client resource hub is the highest-value application of Canva Sites for service professionals, and the most underused. Most service providers deliver client information as email attachments, shared Drive folders, or long email threads. A client resource hub replaces all of that with a single URL that is always current, always accessible, and completely on brand.</p>
+    <p>The value it creates: when a client onboards, instead of sending seven attachments and three emails, you send one link. When deliverables are updated, you update the hub - the client's link still works and shows the current version. When a client has a question at 10pm, they open the hub instead of emailing you. The hub answers it.</p>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Page 1 - Welcome.</strong> Your name, your photo, a warm one-paragraph welcome message, and your direct contact details. Keep it to one screen. The purpose of this page is to orient the client and confirm they are in the right place. End it with a sentence like: "Everything you need for this project is in this portal. If you cannot find what you are looking for, reply to my email directly."</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Page 2 - Getting Started.</strong> A numbered list of exactly what the client needs to do in the first week. Be specific and sequential. "1. Complete the intake form below. 2. Schedule your kickoff call using the link in your welcome email. 3. Review the project timeline on the next page and flag any conflicts by Friday." No vague instructions. No "let us know if you have questions" as a substitute for clear guidance.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Page 3 - Project Timeline or Deliverables.</strong> A visual timeline if the project has phases, or a list of deliverables with expected dates and status indicators. This page is updated as the project progresses. Clients check it when they want to know where things stand without emailing you. Including a status column (Not Started / In Progress / Delivered / Approved) reduces check-in emails by a significant margin.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Page 4 - Resources and Files.</strong> Links to any shared documents, Google Drive folders, Dropbox folders, or specific files the client needs access to. Each link should be labeled descriptively - "Brand Strategy Document (Final)" not "Link 3." Update this page whenever new deliverables are shared. This page becomes the source of truth for everything delivered throughout the project.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Page 5 - FAQ.</strong> The 8 to 10 questions clients ask most often, answered completely. "When will I hear back from you? Within 24 business hours unless I have flagged a different timeline for a specific phase." "What if I need to make changes after approval? Minor revisions within the agreed scope are included. Significant scope changes are quoted separately." Real answers, not placeholders.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Enable password protection.</strong> In publish settings, toggle on password protection and set a password. Include the URL and password in your welcome email using a clear format: "Your client portal: [URL] / Password: [password]." Some professionals use the same password for all clients for simplicity. Others generate a unique one per client for security. Either works - the key is making the login seamless, not making clients hunt for their password.</div></div>
+    </div>
+    <div class="ai-note"><strong>AI prompt for generating your FAQ page:</strong> "I run a [type of service business]. My clients are [describe client type]. Write 10 FAQ entries for a client portal onboarding page. Each entry should have a bold question and a 2-4 sentence complete answer. Base the questions on the most common concerns and uncertainties clients in this type of business typically have. Avoid generic answers - make each one specific and actionable. Do not use the phrase 'great question.'"</div>
+    <div class="ai-note"><strong>AI prompt for writing your welcome message:</strong> "Write a welcome message for a client portal for my [type of business] called [business name]. The tone should be [warm and professional / direct and efficient / friendly and casual]. It should be 3-4 sentences, orient the client to what the portal contains, and end with a clear instruction for what to do first. Do not use corporate language or phrases like 'we are thrilled to have you on board.'"</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Making your Canva Site look like it was not made in Canva</div>
+    <p>The telltale signs of a Canva Site are specific and avoidable. Most of them come from using default template choices without modification rather than from any limitation in Canva itself.</p>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Replace every stock image in the template immediately.</strong> Template images are used by thousands of people. Any visitor who has seen other Canva sites will recognise the stock image instantly. Replace them with real photos of you, your work, or your workspace on Day 1 before investing any more design time.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Use your brand colours, not the template colours.</strong> Template colour schemes are neutral and inoffensive by design. They are also generic. Applying your own colour palette - even if it is just two colours - immediately makes the site feel specific to you rather than generic.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Write real copy, not placeholder text.</strong> Template copy like "We provide exceptional services tailored to your needs" signals to every visitor that the copy was never updated. Every text element needs real, specific, written-for-your-audience copy before publishing.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Reduce the number of elements per section.</strong> Templates often fill space with multiple decorative elements, icons, and sub-sections to look comprehensive. Clean, spacious layouts with fewer elements look more professional than dense, template-styled layouts. When in doubt, remove something rather than add something.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Add a video background to the hero section.</strong> A short (5-15 second) looping video of your workspace, your process, or your work immediately differentiates a Canva Site from a static design. Find a royalty-free video from Pexels or use your own footage. In Canva, add it as a background video to the first page section.</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Free vs Pro for Canva Sites</div>
+    <table class="data-table">
+      <thead><tr><th>Feature</th><th>Free</th><th>Pro</th></tr></thead>
+      <tbody>
+        <tr><td>Published URL</td><td>canva.site/yourname</td><td>Your custom domain (yourdomain.com)</td></tr>
+        <tr><td>Hosting</td><td><span class="badge free">Included free</span></td><td><span class="badge free">Included on Pro</span></td></tr>
+        <tr><td>SSL (HTTPS)</td><td><span class="badge free">Included</span></td><td><span class="badge free">Included</span></td></tr>
+        <tr><td>Navigation menu</td><td><span class="badge free">Supported</span></td><td><span class="badge free">Supported</span></td></tr>
+        <tr><td>Password protection</td><td><span class="badge free">Supported</span></td><td><span class="badge free">Supported</span></td></tr>
+        <tr><td>Form embeds</td><td><span class="badge free">Supported</span></td><td><span class="badge free">Supported</span></td></tr>
+        <tr><td>Video backgrounds</td><td><span class="badge free">Supported</span></td><td><span class="badge free">Supported</span></td></tr>
+        <tr><td>Analytics</td><td>Basic view count</td><td>Basic view count</td></tr>
+        <tr><td>Remove Canva branding</td><td>Not available</td><td><span class="badge pro">Pro only</span></td></tr>
+        <tr><td>Custom domain</td><td>Not available</td><td><span class="badge pro">Pro only</span></td></tr>
+        <tr><td>Number of sites</td><td>Multiple</td><td>Multiple</td></tr>
+      </tbody>
+    </table>
+    <p>The free tier is fully functional for client portals, resource hubs, and bio link pages where the URL is shared as a hyperlink rather than typed manually. The two reasons to upgrade specifically for sites: you want yourdomain.com instead of canva.site/you, or you need to remove Canva's branding from the published footer.</p>
+  </div>
+
+  <div class="troubleshoot">
+    <div class="troubleshoot-header">Common Issues - Canva Sites</div>
+    <div class="troubleshoot-body">
+      <div class="trouble-item">
+        <div class="trouble-q">My site looks completely different on mobile than in the editor</div>
+        <div class="trouble-a">Canva's editor always shows the desktop view. Mobile rendering is handled automatically by Canva but does not always match your intent. The fix is to use the mobile preview toggle (phone icon, top toolbar) and check every page before publishing. Specific things to fix: reduce heading font sizes by 30-40% for mobile, increase button heights to at least 44px, reduce padding values on sections that look too spacious on mobile, and ensure text does not overlap with images when the layout reflows. These adjustments need to be made in the mobile view specifically - they do not affect the desktop version.</div>
+      </div>
+      <div class="trouble-item">
+        <div class="trouble-q">The navigation menu is not showing on the published site</div>
+        <div class="trouble-a">Three things to check in sequence. First: the navigation toggle must be on in website settings (globe icon → navigation). Second: every page that should appear in the nav needs a label - open the page panel, double-click the page name, and confirm it is not blank. Third: confirm you are viewing the published URL, not the editor preview or the "Preview" button. The navigation menu only renders on the actual live published site. Unnamed pages are excluded from navigation automatically regardless of whether the toggle is on.</div>
+      </div>
+      <div class="trouble-item">
+        <div class="trouble-q">Custom domain is connected but the site is not loading at the new URL</div>
+        <div class="trouble-a">DNS propagation takes time. After adding the CNAME record in your registrar, wait 30 minutes to 2 hours before expecting the domain to resolve. If it still does not work after 4 hours: verify the CNAME record has no extra spaces before or after the value, confirm you are editing DNS for the correct domain (root domain vs subdomain), check that the CNAME target exactly matches what Canva provided (copy-paste, do not retype), and clear your browser cache before retesting. If all of those are correct and it still fails after 24 hours, contact your domain registrar - some registrars have known issues with CNAME propagation that require their support team to clear.</div>
+      </div>
+      <div class="trouble-item">
+        <div class="trouble-q">I updated the site but clients are still seeing the old version</div>
+        <div class="trouble-a">Browser caching. Instruct clients to hard refresh: Cmd+Shift+R on Mac, Ctrl+Shift+R on Windows or Chrome on PC. This forces the browser to fetch the current version rather than the cached one. If you are testing changes yourself and they are not appearing after a hard refresh, confirm that you published the update - making changes in the Canva editor does not update the live site until you explicitly publish again via Share → Publish as website.</div>
+      </div>
+      <div class="trouble-item">
+        <div class="trouble-q">An embedded form is not displaying correctly on the published site</div>
+        <div class="trouble-a">Form embed rendering differs between the Canva editor preview and the live published site. Always test the live URL after embedding a form. If the form is clipped or overflowing its container, adjust the embed element's height in Canva - drag the bottom edge of the embed element to give it more vertical space. If the form is not loading at all, check that the embed service (Tally, Google Forms, Typeform) allows embedding from external domains and that you are using the embed URL rather than the form's public URL.</div>
+      </div>
+      <div class="trouble-item">
+        <div class="trouble-q">The video background is not playing on mobile</div>
+        <div class="trouble-a">iOS Safari and some Android browsers block autoplay video to conserve data. This is a browser-level restriction, not a Canva limitation. For mobile, Canva falls back to a static image extracted from the video. To control what that fallback image looks like, ensure the first frame of your video file is a clean, representative frame. Alternatively, design the hero section so it looks complete without the video - treat the video as an enhancement, not a requirement.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     MODULE 02 - AI That Looks Human
+═══════════════════════════════════════════════════════ -->
+<div class="module" id="m2">
+  <div class="module-tag"><span class="dot green"></span>Module 02</div>
+  <h2>AI That Looks Human</h2>
+  <p class="module-lead">There is a meaningful difference between using AI to generate images from scratch and using AI to improve photos you already own. The first produces results that look like AI art - a specific visual quality that audiences have become remarkably accurate at identifying, even when they cannot explain exactly what they are seeing. Slightly wrong skin texture. Backgrounds with impossible geometry. The particular smoothness of generated fabric. The second approach - using AI as a refinement layer on real photography - is invisible. Nobody can tell. The photo still looks real because it is. This module covers the second approach exclusively, and explains the philosophy behind why it produces better professional results than AI generation will for the foreseeable future.</p>
+
+  <div class="section">
+    <div class="section-title">Why generated images undermine professional credibility</div>
+    <p>Your visual identity communicates something before anyone reads a word. Real photography communicates: this is a real person, a real business, a real place. AI-generated imagery communicates something different - and it is increasingly detectable. Audiences do not need to consciously identify an image as AI-generated for it to affect their trust. The uncanny quality registers subliminally and affects perception of authenticity.</p>
+    <p>This matters more for service professionals than for product businesses. When you are selling your expertise, your judgment, and your time, the authenticity of your visual presentation directly mirrors the perceived authenticity of what you are selling. Stock photography has always had this problem. AI-generated imagery amplifies it. Real photos of your actual workspace, your actual work, and your actual self are the highest-credibility visual assets you can use, even when they are imperfect.</p>
+    <p>Magic Studio tools in Canva solve a real problem: real photos are often technically imperfect. Wrong background. Awkward framing. Distracting elements in the shot. Magic Studio lets you fix these technical problems without replacing the authentic core of the image. That is the right use case. Using it to generate imagery where none exists is the wrong use case for professional branding.</p>
+    <div class="callout tip"><strong>Build your photo library before anything else.</strong> Spend 90 minutes taking photos of your workspace, your tools, your process, and yourself in your work environment. Use natural light. A phone camera on a tripod is sufficient. These imperfect real photos are more valuable to your brand than any amount of AI-generated alternatives. Magic Studio then makes them technically clean.</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Magic Edit - replacing and repairing specific areas</div>
+    <p>Magic Edit paints over any region of a photo and replaces it with something you describe in text. Canva's AI generates new content for the painted area while preserving the surrounding context, lighting, and texture. The result, when done correctly, is indistinguishable from the original photo.</p>
+    <p>Where Magic Edit excels: removing specific objects from a scene, replacing a wall colour behind a subject, swapping a product colour without a re-shoot, removing a person or item from a background that would otherwise require complex masking, and cleaning up distracting elements in the periphery of a photo.</p>
+    <p>Where Magic Edit struggles: replacing large areas of the image where the surrounding context provides insufficient information for convincing generation, replacing areas with complex patterns or textures at the boundary, and working with source images below approximately 1500px on the short side.</p>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Import your source image at the highest resolution available.</strong> This is not optional - it is the single most important factor in Magic Edit output quality. Resize down after editing if needed. Never resize down before editing.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Select the image element in Canva, then click Edit photo → Magic Edit.</strong> The brush cursor activates automatically. The brush size adjusts with the scroll wheel or slider.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Paint the area to replace.</strong> Painted areas show as a blue overlay. Include slightly more area than the element you want to replace - the AI needs surrounding context to generate convincing content at the boundary. If you paint too tightly, the boundary will be visible.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Write a specific replacement description.</strong> This is where most users underperform. "Wall" produces generic results. "Smooth matte off-white plaster wall with subtle texture, soft shadow on left edge" produces a specific, realistic result. Include: material, colour with specificity (not "grey" but "warm light grey"), surface finish (matte, glossy, rough, smooth), and any lighting characteristics relevant to the surrounding scene.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Review the generated options.</strong> Canva produces three or four variations. Compare them at full size, not at the thumbnail. The most convincing option will have seamless edges, consistent lighting with the rest of the image, and the right material texture. If none are convincing, refine your description and regenerate. Adding "matching the lighting and shadow of the surrounding scene" to any description improves consistency significantly.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Apply and review the full image at 100% zoom.</strong> After applying, zoom to 100% and check the boundary of the edited region at full resolution. Artifacts that are invisible at a glance become obvious at full size. If you see edge artifacts, you can run Magic Edit again over just the artifact area to clean it up.</div></div>
+    </div>
+    <div class="callout warn"><strong>The resolution requirement is not flexible.</strong> Magic Edit produces blurry, visibly artificial results on images below approximately 1500px on the shorter side. This is a model limitation, not a Canva limitation. If your source image is low resolution, no amount of description quality will produce a clean result. Invest in source quality - it determines output quality for every AI tool you will ever use.</div>
+    <div class="ai-note"><strong>Prompt formula that consistently produces good results:</strong> "[Material] [Colour with specificity] [Surface finish], matching the lighting direction and colour temperature of the surrounding image. No visible seams or artifacts at the boundary." Example: "Smooth matte warm white wall with very subtle plaster texture, matching the soft warm daylight in the surrounding image. No visible seams or artifacts at the boundary."</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Magic Expand - extending the frame without re-shooting</div>
+    <p>Magic Expand extends the canvas of an existing image beyond its original borders, generating new content that continues the scene. The most valuable use case: a photo that was shot with tight framing that needs to fit a wider format. A headshot that needs to become a LinkedIn banner. A product shot that needs more negative space for text placement. A landscape that needs to be 16:9 but was shot square.</p>
+    <p>What makes Magic Expand work well versus poorly comes down almost entirely to what is at the edge of the original image. Simple, consistent backgrounds - plain walls, open sky, flat ground - generate expansions with no visible seam. Complex, patterned, or highly detailed edges generate expansions with obvious seams. Understanding this determines which photos to use Magic Expand on and which to avoid.</p>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Select the image and click Edit photo → Magic Expand.</strong> Choose between expanding the full canvas proportionally or expanding in one specific direction. Directional expansion gives more control - if you need more space above a landscape for text overlay, expand up only.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Set the expansion amount.</strong> Canva offers preset ratios (16:9, 4:3, 1:1, and others) or a custom size. The key constraint: keep expansions to under 30% of the original image width or height on any single side. The further you expand relative to the original, the more the generation has to invent and the more likely visible artifacts become. Large expansions almost always require multiple smaller expansion steps to look convincing.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Review all generated options before selecting.</strong> Magic Expand generates multiple variations. Compare them at the full image size. Look specifically at the seam between the original image and the expanded area. The best option will have a seamless transition in both colour temperature and texture. A slight colour or brightness mismatch at the seam is the most common artifact - reject any option where you can trace the original image boundary.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>If seams are visible, use Magic Edit to clean them.</strong> After applying a Magic Expand result, if a faint seam is still visible, paint over the seam boundary with Magic Edit and describe the background material. This second pass almost always eliminates remaining seam artifacts.</div></div>
+    </div>
+    <div class="concept-grid">
+      <div class="concept-box">
+        <div class="label">Works well for expansion</div>
+        <div class="val">Plain walls, open sky, grass, sand, water, flat desks, neutral backdrops, consistent textures with no strong patterns near the edge.</div>
+      </div>
+      <div class="concept-box">
+        <div class="label">Struggles with expansion</div>
+        <div class="val">Complex patterns (tile, wallpaper, brickwork), hard-edged architectural elements near the boundary, strong shadows with obvious directionality, human subjects near the edge.</div>
+      </div>
+    </div>
+    <div class="callout note"><strong>The intended use of expanded space.</strong> The space generated by Magic Expand is background and negative space, not the focal point of the image. Design your layouts so the generated area is covered by text, a logo, or a graphic overlay. This completely eliminates any concern about the generation quality in that area - it was never meant to be seen as primary content.</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Magic Grab - separating subject from background</div>
+    <p>Magic Grab detects the primary visual subject in a photo and separates it from the background as an independent layer. The result: two layers you can move, resize, and recolour independently. You can reposition the subject to a different area of the frame, place it against a completely different background, or extract it for use in a composite image.</p>
+    <p>Magic Grab is the free version of background isolation. Background Remover (Pro only) removes the background entirely, leaving a transparent cutout. Magic Grab keeps both layers but separates them. For most professional use cases - moving a subject within the frame, placing against a solid colour background, or using in a composite design - Magic Grab on the free plan is sufficient.</p>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Select the image and click Edit photo → Magic Grab.</strong> Canva analyses the image and identifies the primary subject. This takes 3-10 seconds. The subject and background are separated into independent layers shown in the layer panel.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Inspect the selection quality before proceeding.</strong> Zoom to 100% and examine the edges of the selection. Subjects with clear, defined edges against contrasting backgrounds isolate cleanly. Subjects with fine edges (hair, fur), transparent or translucent elements (glass, fabric), or low contrast against the background will have rough or incomplete edges that require manual correction.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Correct the selection using Erase and Restore brushes.</strong> In the layer editor that appears after Magic Grab, you will find an Erase brush (removes areas from the selection) and a Restore brush (adds areas back to the selection). Use these to clean up the edges. Work at 150% zoom or higher for precision. For hair and fine edges, a smaller brush and slower strokes produce cleaner results than large brush strokes.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Work with the separated layers.</strong> Once satisfied with the selection, you can: reposition the subject layer within the frame, resize it, change the background layer to a solid colour (click the background layer and use the colour picker), or add a completely new image as the background behind the subject layer.</div></div>
+    </div>
+    <div class="callout warn"><strong>Subjects with fine edges always need manual correction.</strong> Hair, fur, translucent fabric, and objects with complex silhouettes will have rough edges after Magic Grab regardless of source quality. This is a fundamental limitation of automated selection, not a failure of the tool. Budget 5-10 minutes per image for edge correction on any subject with fine details. The result is still significantly faster than manual masking in Photoshop.</div>
+    <div class="callout note"><strong>Magic Grab vs Background Remover.</strong> Magic Grab separates subject and background into independent layers - both are kept. Background Remover removes the background entirely, leaving a transparent cutout that can be exported as a PNG with a transparent background. Background Remover is Pro only and significantly faster for cases where you simply need the subject on transparency. If you produce product photos, headshots, or layered composites regularly, Background Remover alone is arguably the most valuable single Pro feature.</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Building a workflow that uses all three tools together</div>
+    <p>The highest-quality results come from using Magic Edit, Magic Expand, and Magic Grab in combination rather than independently. A typical professional photo editing workflow using all three:</p>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Step 1 - Clean the source image with Magic Edit.</strong> Remove any distracting background elements, unwanted objects, or imperfections in the scene. Do this first, before any other editing, while the full original context is intact for the AI to reference.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Step 2 - Expand the frame if needed with Magic Expand.</strong> If the image needs to fit a different format, expand it now while the background is clean and consistent. A clean background expands cleanly. A complex background does not.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Step 3 - Use Magic Grab to isolate the subject if placement needs to change.</strong> Once the background is clean and the frame is the right size, use Magic Grab to reposition the subject if the composition needs adjusting - moving the subject slightly left to create space for a text overlay, for example.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Step 4 - Add text and graphic elements over the prepared image.</strong> With the image technically clean, correctly framed, and composed well, add your text layers, brand elements, and calls to action. The image serves the content. The content drives the action.</div></div>
+    </div>
+    <div class="ai-note"><strong>Using Claude to evaluate your edited images:</strong> Upload your edited photo to Claude and prompt: "Evaluate this image for professional brand use. Does it look authentically photographed or does it show signs of AI editing? Note any areas where the edit is visible - seams, texture inconsistencies, lighting mismatches. What should I correct before publishing?" Claude will give specific, actionable feedback on editing quality.</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">AI tool availability by plan</div>
+    <table class="data-table">
+      <thead><tr><th>Tool</th><th>Free</th><th>Pro</th><th>Primary use case</th></tr></thead>
+      <tbody>
+        <tr><td>Magic Edit</td><td>Limited uses/month</td><td>Unlimited</td><td>Removing/replacing specific areas of a photo</td></tr>
+        <tr><td>Magic Expand</td><td>Limited uses/month</td><td>Unlimited</td><td>Extending image frame for different formats</td></tr>
+        <tr><td>Magic Grab</td><td><span class="badge free">Available free</span></td><td>Full resolution export</td><td>Separating subject from background</td></tr>
+        <tr><td>Background Remover</td><td>Not available</td><td><span class="badge pro">Pro only</span></td><td>Clean transparent cutout of any subject</td></tr>
+        <tr><td>Magic Write</td><td>25 uses free</td><td>Unlimited</td><td>AI text generation within Canva</td></tr>
+        <tr><td>AI image generation</td><td>Limited monthly credits</td><td>Expanded credits</td><td>Not recommended for professional branding</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="troubleshoot">
+    <div class="troubleshoot-header">Common Issues - Magic Studio</div>
+    <div class="troubleshoot-body">
+      <div class="trouble-item">
+        <div class="trouble-q">Magic Edit output consistently looks blurry or artificially smooth</div>
+        <div class="trouble-a">Source resolution. Magic Edit requires a minimum of approximately 1500px on the shorter dimension for clean output. Below this threshold, the generated content cannot match the detail density of the surrounding image, and the result looks visibly artificial regardless of how good the text description is. Check your image dimensions before starting (click the image in Canva and look at the size in the toolbar). If the image is below 1500px, source a higher resolution version. If no higher resolution is available, use Magic Edit only on very small areas where the resolution limitation is less visible.</div>
+      </div>
+      <div class="trouble-item">
+        <div class="trouble-q">Magic Edit is generating something completely different from what I described</div>
+        <div class="trouble-a">Two causes: the description is too abstract, or the painted area is too large relative to the existing context. For abstract descriptions: replace category words with specific material and property words. Not "background" but "smooth matte concrete wall." Not "floor" but "light oak hardwood floor with fine grain texture." For large areas: break the edit into smaller sections, editing adjacent areas sequentially rather than one large paint stroke. The AI uses surrounding pixels as context - the more context available, the more constrained and accurate the generation.</div>
+      </div>
+      <div class="trouble-item">
+        <div class="trouble-q">Magic Expand is creating a visible line where the original image ends</div>
+        <div class="trouble-a">This is the seam artifact that results from a complex or high-contrast edge in the original image. The fix sequence: first, try selecting a different generated variation - sometimes a different option in the same generation set will have a cleaner seam. If none of the options are seam-free, apply the best one and use Magic Edit on just the seam boundary. Paint a narrow strip over the seam and describe the background material - this second pass almost always eliminates the remaining artifact. If the seam is still visible after Magic Edit correction, the source image background near the edge may be too complex for clean expansion and this particular photo may not be suitable for this format change.</div>
+      </div>
+      <div class="trouble-item">
+        <div class="trouble-q">I have used my free monthly limit for Magic Edit or Expand</div>
+        <div class="trouble-a">Free tier monthly limits reset on your Canva account anniversary date. If you hit the limit before reset: plan remaining edits for the start of next month when the allowance resets, use remove.bg (free tier available) as a substitute for background removal tasks, or consider whether consistent hitting of free limits indicates that Pro would pay for itself through the time saved on these tasks.</div>
+      </div>
+      <div class="trouble-item">
+        <div class="trouble-q">Magic Grab left rough edges around my subject's hair</div>
+        <div class="trouble-a">Fine hair edges are the most challenging subject matter for any automated selection tool, including professional software like Photoshop. The approach that produces the best results in Canva: after Magic Grab runs, zoom to 200% and use the Restore brush at a small size (20-30px) to bring back fine hair strands that were removed, and the Erase brush at a small size to remove halo artifacts around the hair perimeter. Work in short strokes, not long sweeping ones. For very complex hair, accept that some softness at the hairline is unavoidable - position the subject against a background colour close to the original background to minimise the visibility of edge imperfections.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- ══════════════════════════════════════════════════════
+     MODULE 03 - Brand Kit + Bulk Create
+═══════════════════════════════════════════════════════ -->
+<div class="module" id="m3">
+  <div class="module-tag"><span class="dot blue"></span>Module 03</div>
+  <h2>Brand Kit + Bulk Create</h2>
+  <p class="module-lead">Brand Kit and Bulk Create are the two Canva features with the highest return on the time you invest in them. Brand Kit eliminates the invisible tax of inconsistent visual decisions - the five minutes spent choosing a colour that should already be decided, the ten minutes fixing a design where the wrong font was used, the creeping drift where content published six months apart no longer looks like it came from the same brand. Bulk Create eliminates repetition entirely - if you have ever produced the same layout with different content more than three times, Bulk Create should have been doing that work for you. This module covers both in full, including the Content Planner integration and the AI workflow that makes Bulk Create dramatically more powerful.</p>
+
+  <div class="section">
+    <div class="section-title">Understanding what Brand Kit actually does</div>
+    <p>Brand Kit is not just a colour palette saved somewhere in Canva. It is a system that makes your brand colours, fonts, and logos the default option in every design tool across your entire workspace. When you open the colour picker in any Canva design and your Brand Kit is configured, your brand colours appear first - before any other colour. When you change a font, your brand fonts appear first. When you need a logo, your uploaded logos are immediately available without searching.</p>
+    <p>The impact of this is subtle but significant. Inconsistency in visual identity is almost never intentional. It happens because someone was in a hurry and picked a colour from memory that was slightly wrong. Or used a font that was close but not the defined brand font. Brand Kit makes the correct choice the easiest choice. That is how it prevents brand drift - not by restricting options, but by making the right option the most accessible one.</p>
+    <div class="callout tip"><strong>Brand Kit works across your entire team.</strong> If you are on a Pro plan and share your workspace with team members or collaborators, every person with access to the workspace has access to the Brand Kit. This means a designer you hire, a VA who manages your social content, or a team member creating internal documents will all work from the same colours and fonts automatically. This is one of the highest-leverage arguments for Pro if you work with any collaborators.</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Setting up Brand Kit correctly from scratch</div>
+    <p>Most people rush Brand Kit setup and end up with an incomplete kit that partially works. Taking an extra 30 minutes to do this thoroughly pays dividends for every design you produce from that point forward.</p>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Access Brand Kit.</strong> In any Canva design, look for Brand Hub in the left sidebar panel. Alternatively, go to the main Canva dashboard and find Brand Hub in the left navigation. On the free plan, you have one Brand Kit. On Pro, you can create multiple kits - one per brand, client, or project context.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Name the kit and set the primary identity.</strong> Name your Brand Kit after your business or brand. This becomes relevant when you have multiple kits and need to know which one to activate. Click on the kit name to rename it.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Add brand colours as hex codes with role-based names.</strong> Click the + button in the Colours section and enter each hex code. Name each colour by its role in your brand system, not by its colour name. "Primary" tells you how to use it. "Forest Green" just tells you what it is. Suggested naming: Primary, Secondary, Accent, Light Background, Dark Background, Text Dark, Text Light. Every colour that appears in your designs should have a named entry in Brand Kit.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Find your exact hex codes before entering them.</strong> Do not guess hex codes or colour-pick from a logo file in Canva. Use the authoritative source: your brand guidelines document if you have one, the hex codes from the designer who created your branding, or - if you are building your brand from scratch - use a colour palette tool like Coolors or Adobe Color to generate and confirm your palette before entering it. Entering approximations creates exactly the kind of subtle inconsistency you are trying to prevent.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Set typography.</strong> In the Fonts section, set your heading font, body font, and optionally a third accent font. Free plan: choose from Canva's built-in library. Search by font name if you know which font you want. Pro plan: click Upload a font to upload .ttf or .otf files for any purchased or licensed typefaces your brand uses. Do not exceed three fonts in your Brand Kit - additional fonts will be ignored in practice.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Upload logo variations.</strong> In the Logos section, upload a minimum of three versions of your logo: full colour on a light background (the version used most often), full colour on a dark background (for dark section overlays, dark presentation slides, dark email headers), and a single-colour or all-white version (for use on coloured backgrounds where the full-colour version loses legibility). Upload as PNG with transparent backgrounds where possible - this makes logos usable on any background.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Test the Brand Kit against real design scenarios.</strong> Open a new design and go through these checks: open the colour picker and verify your brand colours appear in the "Your brand" section. Select a text element and verify your brand fonts appear as the default suggestion. Click the logo icon in the elements panel and verify your uploaded logos appear. If any of these do not work as expected, return to the Brand Kit and confirm the entries were saved correctly.</div></div>
+    </div>
+    <div class="ai-note"><strong>If you do not have brand colours yet:</strong> Prompt Claude: "I am building a brand for a [describe your business type and tone]. Suggest a four-colour brand palette: one primary, one secondary, one accent, and one neutral. Provide the hex code for each. Explain in one sentence the psychology and usage role of each colour, and confirm that the combination has sufficient contrast for both light and dark background applications." Review the suggestion and adjust until it matches what you are building toward. Then enter those hex codes directly into Brand Kit.</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Applying Brand Kit to existing designs</div>
+    <p>Once your Brand Kit is configured, you can apply it to existing designs to replace their default colours and fonts with your brand's. This is useful when you start from a template or when you want to bring older designs into alignment with your current brand.</p>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Open the design and access Brand Hub from the left panel.</strong> Click on your Brand Kit. You will see an "Apply brand" option.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Review what will change before applying.</strong> Canva will show a preview of what the design will look like after the Brand Kit is applied. The automated application replaces colours by matching them to the nearest colour in your palette and replaces fonts with your brand font equivalents. Review the preview carefully - automated matching does not always align with design intent.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Apply the Brand Kit and do a manual review pass.</strong> After applying, go through every element in the design and check that colour and font assignments make sense. Automated application is a strong starting point - it is never a finished result. Expect to spend 5-15 minutes on manual corrections per design after automated application, especially for complex multi-element templates.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Save the corrected design as a template.</strong> Once you have manually verified the Brand Kit application, save the design as a custom Canva template. Go to File → Save as template. This template now has your brand applied correctly and serves as the starting point for all future designs of this type - you will never need to apply the Brand Kit to this design format again.</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Bulk Create: from concept to batch output</div>
+    <p>Bulk Create connects a data source (a CSV file or Google Sheet) to a Canva design template and generates one output design per row of data automatically. A spreadsheet with 50 rows produces 50 finished designs in under two minutes. This is not a niche feature for enterprise marketing teams - it is directly applicable to any professional who produces the same layout with different content on a regular basis.</p>
+    <p>Real use cases that are worth building for:</p>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Weekly or monthly social content batches.</strong> Plan your content for the month as a spreadsheet. Caption, hashtags, call to action, post date. One template, one spreadsheet, one Bulk Create run. Your month of posts is generated in the time it would have taken to make three manually.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Client deliverable packs.</strong> If you deliver reports, certificates, personalised summaries, or any document format to multiple clients, a Bulk Create template with client name, service details, and dates can generate the entire batch at once.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Product or service listings.</strong> If you have a catalog of products or services to showcase, each with a name, description, price, and image, a Bulk Create template turns your product spreadsheet into a complete set of visual cards, social posts, or catalog pages.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Event or announcement posts.</strong> A schedule of upcoming events, workshops, or announcements can be turned into a complete set of social graphics automatically. Event name, date, description, and image URL in a spreadsheet - one template generates them all.</div></div>
+    </div>
+    <div class="callout warn"><strong>Bulk Create is Pro only.</strong> It is not available on the free tier. If you produce repetitive content regularly and find yourself recreating the same layout with different content more than twice a week, Bulk Create alone typically recovers the Pro subscription cost within the first month of use.</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Building your first Bulk Create workflow step by step</div>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Prepare your data source.</strong> Create a spreadsheet (CSV or Google Sheet) with one row per output design. The first row is headers - these become your field names. Name them simply, no spaces or special characters: Caption, Headline, Price, Date, ClientName, ImageURL. Each subsequent row becomes one finished design. Save as CSV if using a spreadsheet app, or connect Google Sheets directly from Canva.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Design your master template.</strong> Create a single Canva design that represents the ideal version of one output. Design it completely - colours, fonts, layout, sizing. Where data will be inserted, use placeholder content ("Your Caption Here", "$00.00", "Client Name") so you can see how the layout handles real content.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Name the template elements to match your CSV headers.</strong> This is the critical step most users miss. Select a text element that will contain data. Right-click and select Rename. Name it exactly as the corresponding CSV column header - same capitalisation, same spelling, no spaces where there should not be any. "Caption" not "caption" or "CAPTION" if your header is "Caption." Repeat for every element that will receive data from the spreadsheet.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Connect your data source.</strong> In the Canva editor, go to Apps in the left panel and find Bulk Create. Click Connect data and upload your CSV or connect your Google Sheet. Canva reads your headers and attempts to match them to named elements in your template. Review every mapping before proceeding - a mismatched mapping means that field's data goes into the wrong element or not at all.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Run a test with 2-3 rows before generating the full batch.</strong> Bulk Create lets you select which rows to generate. Select rows 1-3 first and generate. Review the outputs carefully. Check text wrapping (does the caption fit in the allocated space for short and long captions?), image placement (does the image fill the frame correctly?), and data accuracy (is the right data in the right place?). Fix any issues in the template or the data before generating the full batch.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Generate the full batch and export.</strong> Once the test looks correct, generate all rows. Export as a ZIP of individual PNG files, a multi-page PDF, or individual files. For social posts, individual PNGs are typically the most useful export format. Review a sample of the batch before using - automated generation occasionally produces anomalous results on specific data rows.</div></div>
+    </div>
+    <div class="ai-note"><strong>Using AI to generate your spreadsheet data:</strong> This is one of the highest-leverage AI use cases for content creation. Prompt Claude: "Generate a CSV with 20 rows of Instagram post content for a [type of business]. Columns: Caption (under 150 characters), Hashtags (5-8 relevant tags, space separated), CallToAction (under 30 characters, e.g. 'Book a free call' or 'Link in bio'). Vary the caption topic and tone across rows - mix educational, promotional, and conversational posts. Output as raw CSV with headers on the first row, no additional text." Copy the output directly into a .csv file. Feed that file into Bulk Create. You have a month of content in under two minutes.</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Content Planner: scheduling without leaving Canva</div>
+    <p>The Content Planner lets you schedule social media posts directly from Canva to connected platforms without exporting files and uploading them to a separate scheduling tool. For solo professionals managing one to three social platforms, this eliminates the need for a Buffer, Later, or Hootsuite subscription.</p>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Connect your social accounts.</strong> From the Canva dashboard, click Content Planner in the left navigation. Click Connect account and authenticate each platform. You will need to log in once per platform. Social platforms (particularly Instagram and LinkedIn) expire these authentication connections periodically - re-authenticate any account showing a warning icon before scheduling. A failed authentication is the most common reason a post does not publish at the scheduled time.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Prepare your design completely before scheduling.</strong> Finalise all text, visuals, and any animated elements before entering the scheduling flow. Editing a post after scheduling requires deleting it from the queue and rescheduling from scratch. The Content Planner has no "edit scheduled post" function - treat every design as final before you schedule it.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Schedule from within the design.</strong> With your design open, click Share → Schedule. Select the platform, write your caption and hashtags in the scheduling panel, set the date and time. Canva converts your design to the correct format for the selected platform automatically. Confirm the timezone setting is correct in your Canva account settings before scheduling - scheduling at the wrong timezone is the most common scheduling error.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Review your schedule in the Content Planner calendar view.</strong> The Content Planner dashboard shows all scheduled posts in a calendar layout. Review the week or month view before finalising a content batch. Confirm spacing between posts looks appropriate for your platform, that there are no duplicate posts, and that any time-sensitive content (event announcements, limited offers) is scheduled with sufficient lead time.</div></div>
+    </div>
+    <div class="callout note"><strong>Instagram requires a Business or Creator account for auto-scheduling.</strong> On a personal Instagram account, Canva can send a reminder notification but cannot publish automatically. The post will not go live until you manually publish from the notification. Convert your account to Creator or Business in the Instagram app settings → Account → Switch to Professional Account. This also unlocks Instagram's own analytics features, which is a worthwhile additional benefit.</div>
+  </div>
+
+  <div class="troubleshoot">
+    <div class="troubleshoot-header">Common Issues - Brand Kit, Bulk Create, Content Planner</div>
+    <div class="troubleshoot-body">
+      <div class="trouble-item">
+        <div class="trouble-q">Brand Kit colours are not appearing in the colour picker when I design</div>
+        <div class="trouble-a">Brand Kit colours appear in a separate "Your brand" or "Brand" section at the top of the colour picker panel. Scroll up in the colour picker - this section is above the recently used colours and default palette. If it is still not visible, confirm that your Brand Kit is saved and that you are looking in the correct workspace. On a Pro plan with multiple Brand Kits, confirm the correct kit is set as active in Brand Hub.</div>
+      </div>
+      <div class="trouble-item">
+        <div class="trouble-q">Bulk Create is not mapping my columns correctly to the template</div>
+        <div class="trouble-a">Column headers in the CSV must exactly match the element names in the Canva template - same capitalisation, same spelling, no leading or trailing spaces. This is the most common Bulk Create failure. To verify: in Canva, right-click each named element and select Rename to see its current name. Compare it character by character with your CSV header. The most frequent mismatch is capitalisation: "caption" in the CSV versus "Caption" in the template. Fix the discrepancy in whichever is easier to change - the CSV header or the element name.</div>
+      </div>
+      <div class="trouble-item">
+        <div class="trouble-q">Text is overflowing the text box in some generated Bulk Create outputs</div>
+        <div class="trouble-a">Your template text boxes are sized for the length of your placeholder content, not for the longest content in your spreadsheet. Fix this by making text boxes larger in the template and testing with your longest data entry before generating the full batch. Alternatively, limit the character count in your data source - for caption fields, set a maximum of 150 characters and keep all entries within that limit. Canva does not automatically resize text boxes during Bulk Create generation.</div>
+      </div>
+      <div class="trouble-item">
+        <div class="trouble-q">Scheduled post did not publish and I have no error message</div>
+        <div class="trouble-a">The most common cause is an expired social platform authentication. Go to Content Planner → Connected accounts and check whether any accounts show a warning or disconnected status. Re-authenticate the relevant platform. Also check whether the post appears in the schedule at all - if it was removed from the queue, it means the publish attempt failed silently. Reschedule the post after re-authenticating. Instagram and LinkedIn are the most frequent offenders for silent authentication expiry.</div>
+      </div>
+      <div class="trouble-item">
+        <div class="trouble-q">Brand Kit applied to a template but some elements did not update</div>
+        <div class="trouble-a">Automated Brand Kit application matches colours by proximity - it replaces each existing colour with the nearest colour in your Brand Kit. Colours that are significantly different from anything in your Kit may not be updated, and the "nearest" match may not be the intended brand colour for that element. After automated application, manually select each element with an incorrect colour and update it from the Brand Kit colour picker. Text elements using fonts not in your Brand Kit will also not update automatically - check and correct typography manually after applying.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     MODULE 04 - The Upgrade Decision
+═══════════════════════════════════════════════════════ -->
+<div class="module" id="m4">
+  <div class="module-tag"><span class="dot purple"></span>Module 04</div>
+  <h2>The Upgrade Decision</h2>
+  <p class="module-lead">The question of whether to upgrade to Canva Pro is deceptively simple. It looks like a comparison of feature lists, but the correct frame is different: which specific limitations in the free tier are costing you real time or real money right now? Not might cost you. Not could potentially cost you. Actually costing you, this month, in measurable ways. This module gives you the complete information to answer that question for your specific workflow - and a framework for making the decision that will be right for you regardless of what anyone else recommends.</p>
+
+  <div class="section">
+    <div class="section-title">What the free plan actually includes - in full</div>
+    <p>The free plan is underestimated because it is described in terms of what it lacks rather than what it contains. Here is what it actually includes:</p>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>250,000+ templates</strong> across every format: social posts, presentations, documents, videos, websites, print, and more. The overwhelming majority of professional design needs are covered by free templates.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Complete design toolkit</strong> including photo editing, text tools, element library, frame tools, animation, and the full Canva canvas. The design tools themselves are not restricted on the free plan.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>5GB of cloud storage</strong> for photos, logos, brand assets, and designs. Sufficient for most solo professional needs unless you work with very high volumes of high-resolution photography.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>One Brand Kit</strong> with standard fonts from Canva's library. Covers the single-brand professional completely.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Content Planner</strong> for social scheduling to Instagram, Facebook, LinkedIn, Pinterest, and X. Full scheduling functionality at no cost.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Magic Studio AI tools</strong> including Magic Edit, Magic Expand, Magic Grab, and Magic Write - with monthly usage limits. Sufficient for occasional use; limiting for frequent professional use.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Canva Sites hosting</strong> for unlimited published websites at canva.site/yourname URLs. Full functionality including navigation, password protection, forms, and video.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Video editing</strong> including trim, transitions, and basic effects. Sufficient for social video content.</div></div>
+    </div>
+    <div class="callout tip"><strong>Run the free plan for 30 days of real use before evaluating an upgrade.</strong> Feature lists cannot tell you whether a specific limit will affect your specific workflow. Thirty days of real use will. You will either hit a limit that costs you meaningful time, or you will not. One month of real-world data is worth more than any amount of feature comparison.</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">The Pro features - evaluated honestly</div>
+    <p>Canva Pro costs $15/month billed monthly or $120/year ($10/month equivalent). These are the Pro-exclusive features worth evaluating individually:</p>
+    <table class="data-table">
+      <thead><tr><th>Feature</th><th>What it does</th><th>Worth the upgrade if</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Background Remover</strong></td><td>One-click background removal to transparency. Unlimited use.</td><td>You produce product photos, headshots, or composite images more than 2-3 times per month.</td></tr>
+        <tr><td><strong>Bulk Create</strong></td><td>Generate batches of designs from a spreadsheet automatically.</td><td>You produce the same layout with different content more than twice a week.</td></tr>
+        <tr><td><strong>Multiple Brand Kits</strong></td><td>Separate brand configurations for multiple brands or clients.</td><td>You manage more than one brand, work with freelance clients, or need separate brand contexts.</td></tr>
+        <tr><td><strong>Custom fonts</strong></td><td>Upload and use purchased or licensed typefaces (.ttf, .otf).</td><td>Your brand uses a specific purchased font that is not in Canva's library and brand consistency is a priority.</td></tr>
+        <tr><td><strong>Custom domain for site</strong></td><td>Connect yourdomain.com to a Canva Site instead of canva.site/you.</td><td>You need your Canva Site at your own domain for brand consistency or for a public-facing marketing site.</td></tr>
+        <tr><td><strong>SVG export</strong></td><td>Export designs as scalable vector graphics.</td><td>You produce logos, icons, or anything destined for print, large format, or developer handoff.</td></tr>
+        <tr><td><strong>Unlimited Magic Studio AI</strong></td><td>Removes monthly limits on Magic Edit, Magic Expand, and Magic Write.</td><td>You regularly hit the free tier limits on these tools during normal workflow.</td></tr>
+        <tr><td><strong>1TB storage</strong></td><td>200x more storage than free tier.</td><td>You work with very high volumes of high-resolution photography or video.</td></tr>
+        <tr><td><strong>Premium elements library</strong></td><td>Access to the full premium stock photo, video, and graphics library.</td><td>You regularly need premium stock assets that are not available in the free library.</td></tr>
+        <tr><td><strong>Remove Canva branding</strong></td><td>Removes the "Made in Canva" footer from published sites and shared designs.</td><td>Your brand presentation requires no third-party tool mentions on client-facing content.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-title">The calculation that actually clarifies the decision</div>
+    <p>The right question is not "does Pro have features I would use?" Almost every Pro feature sounds useful in the abstract. The right question is: what is the dollar value of the time I currently spend on tasks that Pro would eliminate or reduce?</p>
+    <p>Work through this calculation for your specific workflow:</p>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Background removal time.</strong> How many times per month do you need to remove an image background? Currently using remove.bg, Photoshop, or another tool? Multiply the number of times by the minutes per image. If you spend 30 minutes per month on background removal tasks and your time is worth $50/hour, that is $25 of time. Against a $15/month subscription, the math is clear.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Repetitive design time.</strong> How many times per month do you produce the same layout with different content manually? Multiply by the minutes per design. A social post that takes 20 minutes to produce manually, produced 10 times per month, is 3.3 hours. Bulk Create would produce all 10 in 10 minutes. If your time is worth $50/hour, that is $150 of recovered time against a $15 subscription.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Multi-brand switching time.</strong> If you manage multiple brands, how long does it take to adjust colours and fonts between brand contexts? Even 10 minutes per brand switch, three times a week, is 2+ hours per month. Multiple Brand Kits reduce this to a single click.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Subscriptions that Pro replaces.</strong> List every tool in your current stack that Canva Pro could replace: remove.bg (pay-per-image), Buffer or Later (scheduling subscription), stock photo services, Linktree Pro or Carrd (bio link or mini-site). Add up those monthly costs. If the total exceeds $15, Pro pays for itself on substitutions alone before considering time savings.</div></div>
+    </div>
+    <div class="concept-grid">
+      <div class="concept-box">
+        <div class="label">Stay on free if</div>
+        <div class="val">After 30 days of real use, no specific limit has cost you meaningful time or money. The free tier is genuinely sufficient for your workflow as it currently is.</div>
+      </div>
+      <div class="concept-box">
+        <div class="label">Upgrade to Pro if</div>
+        <div class="val">You have hit a specific limit that costs you time, you manage multiple brands, you regularly need background removal, or the combined subscription replacements exceed $15/month.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">What Canva Pro replaces in your tool stack</div>
+    <table class="data-table">
+      <thead><tr><th>Cancel this</th><th>Pro replaces it with</th><th>Approximate saving</th></tr></thead>
+      <tbody>
+        <tr><td>remove.bg (pay per image)</td><td>Background Remover - unlimited, one click</td><td>Varies by volume</td></tr>
+        <tr><td>Buffer Essentials ($6/month)</td><td>Content Planner - built into Canva</td><td>$6/month</td></tr>
+        <tr><td>Later Starter ($18/month)</td><td>Content Planner - built into Canva</td><td>$18/month</td></tr>
+        <tr><td>Linktree Pro ($9/month)</td><td>Canva Site with custom domain</td><td>$9/month</td></tr>
+        <tr><td>Carrd Pro ($19/year)</td><td>Canva Site with custom domain</td><td>$19/year</td></tr>
+        <tr><td>Adobe Stock (limited license)</td><td>Canva premium elements library</td><td>$10-30/month</td></tr>
+        <tr><td>Unsplash Pro / Getty Images</td><td>Canva premium photo library</td><td>Varies</td></tr>
+      </tbody>
+    </table>
+    <div class="callout warn"><strong>Annual vs monthly billing.</strong> If you decide to upgrade, the annual plan at $120/year ($10/month effective) saves $60 versus monthly billing at $15/month ($180/year). Only commit to annual after 90 days of confirmed regular use. Monthly is the right starting point. Switch to annual when you have confirmed that Pro features are part of your regular workflow.</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     MODULE 05 - Typography That Works
+═══════════════════════════════════════════════════════ -->
+<div class="module" id="m5">
+  <div class="module-tag"><span class="dot amber"></span>Module 05</div>
+  <h2>Typography That Works</h2>
+  <p class="module-lead">Typography is the design decision that most affects whether your content reads as professional or amateur - and it operates mostly below conscious awareness. Visitors do not think "that font pairing is wrong." They think "something about this feels off" or "this looks cheap" without being able to articulate why. Conversely, well-chosen typography creates a feeling of authority and intentionality that makes every other design decision look better. This module covers the logic behind choosing and pairing fonts, how hierarchy works in practice, and how to configure typography in Canva so every design you produce benefits from the decisions you make here once.</p>
+
+  <div class="section">
+    <div class="section-title">Why typography is the highest-leverage design decision</div>
+    <p>You can use the right colours and get the layout approximately correct and still produce something that looks unprofessional if the typography is wrong. The reverse is also true: clean, well-chosen typography can carry an otherwise simple design and make it look polished. Typography is load-bearing in a way that most other design elements are not.</p>
+    <p>The reason is that typography is structural. It creates the visual hierarchy that tells the reader's eye where to look first, what to read next, and what to skim. When hierarchy breaks down - when everything competes for attention at the same visual weight - readability collapses. The reader gives up before finishing, even if the content was valuable. When hierarchy works, the reader moves through content naturally, without effort, and retains more of what they read.</p>
+    <div class="callout note"><strong>The fastest way to diagnose a typography problem.</strong> Squint at your design until the text becomes unreadable. You should still be able to tell clearly which elements are headings, which are subheadings, and which are body text, purely from their size and weight. If everything blurs into visual sameness when squinting, hierarchy is broken regardless of how the fonts look at full clarity.</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">The two-font rule and why it works</div>
+    <p>Use two fonts in any design system. Not one. Not three. Not more. This is not a stylistic preference - it is a structural decision based on how visual contrast and consistency work together.</p>
+    <p>One font creates visual monotony. A single typeface used for both headings and body text, even with significant size and weight differences, creates a flat, undifferentiated visual field. The reader's eye has no clear entry point. Everything is the same.</p>
+    <p>Three or more fonts create visual noise. Each additional typeface introduces its own set of proportions, weights, and character shapes. The more fonts in a design, the more cognitive work the viewer has to do to parse the visual information, and the more likely the design is to look like a ransom note rather than a considered brand identity.</p>
+    <p>Two fonts, used with intention and contrast, provide both the differentiation needed for hierarchy and the consistency needed for coherence. The heading font carries personality. The body font carries clarity. Together they create a typographic system that communicates both what you are saying and something about who is saying it.</p>
+    <div class="callout tip"><strong>The exception to the two-font rule.</strong> A monospace font used for labels, captions, technical content, or decorative elements can be added as a third typeface without creating visual noise, because it occupies a clearly distinct visual niche from both the heading and body font. The JetBrains Mono captions and labels in this guide are an example. The rule to follow: a third font is only appropriate when it serves a completely distinct typographic role with zero overlap with the heading or body fonts.</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">The three reliable pairing approaches</div>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Serif heading + sans-serif body.</strong> The most versatile and reliable pairing. The serif heading provides visual personality, authority, and differentiation. The sans-serif body provides clarity, neutrality, and readability at small sizes. This combination works for almost every professional context from consulting and finance to creative services and coaching. Examples that work well in Canva: Playfair Display + DM Sans, Cormorant Garamond + Inter, Source Serif 4 + Inter, Libre Baskerville + Lato.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Distinctive sans heading + neutral sans body.</strong> A modern, editorial approach. Both fonts are sans-serif, but with clear contrast in character shape, proportions, or personality. The heading font has a distinctive quality (geometric, condensed, or with a strong visual voice) while the body font is neutral and optimised for readability. Works well for contemporary brands, tech, and design-forward services. Examples: Space Grotesk + Inter, Syne + DM Sans, Clash Display + Outfit, Bebas Neue + Open Sans.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Same family, different weights.</strong> The most reliably cohesive and failsafe approach. Bold or Black weight for headings, Regular for body, from the same typeface family. Zero visual conflict because both fonts share the same proportions, character shapes, and design philosophy. Completely consistent. The trade-off is less personality contrast between heading and body. Works best for brands where visual consistency is more important than personality differentiation. Examples: Inter Bold + Inter Regular, DM Sans SemiBold + DM Sans Regular, Nunito Bold + Nunito Regular.</div></div>
+    </div>
+    <div class="callout warn"><strong>What to actively avoid.</strong> Two decorative or display fonts used together. Script fonts at any size below 24px - they become illegible. Novelty or themed fonts (holiday, graffiti, typewriter) for body text. Fonts that look almost but not quite the same - this creates visual unease without the contrast that makes the difference intentional. When two fonts look like they could be mistaken for the same font with minor differences, pick one and use it for both roles.</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Building a typographic hierarchy</div>
+    <p>Hierarchy is what guides a viewer through your content. It is not about making some text bigger than other text - it is about creating a clear visual sequence so the viewer instinctively knows where to look first, what to read next, and what to skim.</p>
+    <table class="data-table">
+      <thead><tr><th>Level</th><th>Role in the design</th><th>Typical size range</th><th>Weight</th><th>Usage</th></tr></thead>
+      <tbody>
+        <tr><td>Display</td><td>Primary attention-getter, hero headline</td><td>40-72px</td><td>Bold or Black</td><td>One per design, maximum two</td></tr>
+        <tr><td>Heading H2</td><td>Section titles, major divisions</td><td>24-36px</td><td>Bold or SemiBold</td><td>2-6 per design typically</td></tr>
+        <tr><td>Heading H3</td><td>Subsections, card titles, feature names</td><td>18-22px</td><td>SemiBold or Medium</td><td>Used as needed</td></tr>
+        <tr><td>Body</td><td>Main readable content</td><td>14-16px</td><td>Regular</td><td>Primary text throughout</td></tr>
+        <tr><td>Caption / Label</td><td>Supporting information, metadata, captions</td><td>11-13px</td><td>Regular or Medium</td><td>Used sparingly for supporting detail</td></tr>
+      </tbody>
+    </table>
+    <p>Size is not the only hierarchy tool. Weight, colour, spacing, and text transformation (uppercase) all contribute to visual hierarchy. A section label at 11px in uppercase with wide letter spacing can feel more prominent than body text at 14px because of its distinct visual treatment. Use all five tools together rather than relying on size alone.</p>
+    <div class="callout note"><strong>The 3x size jump rule.</strong> For hierarchy to be visually clear at a glance, the jump in size between heading and body text should be significant enough to be unambiguous. A 24px heading over 16px body is a 1.5x ratio - visually similar. A 36px heading over 16px body is a 2.25x ratio - clearly hierarchical. Aim for at least a 2x size jump between your primary heading and body text size.</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Font selection for professional credibility</div>
+    <p>Different fonts communicate different brand personalities. Understanding this allows you to make conscious choices rather than instinctive ones.</p>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>For authority and expertise (consulting, finance, legal, coaching):</strong> Classic serifs signal established credibility. Playfair Display, Cormorant Garamond, Source Serif 4, Libre Baskerville. Paired with clean, neutral sans-serif body text.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>For modern and contemporary (tech, digital services, design):</strong> Geometric or humanist sans-serifs with strong personality. Space Grotesk, Syne, DM Sans, Plus Jakarta Sans. Paired with neutral high-readability body text like Inter or Open Sans.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>For approachable and warm (wellness, coaching, community):</strong> Rounded sans-serifs or soft geometric fonts. Nunito, Poppins, Quicksand, Jost. These create an accessible, friendly impression while remaining professional.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>For creative and expressive (artists, designers, makers):</strong> More distinctive display fonts are appropriate because the brand itself values distinctiveness. Fraunces, Bebas Neue, Cabinet Grotesk, Clash Display. Paired with highly neutral body text to contain the expression.</div></div>
+    </div>
+    <div class="ai-note"><strong>Font pairing prompt for Claude:</strong> "Suggest three font pairings for a [type of business]. The brand tone should feel [adjective - e.g., authoritative and warm / modern and direct / creative and professional]. For each pairing: name the heading font, name the body font, confirm both are available free in Canva's built-in library, and explain in one sentence why they work together. Also tell me one pairing to avoid for this brand type and why."</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Configuring typography in Canva Brand Kit</div>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Set your heading font first.</strong> In Brand Kit → Fonts, click the heading font field and search for your chosen font by name. If you are on Pro and uploading a custom font, click Upload a font and select the .ttf or .otf file for your heading typeface.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Set your body font.</strong> Search or upload for your body typeface. Confirm it is set to Regular weight as the default - body text should start at Regular and only use Bold for emphasis, never as the default body weight.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Create a typographic reference design.</strong> Build a simple one-page design showing your fonts in use at each hierarchy level: a display heading, an H2, an H3, body paragraph text, and a caption. Show them in both light and dark background contexts. Save this as a reference you can open when making font decisions on new designs.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Live with the pairing for 48 hours before committing.</strong> Font choices that look good in isolation sometimes feel wrong in context with real content. Create a test design using your actual brand content - a real headline, real body copy, real captions - and look at it the next day with fresh eyes before finalising the Brand Kit.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Apply to all master templates.</strong> Once your typography is confirmed in Brand Kit, open each of your saved design templates and apply the Brand Kit to update fonts. Review and correct the automated application as needed. After correction, save each template again. From this point forward, all new designs from these templates will start with correct typography.</div></div>
+    </div>
+  </div>
+
+  <div class="troubleshoot">
+    <div class="troubleshoot-header">Common Issues - Typography</div>
+    <div class="troubleshoot-body">
+      <div class="trouble-item">
+        <div class="trouble-q">My uploaded Pro font is not appearing in the editor font list</div>
+        <div class="trouble-a">Uploaded custom fonts do not appear in the general Canva font browser alongside standard fonts. They are accessible only through the Brand Hub panel within the editor. Open the left panel in your design, navigate to Brand Hub, and select your active Brand Kit - your uploaded fonts will appear in the brand fonts section. This is a known UX limitation in Canva. If you want to use an uploaded font in a specific text element, select the element, open Brand Hub, and apply the font from there.</div>
+      </div>
+      <div class="trouble-item">
+        <div class="trouble-q">Typography looks correct on desktop but breaks on mobile</div>
+        <div class="trouble-a">Large display and heading font sizes (40px+) almost always need reducing for mobile screens. Headings that are proportionate on a 1400px desktop layout are often overwhelming on a 390px phone screen. In mobile preview mode, reduce heading sizes by 30-40%. Also check line height settings - tight line heights that prevent overlap on desktop can cause text to overlap when it reflows on mobile. Finally, check that no text element has a fixed width that causes the text to overflow its container when the viewport narrows.</div>
+      </div>
+      <div class="trouble-item">
+        <div class="trouble-q">I applied Brand Kit fonts to a template and the result looks worse than before</div>
+        <div class="trouble-a">Template font pairings are designed to work with each other based on the template's specific proportions and visual style. Automated font replacement changes the typeface without adjusting the sizing, weight assignments, or letter spacing that the original designer calibrated for that specific template. After applying, you will need to review and manually adjust: size relationships between heading and body text, weight assignments (the automated replacement may map to the wrong weight variant), and letter spacing (some heading fonts need tracking adjustments that the template's original font did not). Treat Brand Kit application as a starting point requiring 10-20 minutes of manual refinement, not a finished result.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     MODULE 06 - Palette to Production
+═══════════════════════════════════════════════════════ -->
+<div class="module" id="m6">
+  <div class="module-tag"><span class="dot red"></span>Module 06</div>
+  <h2>Palette to Production</h2>
+  <p class="module-lead">A colour palette is a list of hex codes. A colour system is that list plus a set of rules governing exactly how, where, and in what proportions each colour is used. The difference between a brand that looks cohesive across every touchpoint and a brand that looks inconsistent is almost always the presence or absence of that second layer. Professionals who understand colour systems produce more visually consistent content faster - because the decisions are made once, encoded into the system, and applied automatically rather than being made anew on every design. This module covers how to build a colour system, how to implement it in Canva Brand Kit, and how to apply it consistently across your site, social content, and client deliverables.</p>
+
+  <div class="section">
+    <div class="section-title">The four-role colour system</div>
+    <p>Every professional brand colour system assigns each colour a specific role. Without role assignments, colours get used interchangeably, which creates inconsistency. With role assignments, every colour decision has a clear answer.</p>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Primary colour - the dominant brand colour.</strong> This is the colour most associated with your brand. It appears on the majority of brand touchpoints: your logo (typically), your hero section background, major design elements, and anywhere you want to assert brand presence. The primary colour should be strong enough to work on its own but not so saturated that it overwhelms when used at large scale.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Secondary colour - the supporting colour.</strong> Works alongside the primary without competing with it. Used for section backgrounds that alternate with the primary, supporting graphic elements, card backgrounds, and second-tier design elements. The secondary colour should be complementary to or harmonious with the primary - similar in tone, lower in saturation, or from the same colour family.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Accent colour - the attention colour.</strong> High contrast with the primary and secondary colours. Used exclusively for calls to action (buttons, links, key highlights), important labels, and any element where you need to direct the viewer's attention. The accent colour's power comes entirely from how rarely it is used - if it appears everywhere, it stops drawing attention. Reserve it deliberately.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Neutral colours - backgrounds and text.</strong> Typically one or two near-white or off-white values for backgrounds, and one or two near-black or dark grey values for text. Neutral colours do the structural work that allows the other three colours to operate. They should be truly neutral - warm or cool depending on the overall palette temperature, but never competing with the primary, secondary, or accent colours.</div></div>
+    </div>
+    <div class="callout tip"><strong>The 60-30-10 distribution rule.</strong> In any complete design, use your primary colour for approximately 60% of the visual space (large backgrounds, dominant elements), your secondary for 30% (supporting sections, second-tier elements), and your accent for 10% (CTAs, highlights, key labels). This ratio creates visual balance and ensures the accent colour retains its attention-drawing power. Apply it loosely as a mental model, not as a measured calculation.</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Building a colour system before it goes into Brand Kit</div>
+    <p>Brand Kit stores your colours. But the quality of your colour system is determined before you open Brand Kit - it is determined by how well you have defined the relationship between your colours and the rules governing their use. Entering colours into Brand Kit without a usage system just makes a slightly better organised version of the same inconsistent approach.</p>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Start with your primary colour and derive the rest.</strong> If you have a primary brand colour already, derive the other roles from it systematically. Use a colour harmony tool (Adobe Color at color.adobe.com is free) to find complementary, triadic, or analogous colours that work with your primary. Systematic derivation produces palettes that feel intentional - because they are.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Check contrast ratios for every text-on-background combination.</strong> Every colour combination you plan to use for text over a background needs to be checked for accessibility. Use WebAIM's Contrast Checker (webaim.org/resources/contrastchecker) - it is free and takes 30 seconds per combination. Text on background should be a minimum of 4.5:1 contrast ratio for normal text and 3:1 for large text (18px+ bold or 24px+ regular). Combinations that fail this threshold are not only inaccessible - they also feel uncomfortable to read for all users, not just those with visual impairments.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Test your palette on light and dark backgrounds.</strong> Your brand will appear on both. Open a Canva design and create four rectangles: your primary as background with secondary text, your secondary as background with primary text, a light neutral background with dark text, and a dark background with light text. All four need to look correct and have passing contrast ratios before the palette is final.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Write a one-sentence usage rule for each colour.</strong> For example: "Primary (#1e3a5f): Used for hero sections, primary buttons, and major branded elements. Never used for body text." "Accent (#c44b0c): Used exclusively for CTA buttons and important highlights. Maximum two instances per design." These rules live in a reference document you consult when making colour decisions - not in Brand Kit, which has no notes field. A Notion page, a Google Doc, or even a saved Canva design showing the rules is sufficient.</div></div>
+    </div>
+    <div class="ai-note"><strong>Colour palette generation prompt:</strong> "Build me a professional four-colour brand palette for a [type of business]. Brand tone: [adjective]. Requirements: (1) A primary colour appropriate for hero backgrounds and major branded elements. (2) A secondary colour that supports the primary without competing. (3) An accent colour with high contrast for calls to action. (4) A neutral light colour for backgrounds. Provide the hex code for each, the approximate contrast ratio of your primary text colour on the light neutral background, and a one-sentence usage rule for each colour. Avoid cliched colour associations for this industry."</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Configuring the colour system in Brand Kit</div>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Enter all hex codes with role-based names.</strong> In Brand Kit → Colours, add each hex code. Name every swatch by its role: Primary, Secondary, Accent, Light Background, Dark Background, Text Dark, Text Light. Not by colour name. The naming is for usability - when you open the colour picker and see "Accent" in your Brand Kit swatches, you know exactly when to use it.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Order swatches by usage frequency.</strong> Canva displays Brand Kit colours in the order you entered them. Put Primary first, then Secondary, then Neutral colours (used constantly for backgrounds and text), then Accent last. Frequent colours should require fewer clicks to reach.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Test the Brand Kit colours in a real design context.</strong> Open a new design and use only Brand Kit colours. Build a simple social post or section layout. Notice whether the colour decisions feel natural and produce the visual result you expect. If picking the right colour requires thinking, the naming system needs adjustment.</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Applying your colour system across every content type</div>
+    <p>A colour system only provides its benefits when it is applied consistently. Consistent application does not mean every design looks the same - it means every design uses the same colours in their appropriate roles, creating visual coherence across different formats and contexts.</p>
+    <div class="steps">
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Social post templates.</strong> Build a master template for each platform format you use regularly: Instagram square (1080x1080), Instagram story (1080x1920), LinkedIn banner (1584x396). Apply your colour system to each: primary for the dominant background or hero area, secondary or neutral for content areas, accent for the CTA element. Save each as a template. All future social posts start from these templates - you replace content, not colour decisions.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Your Canva Site.</strong> Design each page section using your colour system deliberately. Apply the 60-30-10 rule at the page level: the primary colour appears in the hero and key branded sections, the secondary or light neutral in the content sections, the accent colour only for the primary CTA button. Every section background uses either your light neutral, your secondary, or your primary - never a colour from outside your system.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Presentations and documents.</strong> Build a master presentation template with the colour system applied: primary for the cover and section divider slides, light neutral for the content slides, accent for key data points and highlight boxes. All future presentations start from this template. Team members and collaborators working from the same template will automatically apply your colour system correctly.</div></div>
+      <div class="step"><span class="step-num"></span><div class="step-body"><strong>Client-facing deliverables.</strong> Any document delivered to a client - reports, proposals, invoices, summaries - should use your brand colours via the Brand Kit. The visual consistency between your social presence, your website, and your client deliverables is one of the primary signals of an established, professional brand. It communicates that the same quality of attention goes into everything you produce.</div></div>
+    </div>
+    <div class="callout note"><strong>Checking for colour drift quarterly.</strong> Visual brand consistency degrades over time through small, pressure-driven decisions. A campaign uses a new shade. An off-palette colour is used once and then again. Gradual drift is difficult to notice from inside it. Set a quarterly reminder to place 10-12 pieces of recent content side by side and evaluate whether they look like they came from the same brand. If they do not, identify the specific drifted elements and correct them before the drift becomes the new standard.</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">When your colour system is working</div>
+    <p>A functioning colour system has a specific quality: decisions feel obvious rather than effortful. When you open a new design, you are not choosing colours - you are applying colours. The distinction is significant. Choosing requires evaluation and judgement. Applying requires only execution. The time saved is real, but the more valuable benefit is that cognitive energy is freed for decisions that actually require creative judgement: what the content says, what the call to action asks for, what the layout communicates.</p>
+    <p>The external test: show a new piece of content alongside content produced six months ago. If someone unfamiliar with your brand can identify them as coming from the same source without reading the business name, your colour system is doing its job. If they look like they came from different brands, the system needs either refinement or more consistent application.</p>
+    <div class="ai-note"><strong>Colour consistency audit using Claude:</strong> Take screenshots of 5-6 recent pieces of your brand content - a social post, a page from your website, a client deliverable, a presentation slide. Upload them together to Claude with this prompt: "Evaluate these pieces of content for visual brand consistency, focusing specifically on colour usage. Which colour appears to be the primary brand colour? Is it used consistently across all pieces? Are there any colours that appear in some pieces but not others? What specific colour inconsistencies do you see, and which pieces deviate most from the apparent brand colour system?" Use the response to identify and correct specific consistency issues.</div>
+  </div>
+
+  <div class="troubleshoot">
+    <div class="troubleshoot-header">Common Issues - Colour Systems</div>
+    <div class="troubleshoot-body">
+      <div class="trouble-item">
+        <div class="trouble-q">My colours look different on screen than in print</div>
+        <div class="trouble-a">Screen displays use RGB (red, green, blue) colour mixing. Print uses CMYK (cyan, magenta, yellow, black). A hex code optimised for screen rendering will shift when converted to CMYK for printing - often significantly with saturated colours. If you produce printed materials alongside digital content, you need both the RGB hex code and a confirmed CMYK equivalent for each brand colour. Ask your printer for a colour proof before the full print run, and provide your hex codes with a request to convert and confirm the CMYK equivalent before printing. For significant brand print runs (business cards, signage, packaging), a Pantone colour reference eliminates colour variation between printers entirely.</div>
+      </div>
+      <div class="trouble-item">
+        <div class="trouble-q">Applying Brand Kit makes my design look worse than the template version</div>
+        <div class="trouble-a">Templates are designed around specific colour relationships where the original designer calibrated contrast, harmony, and balance with their chosen palette. Automated Brand Kit application replaces colours by proximity to your palette, but it cannot replicate the relational decisions behind the original design. Specific issues to correct manually: the automated substitution may assign your accent colour to elements that should use the primary (or vice versa), it may make backgrounds and text colours insufficiently contrasting, and it may apply your darker colours to elements that benefit from lighter values. Correct each element individually after automated application and save the corrected design as your own template.</div>
+      </div>
+      <div class="trouble-item">
+        <div class="trouble-q">My accent colour is too attention-grabbing and makes the design feel chaotic</div>
+        <div class="trouble-a">Accent colours are by definition high-contrast and attention-drawing. If the design feels chaotic, the accent colour is appearing in too many places. Return to the design and identify every instance of the accent colour. Restrict it to the one or two elements that are the primary focus of viewer attention (usually the main CTA button and one key headline or highlight). Replace all other instances of the accent colour with the secondary or a neutral. The chaos resolves when the accent colour appears sparingly enough that each instance genuinely draws attention rather than competing with every other instance.</div>
+      </div>
+      <div class="trouble-item">
+        <div class="trouble-q">I cannot find the colour I just added to Brand Kit when designing</div>
+        <div class="trouble-a">Brand Kit colours appear in a dedicated "Your brand" section in the colour picker, which is at the top of the picker panel above the default colour palette. If you cannot see it, scroll up - it may be hidden above the visible area of the panel. Also confirm that your Brand Kit is saved: go to Brand Hub, confirm your colours are listed there, and that the kit name appears in the top of the Brand Hub panel (indicating it is the active kit). On Pro plans with multiple kits, verify the correct kit is set as active.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</main>
+</div>
+
+</div><!-- end gate-content -->
+
+<div class="footer">
+  The Professional's Canva Engine - Applied Intelligence Studio
+</div>
+
+<script>
+// ── Configuration ─────────────────────────────────────────────
+// Update VALIDATE_URL to your actual Netlify site URL
+const VALIDATE_URL = '/.netlify/functions/validate-token';
+const RESEND_URL   = '/.netlify/functions/resend-link';
+
+// ── Gate state helpers ────────────────────────────────────────
+function showGateState(state) {
+  document.getElementById('gate-checking').style.display = 'none';
+  document.getElementById('gate-purchase').style.display = 'none';
+  document.getElementById('gate-invalid').style.display  = 'none';
+  document.getElementById(`gate-${state}`).style.display = 'block';
+}
+
+function grantAccess() {
+  document.getElementById('gate-overlay').classList.add('hidden');
+  document.getElementById('gate-content').classList.add('visible');
+  // Persist the token in sessionStorage so validation
+  // doesn't re-run on every anchor link click within the page
+  const token = new URLSearchParams(window.location.search).get('token');
+  if (token) sessionStorage.setItem('guide_token', token);
+}
+
+// ── Main validation flow ──────────────────────────────────────
+async function validateAccess() {
+  // Check sessionStorage first (avoids re-validating within a session)
+  const cachedToken = sessionStorage.getItem('guide_token');
+  const urlToken    = new URLSearchParams(window.location.search).get('token');
+  const token       = urlToken || cachedToken;
+
+  if (!token) {
+    showGateState('purchase');
+    return;
+  }
+
+  try {
+    const res  = await fetch(VALIDATE_URL, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ token }),
+    });
+
+    const data = await res.json();
+
+    if (data.valid) {
+      grantAccess();
+    } else {
+      // Show different UI for "never had access" vs "had access but something's wrong"
+      if (!urlToken && !cachedToken) {
+        showGateState('purchase');
+      } else {
+        document.getElementById('gate-invalid-reason').textContent =
+          data.reason === 'Token expired'  ? 'Your access link has expired.' :
+          data.reason === 'Access revoked' ? 'Your access has been revoked. If you think this is a mistake, please get in touch.' :
+          'This link doesn\'t match our records. Check your original purchase email.';
+        showGateState('invalid');
+      }
+    }
+  } catch (err) {
+    // Network error  -  fail open so buyers aren't locked out by a server hiccup
+    console.error('Validation error:', err);
+    // Show the guide but log the failure
+    grantAccess();
+  }
+}
+
+// ── Resend link ───────────────────────────────────────────────
+async function resendLink(context = 'purchase') {
+  const inputId = context === 'invalid' ? 'gate-email-invalid' : 'gate-email-input';
+  const msgId   = context === 'invalid' ? 'gate-msg-invalid'   : 'gate-msg-resend';
+  const email   = document.getElementById(inputId).value.trim();
+  const msg     = document.getElementById(msgId);
+
+  if (!email || !email.includes('@')) {
+    msg.className = 'gate-msg error';
+    msg.textContent = 'Please enter a valid email address.';
+    return;
+  }
+
+  msg.className = 'gate-msg';
+  msg.textContent = '';
+  document.getElementById(inputId).disabled = true;
+
+  try {
+    const res  = await fetch(RESEND_URL, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ email }),
+    });
+
+    if (res.ok) {
+      msg.className = 'gate-msg success';
+      msg.textContent = 'If that email has a purchase on record, you\'ll get the link within a minute. Check your spam folder if it doesn\'t arrive.';
+    } else {
+      throw new Error('Server error');
+    }
+  } catch {
+    msg.className = 'gate-msg error';
+    msg.textContent = 'Something went wrong. Please try again or get in touch directly.';
+    document.getElementById(inputId).disabled = false;
+  }
+}
+
+// Allow pressing Enter in email fields
+['gate-email-input', 'gate-email-invalid'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('keydown', e => { if (e.key === 'Enter') resendLink(id.includes('invalid') ? 'invalid' : 'purchase'); });
+});
+
+// ── Run on load ───────────────────────────────────────────────
+validateAccess();
+</script>
+
+</body>
+</html>
