@@ -22,10 +22,14 @@ const crypto = require('crypto');
 // Variant IDs — each maps to a specific guide file
 // To add a new product: find its variant ID in Lemon Squeezy → Products → Variants
 const VARIANT_MAP = {
-  '1592869':  'canva-engine-course-gated.html',    // Canva Engine Course — $29.99
-  '1005037':  'guide-gated.html',                  // Core Guide only — $39.99
-  '1587982':  'lean-business-stack-gated.html',    // Lean Business Stack — $49.99
-  '1576921':  'complete-suite-gated.html',         // Complete Suite (all 5) — $79.99
+  '1595655':  'canva-engine-course-gated.html',    // Canva Engine Course — $29.99
+  '1595648':  'guide-gated.html',                  // Core Guide only — $39.99
+  '1595650':  'lean-business-stack-gated.html',    // Lean Business Stack — $49.99
+  '1595649':  'complete-suite-gated.html',         // Complete Suite (all 5) — $79.99
+  '1595654':  'guide-2-calendar-sync-gated.html'   // Add-on 01 - $16.99
+  '1595653':  'guide-3-invoice-payments-gated.html' // Add-on 02 - $18.99
+  '1595652':  'guide-4-staff-portal-gated.html'    // Add-on 03 - $18.99
+  '1595651':  'guide-5-client-portal-gated.html'   // Add-on 04 - $21.99
   // TODO: add add-on variant IDs when known (guide-2 through guide-5)
 };
 
@@ -36,6 +40,10 @@ const GUIDE_NAMES = {
   'guide-gated.html':                 'Build Your Business Website — Core Guide',
   'lean-business-stack-gated.html':   'Build Your Lean Business Stack',
   'complete-suite-gated.html':        'Complete Suite — All 5 Guides',
+  'guide-2-calendar-sync-gated.html'  'Add-on 01: Calendar Sync Automation',
+  'guide-3-invoice-payments-gated.html' 'Add-on 02: Online Invoice and Payments',
+  'guide-4-staff-portal-gated.html'   'Add-on 03: Staff Portal and Admin Dashboard',
+  'guide-5-client-portal-gated.html'  'Add-on 04: Client Portal with Secure Login',
 };
 
 exports.handler = async (event) => {
